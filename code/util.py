@@ -2,7 +2,8 @@ import numpy as np
 import scipy.linalg
 import casadi.tools as ctools
 
-def rk4(f,x0,par,Delta=1,M=1):
+
+def rk4(f, x0, par, Delta=1, M=1):
     """
     Does M RK4 timesteps of function f with variables x0 and parameters par.
 

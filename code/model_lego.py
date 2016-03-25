@@ -42,7 +42,7 @@ def F(x, u, w=w0):
     x[6] -> \theta_r
     x[7] -> \omega_r
     x[8] -> i_r
-    """"
+    """
     # wR = 43.2*0.5 # Wheel radius [mm]
     # wB = 82.0 # Distance between wheels [mm]
     # fm = 0.0022 # motor viscous friction constant

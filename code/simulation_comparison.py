@@ -1,4 +1,4 @@
-# Compare integrators.
+# Compare integrators and the absolute value of their errors.
 # CasADi cvodes vs RK4 vs LTV.
 
 import casadi

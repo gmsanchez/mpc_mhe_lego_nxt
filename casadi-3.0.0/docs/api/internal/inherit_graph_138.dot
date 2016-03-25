@@ -1,0 +1,11 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::Oracle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d28/classcasadi_1_1Oracle.html"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::LibOracle\<\l LibType \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d2a/classcasadi_1_1LibOracle.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::XOracle\< XType \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d9c/classcasadi_1_1XOracle.html"];
+}

@@ -1,0 +1,5 @@
+<map id="casadi::IdasMemory" name="casadi::IdasMemory">
+<area shape="rect" id="node2" href="$d7/dc4/structcasadi_1_1SundialsMemory.html" title="casadi::SundialsMemory" alt="" coords="11,160,187,189"/>
+<area shape="rect" id="node4" href="$d8/d75/structcasadi_1_1IntegratorMemory.html" title="Integrator memory. " alt="" coords="5,83,192,112"/>
+<area shape="rect" id="node6" href="$da/dbe/structcasadi_1_1WorkMemory.html" title="Function memory with temporary work vectors. " alt="" coords="23,5,175,35"/>
+</map>

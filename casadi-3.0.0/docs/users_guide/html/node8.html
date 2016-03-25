@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>8. Optimal control with CasADi </TITLE>
+<META NAME="description" CONTENT="8. Optimal control with CasADi ">
+<META NAME="keywords" CONTENT="casadi-users_guide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="casadi-users_guide.css">
+
+<LINK REL="next" HREF="node9.html">
+<LINK REL="previous" HREF="node7.html">
+<LINK REL="up" HREF="casadi-users_guide.html">
+<LINK REL="next" HREF="node9.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html239"
+  HREF="node9.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html237"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html231"
+  HREF="node7.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html240"
+  HREF="node9.html">9. Difference in usage</A>
+<B> Up:</B> <A NAME="tex2html238"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html232"
+  HREF="node7.html">7. The DaeBuilder class</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html241"
+  HREF="node8.html#SECTION00810000000000000000"><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> A simple test problem</A>
+<LI><A NAME="tex2html242"
+  HREF="node8.html#SECTION00820000000000000000"><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN> Direct single-shooting</A>
+<LI><A NAME="tex2html243"
+  HREF="node8.html#SECTION00830000000000000000"><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">3</SPAN> Direct multiple-shooting</A>
+<LI><A NAME="tex2html244"
+  HREF="node8.html#SECTION00840000000000000000"><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">4</SPAN> Direct collocation</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00800000000000000000">
+<SPAN CLASS="arabic">8</SPAN>. Optimal control with <TT>CasADi</TT> </A>
+</H1>
+<TT>CasADi</TT> can be used to solve <SPAN  CLASS="textit">optimal control problems</SPAN> (OCP) using a variety of methods, including direct (a.k.a. <SPAN  CLASS="textit">discretize-then-optimize</SPAN>) and indirect (a.k.a. <SPAN  CLASS="textit">optimize-then-discretize</SPAN>) methods, all-at-once (e.g. collocation) methods and shooting-methods requiring embedded solvers of initial value problems in ODE or DAE. As a user, you are in general expected to <SPAN  CLASS="textit">write your own OCP solver</SPAN> and <TT>CasADi</TT> aims as making this as easy as possible by providing powerful high-level building blocks. Since you are writing the solver yourself (rather than calling an existing ``black-box'' solver), a basic understanding of how to solve OCPs is indispensable. Good, self-contained introductions to numerical optimal control can be found in the recent textbooks by Biegler<A NAME="tex2html14"
+  HREF="footnode.html#foot1681"><SUP><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN></SUP></A> or Betts<A NAME="tex2html16"
+  HREF="footnode.html#foot1682"><SUP><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN></SUP></A> or Moritz Diehl's lecture notes on <A NAME="tex2html18"
+  HREF="http://homes.esat.kuleuven.be/~mdiehl/NUMOPT/numopt.pdf">numerical optimal control</A>.
+
+<P>
+
+<H1><A NAME="SECTION00810000000000000000">
+<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> A simple test problem</A>
+</H1>
+To illustrate some of the methods, we will consider the following test problem,
+namely driving a <SPAN  CLASS="textit">Van der Pol</SPAN> oscillator to the origin, while trying to
+minimize a quadratic cost:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eq:vdp"></A><!-- MATH
+ \begin{equation}
+\begin{array}{lc}
+\begin{array}{l}
+\text{minimize:} \\
+x(\cdot) \in \mathbb{R}^2, \, u(\cdot) \in \mathbb{R}
+\end{array}
+\quad \displaystyle \int_{t=0}^{T}{(x_0^2 + x_1^2 + u^2) \, dt}
+\\
+\\
+\text{subject to:} \\
+\\
+\begin{array}{ll}
+\left\{
+\begin{array}{l}
+\dot{x}_0 = (1-x_1^2) \, x_0 - x_1 + u \\
+\dot{x}_1 = x_0 \\
+-1.0 \le u \le 1.0, \quad x \ge -0.25
+\end{array} \right. & \text{for $0 \le t \le T$} \\
+x_0(0)=0, \quad x_1(0)=1,
+\end{array}
+\end{array}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="404" HEIGHT="227" BORDER="0"
+ SRC="img219.png"
+ ALT="\begin{displaymath}\begin{array}{lc} \begin{array}{l} \text{minimize:} \\ x(\cdo...
+... t \le T$} \\ x_0(0)=0, \quad x_1(0)=1, \end{array} \end{array}\end{displaymath}"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+with <SPAN CLASS="MATH"><IMG
+ WIDTH="62" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img220.png"
+ ALT="$ T=10$"></SPAN>.
+
+<P>
+In <TT>CasADi</TT>'s examples collection<A NAME="tex2html19"
+  HREF="footnode.html#foot1675"><SUP><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">3</SPAN></SUP></A>, you find codes for solving optimal control problems using a variety of different methods.
+
+<P>
+In the following, we will discuss three of the most important methods, namely
+<SPAN  CLASS="textit">direct single shooting</SPAN>, <SPAN  CLASS="textit">direct collocation</SPAN> and <SPAN  CLASS="textit">direct collocation</SPAN>.
+
+<P>
+
+<H1><A NAME="SECTION00820000000000000000">
+<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN> Direct single-shooting</A>
+</H1>
+
+<P>
+In the direct single shooting method, the control trajectory is parametrized
+using some piecewise smooth approximation, typically piecewise constant.
+
+<P>
+Using an explicit expression for the controls, we can then eliminate the whole
+state trajectory from the optimization problem, ending up with an NLP in only
+the discretized controls.
+
+<P>
+In <TT>CasADi</TT>'s examples collection, you will find the codes
+<code>direct_single_shooting.py</code> and <code>direct_single_shooting.m</code>
+for Python and MATLAB, respectively. These codes implement the direct single
+shooting method and solves it with IPOPT, relying <TT>CasADi</TT> to calculate derivatives.
+To obtain the discrete time dynamics from the continuous time dynamics, a
+simple fixed-step Runge-Kutta 4 (RK4) integrator is implemented using <TT>CasADi</TT> symbolics.
+Simple integrator codes like these are often useful in the context of optimal control,
+but care must be taken so that they accuractely solves the initial-value
+problem.
+
+<P>
+The code also shows how the RK4 scheme can be replaced by a
+more advanced integrator, namely the CVODES integrator from the SUNDIALS suite,
+which implements a variable stepsize, variable order backward differentiation formula
+(BDF) scheme. An advanced integrator like this is useful for larger systems,
+systems with stiff dynamics, for DAEs and for checking a simpler scheme for
+consistency.
+
+<P>
+
+<H1><A NAME="SECTION00830000000000000000">
+<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">3</SPAN> Direct multiple-shooting</A>
+</H1>
+The <code>direct_multiple_shooting.py</code> and <code>direct_multiple_shooting.m</code>
+codes, also in <TT>CasADi</TT>'s examples collection, implement the direct multiple
+shooting method. This is very similar to the direct single shooting method,
+but includes the state at certain <SPAN  CLASS="textit">shooting nodes</SPAN> as decision variables in
+the NLP and includes equality constraints to ensure continuity of the trajectory.
+
+<P>
+The direct multiple shooting method is often superior to the direct single
+shooting method, since "lifting" the problem to a higher dimension is known
+to often improve convergence. The user is also able to initialize with
+a known guess for the state trajectory.
+
+<P>
+The drawback is that the NLP solved gets much larger, although this is often
+compensated by the fact that it is also much sparser.
+
+<P>
+
+<H1><A NAME="SECTION00840000000000000000">
+<SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">4</SPAN> Direct collocation</A>
+</H1>
+Finally, the <code>direct_collocation.py</code> and <code>direct_collocation.m</code>
+codes implement the direct collocation method. In this case, a parametrization
+of the entire state trajectory, as piecewise low-order polynomials, are included
+as decision variables in the NLP. This removes the need for the formulation
+of the discrete time dynamics completely.
+
+<P>
+The NLP in direct collocation is even larger than that in direct multiple shooting,
+but is also even sparser.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html239"
+  HREF="node9.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html237"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html231"
+  HREF="node7.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html240"
+  HREF="node9.html">9. Difference in usage</A>
+<B> Up:</B> <A NAME="tex2html238"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html232"
+  HREF="node7.html">7. The DaeBuilder class</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+
+2016-03-23
+</ADDRESS>
+</BODY>
+</HTML>

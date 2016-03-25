@@ -1,0 +1,21 @@
+<map id="casadi::SparsityInterfaceCommon" name="casadi::SparsityInterfaceCommon">
+<area shape="rect" id="node3" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="Sparsity interface class. " alt="" coords="232,5,411,51"/>
+<area shape="rect" id="node7" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Matrix\&lt; double \&gt; \&gt;" alt="" coords="232,74,411,121"/>
+<area shape="rect" id="node13" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Matrix\&lt; int \&gt; \&gt;" alt="" coords="232,143,411,190"/>
+<area shape="rect" id="node19" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Matrix\&lt; Scalar \&gt; \&gt;" alt="" coords="232,213,411,259"/>
+<area shape="rect" id="node25" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Matrix\&lt; SXElem \&gt; \&gt;" alt="" coords="232,282,411,329"/>
+<area shape="rect" id="node31" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; MX \&gt;" alt="" coords="232,351,411,398"/>
+<area shape="rect" id="node37" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Sparsity \&gt;" alt="" coords="232,431,411,478"/>
+<area shape="rect" id="node5" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="Matrix base class. " alt="" coords="465,5,623,51"/>
+<area shape="rect" id="node9" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; Matrix\&lt; double \&gt; \&gt;" alt="" coords="463,74,625,121"/>
+<area shape="rect" id="node11" href="$dd/df2/singletoncasadi_1_1Matrix.html" title="casadi::Matrix\&lt; double \&gt;" alt="" coords="691,83,872,112"/>
+<area shape="rect" id="node15" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; Matrix\&lt; int \&gt; \&gt;" alt="" coords="465,143,623,190"/>
+<area shape="rect" id="node17" href="$dd/df2/singletoncasadi_1_1Matrix.html" title="casadi::Matrix\&lt; int \&gt;" alt="" coords="704,152,859,181"/>
+<area shape="rect" id="node21" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; Matrix\&lt; Scalar \&gt; \&gt;" alt="" coords="464,213,624,259"/>
+<area shape="rect" id="node23" href="$dd/df2/singletoncasadi_1_1Matrix.html" title="Sparse matrix class. SX and DM are specializations. " alt="" coords="692,221,871,251"/>
+<area shape="rect" id="node27" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; Matrix\&lt; SXElem \&gt; \&gt;" alt="" coords="459,282,629,329"/>
+<area shape="rect" id="node29" href="$dd/df2/singletoncasadi_1_1Matrix.html" title="casadi::Matrix\&lt; SXElem \&gt;" alt="" coords="687,291,876,320"/>
+<area shape="rect" id="node33" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; MX \&gt;" alt="" coords="465,351,623,398"/>
+<area shape="rect" id="node35" href="$de/d57/classcasadi_1_1MX.html" title="MX &#45; Matrix expression. " alt="" coords="736,352,827,381"/>
+<area shape="rect" id="node39" href="$d5/da8/classcasadi_1_1Sparsity.html" title="General sparsity class. " alt="" coords="483,453,605,483"/>
+</map>

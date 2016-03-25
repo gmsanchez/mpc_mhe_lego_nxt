@@ -1,0 +1,9 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::PrintableObject\l\< DaeBuilder \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d18/classcasadi_1_1PrintableObject.html"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::DaeBuilder",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/db5/classcasadi_1_1DaeBuilder.html",tooltip="An initial-value problem in differential-algebraic equations. "];
+}

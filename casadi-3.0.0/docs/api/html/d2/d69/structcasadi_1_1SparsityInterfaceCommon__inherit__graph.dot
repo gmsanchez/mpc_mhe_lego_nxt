@@ -1,0 +1,39 @@
+digraph "casadi::SparsityInterfaceCommon"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::SparsityInterface\lCommon",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::SparsityInterface\l\< MatType \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6b/classcasadi_1_1SparsityInterface.html",tooltip="Sparsity interface class. "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::GenericMatrix\l\< MatType \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/df3/classcasadi_1_1GenericMatrix.html",tooltip="Matrix base class. "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::SparsityInterface\l\< Matrix\< double \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6b/classcasadi_1_1SparsityInterface.html"];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::GenericMatrix\l\< Matrix\< double \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/df3/classcasadi_1_1GenericMatrix.html"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::Matrix\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/df2/singletoncasadi_1_1Matrix.html"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::SparsityInterface\l\< Matrix\< Scalar \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6b/classcasadi_1_1SparsityInterface.html"];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="casadi::GenericMatrix\l\< Matrix\< Scalar \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/df3/classcasadi_1_1GenericMatrix.html"];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="casadi::Matrix\< Scalar \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/df2/singletoncasadi_1_1Matrix.html",tooltip="Sparse matrix class. SX and DM are specializations. "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="casadi::SparsityInterface\l\< Matrix\< SXElem \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6b/classcasadi_1_1SparsityInterface.html"];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="casadi::GenericMatrix\l\< Matrix\< SXElem \> \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/df3/classcasadi_1_1GenericMatrix.html"];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node12 [label="casadi::Matrix\< SXElem \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/df2/singletoncasadi_1_1Matrix.html"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node13 [label="casadi::SparsityInterface\l\< MX \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6b/classcasadi_1_1SparsityInterface.html"];
+  Node13 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node14 [label="casadi::GenericMatrix\l\< MX \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/df3/classcasadi_1_1GenericMatrix.html"];
+  Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node15 [label="casadi::MX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d57/classcasadi_1_1MX.html",tooltip="MX - Matrix expression. "];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node16 [label="casadi::SparsityInterface\l\< Sparsity \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6b/classcasadi_1_1SparsityInterface.html"];
+  Node16 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node17 [label="casadi::Sparsity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/da8/classcasadi_1_1Sparsity.html",tooltip="General sparsity class. "];
+}

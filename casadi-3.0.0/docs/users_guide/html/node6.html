@@ -1,0 +1,437 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>6. User-defined function objects</TITLE>
+<META NAME="description" CONTENT="6. User-defined function objects">
+<META NAME="keywords" CONTENT="casadi-users_guide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="casadi-users_guide.css">
+
+<LINK REL="next" HREF="node7.html">
+<LINK REL="previous" HREF="node5.html">
+<LINK REL="up" HREF="casadi-users_guide.html">
+<LINK REL="next" HREF="node7.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html201"
+  HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html199"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html193"
+  HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html202"
+  HREF="node7.html">7. The DaeBuilder class</A>
+<B> Up:</B> <A NAME="tex2html200"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html194"
+  HREF="node5.html">5. Generating C-code</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html203"
+  HREF="node6.html#SECTION00610000000000000000"><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Inheriting from <TT>FunctionInternal</TT> or <TT>Callback</TT></A>
+<UL>
+<LI><A NAME="tex2html204"
+  HREF="node6.html#SECTION00611000000000000000">Python</A>
+<LI><A NAME="tex2html205"
+  HREF="node6.html#SECTION00612000000000000000">MATLAB</A>
+<LI><A NAME="tex2html206"
+  HREF="node6.html#SECTION00613000000000000000">C++</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html207"
+  HREF="node6.html#SECTION00620000000000000000"><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Importing a function with <TT>external</TT></A>
+<UL>
+<LI><A NAME="tex2html208"
+  HREF="node6.html#SECTION00621000000000000000">Default functions</A>
+<LI><A NAME="tex2html209"
+  HREF="node6.html#SECTION00622000000000000000">Meta information as comments</A>
+<LI><A NAME="tex2html210"
+  HREF="node6.html#SECTION00623000000000000000">Simplified evaluation signature</A>
+<LI><A NAME="tex2html211"
+  HREF="node6.html#SECTION00624000000000000000">Derivatives</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html212"
+  HREF="node6.html#SECTION00630000000000000000"><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> Providing a <TT>.casadi</TT> file</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00600000000000000000"></A> <A NAME="ch:user-defined"></A>
+<BR>
+<SPAN CLASS="arabic">6</SPAN>. User-defined function objects
+</H1>
+There are situations when rewriting user-functions using <TT>CasADi</TT> symbolics is not
+possible or practical. To tackle this, <TT>CasADi</TT> provides a number of ways to
+embed a call to a "black box" function defined in the language <TT>CasADi</TT> is being
+used from (C++, MATLAB or Python) or in C.
+That being said, the recommendation is always to try to avoid this when possible,
+even if it means investing a lot of time reimplementing existing code.
+Functions defined using <TT>CasADi</TT> symbolics are almost always more
+efficient, especially when derivative calculation is involved, since a lot more
+structure can typically be exploited.
+
+<P>
+Depending on the circumstances, the user can implement custom <TT>Function</TT>
+objects in a number of different ways:
+
+<P>
+
+<UL>
+<LI>Inheriting from <TT>FunctionInternal</TT> or <TT>Callback</TT>
+</LI>
+<LI>Importing a function with <TT>external</TT>
+</LI>
+<LI>Providing a <TT>.casadi</TT> file
+</LI>
+</UL>
+
+<P>
+We elaborate on this in the following.
+
+<H1><A NAME="SECTION00610000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Inheriting from <TT>FunctionInternal</TT> or <TT>Callback</TT></A>
+</H1>
+All function objects presented in Chapter&nbsp;<A HREF="node4.html#ch:function">4</A> are implemented
+in <TT>CasADi</TT> as C++ classes inheriting from the <TT>FunctionInternal</TT> abstract
+base class. In principle, a user with familiarity with C++ programming, should
+be able to implement a class inheriting from <TT>FunctionInternal</TT>,
+implementing the virtual methods of this class. The best reference for doing so
+is the C++ API documentation, choosing "switch to internal" to expose the internal
+API.
+
+<P>
+Since <TT>FunctionInternal</TT> is not considered part of the stable, public API,
+we recommend against this, unless the plan is to make a contribution to <TT>CasADi</TT>.
+
+<P>
+The <TT>Callback</TT> class provides a public API to <TT>FunctionInternal</TT>
+and inheriting from this class has the same effect as inheriting directly from
+<TT>FunctionInternal</TT>. Thanks to <SPAN  CLASS="textit">cross-language polymorphism</SPAN>, it
+is possible to implement the exposed methods of <TT>Callback</TT> from either
+Python, MATLAB or C++.
+
+<P>
+The derived class consists of the following parts:
+
+<UL>
+<LI>A constructor or a static function replacing the constructor
+</LI>
+<LI>A number of <SPAN  CLASS="textit">virtual</SPAN> functions, all optional, that can be overloaded
+  (shadowed) in order to get the desired behavior. This includes the number of
+  of inputs and outputs using <code>get_n_in</code> and <code>get_n_out</code>,
+  their names using <code>get_name_in</code> and <code>get_name_out</code>
+  and their sparsity patterns <code>get_sparsity_in</code> and <code>get_sparsity_out</code>.
+</LI>
+<LI>An optional <code>init</code> function called when the construction is complete.
+</LI>
+<LI>A function for e.g. numerical and symbolical evaluation, derivative
+  calculation etc.
+</LI>
+</UL>
+
+<P>
+For a complete list of functions, see the C++ API documentation for
+<TT>Callback</TT>.
+
+<P>
+The usage from the different languages are described in the following.
+
+<P>
+
+<H2><A NAME="SECTION00611000000000000000">
+Python</A>
+</H2>
+In Python, a custom function class can be defined is as follows:
+<BR>
+<IMG
+ WIDTH="435" HEIGHT="435" ALIGN="BOTTOM" BORDER="0"
+ SRC="img183.png"
+ ALT="\begin{lstlisting}[language=Python]
+class MyCallback(Callback):
+def __init__(se...
+...def eval(self, arg):
+x = arg[0]
+f = sin(self.d*x)
+return [f]
+\end{lstlisting}">
+<BR>
+
+<P>
+The implementation should include a constructor, which should call the
+base class constructor using
+[language=Python]Callback.__init__(self).
+
+<P>
+This function can be used as any built-in <TT>CasADi</TT> function with the important
+caveat that when embedded in graphs, the ownership of the class will <SPAN  CLASS="textit">not</SPAN>
+be shared between all references. So it is important that the user does not
+allow the Python class to go out of scope while it is still needed in
+calculations.
+
+<P>
+<BR>
+<IMG
+ WIDTH="265" HEIGHT="87" ALIGN="BOTTOM" BORDER="0"
+ SRC="img184.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR>
+
+<P>
+
+<H2><A NAME="SECTION00612000000000000000">
+MATLAB</A>
+</H2>
+In MATLAB, a custom function class can be defined as follows, in a file
+<code>MyCallback.m</code>:
+
+<P>
+<BR>
+<IMG
+ WIDTH="456" HEIGHT="660" ALIGN="BOTTOM" BORDER="0"
+ SRC="img185.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+classdef MyCallback &lt; casadi.Callback
+prop...
+...)
+x = arg{1};
+f = sin(self.d * x);
+arg = {f};
+end
+end
+end
+\end{lstlisting}">
+<BR>
+
+<P>
+This function can be used as any built-in <TT>CasADi</TT> function, but as for Python,
+the ownership of the class will <SPAN  CLASS="textit">not</SPAN> be shared between all references.
+So the user must not allow a class instance to get deleted while it is still
+in use, e.g. by making it <TT>persistent</TT>.
+
+<P>
+<BR>
+<IMG
+ WIDTH="275" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img186.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+f = MyCallback('f', 0.5);
+res = f(2);
+disp(res)
+\end{lstlisting}">
+<BR>
+
+<P>
+
+<H2><A NAME="SECTION00613000000000000000">
+C++</A>
+</H2>
+In C++, the syntax is as follows:
+<BR>
+<IMG
+ WIDTH="673" HEIGHT="712" ALIGN="BOTTOM" BORDER="0"
+ SRC="img187.png"
+ ALT="\begin{lstlisting}[language=C++]
+...">
+<BR>
+
+<P>
+As seen in the example, the derived class should implement a private
+constructor that is not called directly, but instead via a static <TT>create</TT>
+function using the syntax above.
+This functions returns a <TT>Function</TT> instance which takes ownership of the
+created object.
+
+<P>
+class created this way can be used as any other <TT>Function</TT> instance,
+with the <TT>create</TT> function replacing a conventional constructor:
+
+<P>
+<BR>
+<IMG
+ WIDTH="487" HEIGHT="158" ALIGN="BOTTOM" BORDER="0"
+ SRC="img188.png"
+ ALT="\begin{lstlisting}[language=C++]
+int main() {
+Function f = MyCallback::create('...
+...&lt;DM&gt; res = f(arg);
+std::cout &lt;&lt; res &lt;&lt; std::endl;
+return 0;
+}
+\end{lstlisting}">
+<BR>
+
+<P>
+
+<H1><A NAME="SECTION00620000000000000000"></A> <A NAME="sec:external"></A>
+<BR>
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Importing a function with <TT>external</TT>
+</H1>
+The basic usage of <TT>CasADi</TT>'s <TT>external</TT> function was demonstrated in
+Section&nbsp;<A HREF="node5.html#sec:using_codegen">5.2</A> in the context of using autogenerated code. The
+same function can also be used for importing a user-defined function, as long as
+it also uses the C API described in Section&nbsp;<A HREF="node5.html#sec:c_api">5.3</A>.
+
+<P>
+The following sections expands on this.
+
+<P>
+
+<H2><A NAME="SECTION00621000000000000000">
+Default functions</A>
+</H2>
+It is usually <SPAN  CLASS="textit">not</SPAN> necessary to define all the functions defined in
+Section&nbsp;<A HREF="node5.html#sec:c_api">5.3</A>. If <code>fname_incref</code> and <code>fname_decref</code>
+are absent, it is assumed that no memory management is needed. If no
+names of inputs and outputs are provided, they will be given default names.
+Sparsity patterns are in general assumed to be scalar by default, unless the
+function corresponds to a derivative of another function (see below), in which
+case they are assumed to be dense and of the correct dimension.
+
+<P>
+Futhermore, work vectors are assumed not to be needed if <code>fname_work</code> has
+not been implemented.
+
+<P>
+
+<H2><A NAME="SECTION00622000000000000000">
+Meta information as comments</A>
+</H2>
+If you rely on <TT>CasADi</TT>'s just-in-time compiler, you can provide meta information
+as a comment in the C code instead of implementing the actual callback function.
+
+<P>
+The structure of such meta information should be as follows:
+<BR>
+<IMG
+ WIDTH="325" HEIGHT="181" ALIGN="BOTTOM" BORDER="0"
+ SRC="img189.png"
+ ALT="\begin{lstlisting}[language=C]
+/*CASADIMETA
+:fname_N_IN 1
+:fname_N_OUT 2
+:fname_...
+..._OUT[0] r
+:fname_NAME_OUT[1] s
+:fname_SPARSITY_IN[0] 2 1 0 2
+*/
+\end{lstlisting}">
+<BR>
+
+<P>
+
+<H2><A NAME="SECTION00623000000000000000">
+Simplified evaluation signature</A>
+</H2>
+If all the inputs and outputs are scalars, the user can choose to replace the
+function for numerical evaluation:
+
+<P>
+<BR>
+<IMG
+ WIDTH="476" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img182.png"
+ ALT="\begin{lstlisting}[language=C]
+int fname(const double** arg, double** res,
+int* iw, double* w, int mem);
+\end{lstlisting}">
+<BR>
+
+<P>
+with a function with simpler syntax:
+<BR>
+<IMG
+ WIDTH="555" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img190.png"
+ ALT="\begin{lstlisting}[language=C]
+void fname_simple(const double* arg, double* res);
+\end{lstlisting}">
+<BR>
+
+<P>
+Note that <code>_simple</code> needs to appended to the function name. Evaluating
+a function with this syntax potentially carries less overhead.
+
+<P>
+
+<H2><A NAME="SECTION00624000000000000000">
+Derivatives</A>
+</H2>
+The external function can be made differentiable by providing functions for
+calculating derivatives. During derivative calculations, <TT>CasADi</TT> will look for
+symbols in the same file/shared library that follows a certain
+<SPAN  CLASS="textit">naming convention</SPAN>. For example, you can specify a Jacobian for all the
+outputs with respect to all inputs for a function named <code>fname</code> by
+implementing a function named <code>jac_fname</code>. Similary, you can specify
+a function for calculating one forward directional derivative by providing a
+function named <code>fwd1_fname</code>, where 1 can be replaced by for 2, 4, 8, 16,
+32 or 64 for calculating multiple forward directional derivatives at once.
+For reverse mode directional derivatives, replace <code>fwd</code> with <code>adj</code>.
+
+<P>
+This is an experimental feature.
+
+<P>
+
+<H1><A NAME="SECTION00630000000000000000">
+<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> Providing a <TT>.casadi</TT> file</A>
+</H1>
+We are currently experimenting with introducing a <TT>.casadi</TT> file format
+that allows function objects to be specified in a way that allows constructing
+a standard <TT>CasADi</TT> function object from it. This feature is currently at
+a proof-of-concept stage, not ready to be used for actual applications.
+
+<P>
+Contact the <TT>CasADi</TT> developers directly if you are interested in this feature.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html201"
+  HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html199"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html193"
+  HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html202"
+  HREF="node7.html">7. The DaeBuilder class</A>
+<B> Up:</B> <A NAME="tex2html200"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html194"
+  HREF="node5.html">5. Generating C-code</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+
+2016-03-23
+</ADDRESS>
+</BODY>
+</HTML>

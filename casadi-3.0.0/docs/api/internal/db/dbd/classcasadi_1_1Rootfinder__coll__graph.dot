@@ -1,0 +1,33 @@
+digraph "casadi::Rootfinder"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::Rootfinder",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::FunctionInternal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dab/classcasadi_1_1FunctionInternal.html",tooltip="Internal class for Function. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" full_jacobian_" ,fontname="FreeSans.ttf"];
+  Node4 [label="casadi::WeakRef",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/de8/classcasadi_1_1WeakRef.html",tooltip="Weak reference type A weak reference to a SharedObject. "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::SharedObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d4a/classcasadi_1_1SharedObject.html",tooltip="SharedObject implements a reference counting framework similar for efficient and easily-maintained me..."];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::PrintableObject\l\< SharedObject \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d18/classcasadi_1_1PrintableObject.html"];
+  Node7 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" derivative_of_" ,fontname="FreeSans.ttf"];
+  Node7 [label="casadi::Function",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/da4/classcasadi_1_1Function.html",tooltip="General function. "];
+  Node5 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node8 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" jac_\njac_compact_" ,fontname="FreeSans.ttf"];
+  Node8 [label="casadi::SparseStorage\l\< casadi::WeakRef \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d13/classcasadi_1_1SparseStorage.html"];
+  Node9 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" options_" ,fontname="FreeSans.ttf"];
+  Node9 [label="casadi::Options",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d35/structcasadi_1_1Options.html",tooltip="Options metadata for a class. "];
+  Node10 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" jac_sparsity_compact\l_\njac_sparsity_" ,fontname="FreeSans.ttf"];
+  Node10 [label="casadi::SparseStorage\l\< casadi::Sparsity \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d13/classcasadi_1_1SparseStorage.html"];
+  Node11 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" compiler_" ,fontname="FreeSans.ttf"];
+  Node11 [label="casadi::Compiler",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/df2/classcasadi_1_1Compiler.html",tooltip="Compiler. "];
+  Node5 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node12 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node12 [label="casadi::PluginInterface\l\< Rootfinder \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d37/classcasadi_1_1PluginInterface.html"];
+  Node7 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" jac_\nf_\nlinsol_" ,fontname="FreeSans.ttf"];
+  Node9 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" options_" ,fontname="FreeSans.ttf"];
+}

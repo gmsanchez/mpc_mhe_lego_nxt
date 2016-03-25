@@ -1,0 +1,18 @@
+digraph "casadi::Split"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  Node1 [label="casadi::Split",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::MultipleOutput",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d31/classcasadi_1_1MultipleOutput.html"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::MXNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d19/classcasadi_1_1MXNode.html",tooltip="Node class for MX objects. "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::Diagsplit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/df5/classcasadi_1_1Diagsplit.html",tooltip="Diag split, x -> x0, x1, ... "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::Horzsplit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/d91/classcasadi_1_1Horzsplit.html",tooltip="Horizontal split, x -> x0, x1, ... "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::Vertsplit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d6c/classcasadi_1_1Vertsplit.html",tooltip="Vertical split of vectors, x -> x0, x1, ... "];
+}

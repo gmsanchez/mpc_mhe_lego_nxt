@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::SundialsInterface\l::LinSolDataDense",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/df7/structcasadi_1_1SundialsInterface_1_1LinSolDataDense.html",tooltip="Linear solver data (dense) "];
+}

@@ -1,0 +1,1401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4. Function objects</TITLE>
+<META NAME="description" CONTENT="4. Function objects">
+<META NAME="keywords" CONTENT="casadi-users_guide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="casadi-users_guide.css">
+
+<LINK REL="next" HREF="node5.html">
+<LINK REL="previous" HREF="node3.html">
+<LINK REL="up" HREF="casadi-users_guide.html">
+<LINK REL="next" HREF="node5.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html155"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html153"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html147"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html156"
+  HREF="node5.html">5. Generating C-code</A>
+<B> Up:</B> <A NAME="tex2html154"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html148"
+  HREF="node3.html">3. Symbolic framework</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html157"
+  HREF="node4.html#SECTION00410000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Calling function objects</A>
+<LI><A NAME="tex2html158"
+  HREF="node4.html#SECTION00420000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Converting <TT>MX</TT> to <TT>SX</TT></A>
+<LI><A NAME="tex2html159"
+  HREF="node4.html#SECTION00430000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN> Nonlinear root-finding problems</A>
+<LI><A NAME="tex2html160"
+  HREF="node4.html#SECTION00440000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN> Initial-value problems and sensitivity analysis</A>
+<UL>
+<LI><A NAME="tex2html161"
+  HREF="node4.html#SECTION00441000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Creating integrators</A>
+<LI><A NAME="tex2html162"
+  HREF="node4.html#SECTION00442000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Sensitivity analysis</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html163"
+  HREF="node4.html#SECTION00450000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN> Nonlinear programming</A>
+<UL>
+<LI><A NAME="tex2html164"
+  HREF="node4.html#SECTION00451000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Creating NLP solvers</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html165"
+  HREF="node4.html#SECTION00460000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN> Quadratic programming</A>
+<UL>
+<LI><A NAME="tex2html166"
+  HREF="node4.html#SECTION00461000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> High-level interface</A>
+<LI><A NAME="tex2html167"
+  HREF="node4.html#SECTION00462000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Low-level interface</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00400000000000000000"></A> <A NAME="ch:function"></A>
+<BR>
+<SPAN CLASS="arabic">4</SPAN>. Function objects
+</H1>
+<TT>CasADi</TT> allows the user to create function objects, in C++ terminology often referred to as <SPAN  CLASS="textit">functors</SPAN>. This includes functions that are defined by a symbolic expression, ODE/DAE integrators, QP solvers, NLP solvers etc.
+
+<P>
+Function objects are typically created with the syntax:
+<BR>
+<IMG
+ WIDTH="542" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img94.png"
+ ALT="\begin{lstlisting}[language=Python]
+f = functionname(name, arguments, ..., [options])
+\end{lstlisting}">
+<BR>
+
+<P>
+The name is mainly a display name that will show up in e.g. error messages or as comments in generated C code. This is followed by a set of arguments, which is class dependent. Finally, the user can pass an options structure for customizing the behavior of the class. The options structure is a dictionary type in Python, a struct in MATLAB or <TT>CasADi</TT>'s <TT>Dict</TT> type in C++.
+
+<P>
+A <TT>Function</TT> can be constructed by passing a list of input expressions and a list of output expressions:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="266" HEIGHT="111" ALIGN="BOTTOM" BORDER="0"
+ SRC="img95.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="286" HEIGHT="89" ALIGN="BOTTOM" BORDER="0"
+ SRC="img96.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',2);
+y = SX.sym('y');
+f = Function('f',{x,y},...
+{x,sin(y)*x});
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+# Python
+x = SX.sym('x',2)
+y = SX.sym('y')
+f = Function('f',[x,y],            [x,sin(y)*x])
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+which defines a function
+<!-- MATH
+ $f : \mathbb{R}^{2} \times \mathbb{R} \rightarrow \mathbb{R}^{2} \times \mathbb{R}^{2}, \quad (x,y) \mapsto (x,\sin(y) x)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="378" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img97.png"
+ ALT="$ f : \mathbb{R}^{2} \times \mathbb{R} \rightarrow \mathbb{R}^{2} \times \mathbb{R}^{2}, \quad (x,y) \mapsto (x,\sin(y) x)$"></SPAN>.
+Note that all function objects in <TT>CasADi</TT>, including the above, are multiple matrix-valued input, multiple, matrix-valued output.
+
+<P>
+<TT>MX</TT> expression graphs work the same way:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="287" HEIGHT="111" ALIGN="BOTTOM" BORDER="0"
+ SRC="img98.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="298" HEIGHT="89" ALIGN="BOTTOM" BORDER="0"
+ SRC="img99.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2);
+y = MX.sym('y');
+f = Function('f',{x,y},...
+{x,sin(y)*x});
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+# Python
+x = MX.sym('x',2)
+y = MX.sym('y')
+f = Function('f',[x,y],              [x,sin(y)*x])
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+When creating a <TT>Function</TT> from expressions like that, it is always advisory to <SPAN  CLASS="textit">name</SPAN> the inputs and outputs as follows:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="287" HEIGHT="134" ALIGN="BOTTOM" BORDER="0"
+ SRC="img100.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="298" HEIGHT="112" ALIGN="BOTTOM" BORDER="0"
+ SRC="img101.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2);
+y = MX.sym('y');
+f = Function('f',{x,y},...
+{x,sin(y)*x},...
+{'x','y'},{'r','q'});
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+# Python
+x = MX.sym('x',2)
+y = MX.sym('y')
+f = Function('f',[x,y],       [x,sin(y)*x],       ['x','y'],['r','q'])
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+Naming inputs and outputs is preferred for a number of reasons:
+
+<UL>
+<LI>No need to remember the number or order of arguments
+</LI>
+<LI>Inputs or outputs that are absent can be left unset
+</LI>
+<LI>More readable and less error prone syntax. E.g. <code>f.jacobian('x','q')</code> instead of <code>f.jacobian(0,1)</code>.
+</LI>
+</UL>
+
+<P>
+For <TT>Function</TT> instances - to be encountered later - that are <SPAN  CLASS="textit">not</SPAN> created directly from expressions,
+the inputs and outputs are named automatically.
+
+<P>
+
+<H1><A NAME="SECTION00410000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Calling function objects</A>
+</H1>
+<TT>MX</TT> expressions may contain calls to <TT>Function</TT>-derived functions. Calling a function object is both done for the numerical evaluation and, by passing symbolic arguments, for embedding a <SPAN  CLASS="textit">call</SPAN> to the function object into an expression graph (cf. also Section&nbsp;<A HREF="#sec:integrator">4.4</A>).
+
+<P>
+To call a function object, you either pass the argument in the correct order:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="209" HEIGHT="87" ALIGN="BOTTOM" BORDER="0"
+ SRC="img102.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="239" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img103.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+[r0, q0] = f(1.1,3.3);
+display(r0)
+display(q0)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+# Python
+r0, q0 = f(1.1,3.3)
+print 'r0:',r0
+print 'q0:',q0
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">r0: [1.1, 1.1]
+q0: [-0.17352, -0.17352]
+</PRE>
+</div>
+
+<P>
+or the arguments and their names as follows, which will result in a dictionary (<TT>dict</TT> in Python, <TT>struct</TT> in MATLAB and [language=C++]std::map&lt;std::string, MatrixType&gt; in C++):
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="233" HEIGHT="64" ALIGN="BOTTOM" BORDER="0"
+ SRC="img104.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="273" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img105.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+res = f('x',1.1,'y',3.3);
+display(res)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+# Python
+res = f(x=1.1, y=3.3)
+print 'res:', res
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">res: {'q': DM([-0.17352, -0.17352]), 'r': DM([1.1, 1.1])}
+</PRE>
+</div>
+
+<P>
+When calling a function object, the dimensions (but not necessarily the sparsity patterns) of the evaluation arguments have to match those of the function inputs, with two exceptions:
+
+<UL>
+<LI>A row vector can be passed instead of a column vector and vice versa.
+</LI>
+<LI>A scalar argument can always be passed, regardless of the input dimension. This has the meaning of setting all elements of the input matrix to that value.
+</LI>
+</UL>
+
+<P>
+When the number of inputs to a function object is large or changing, an alternative syntax to the above is to use the <SPAN  CLASS="textit">call</SPAN> function which takes a Python list / MATLAB cell array or, alternatively, a Python dict / MATLAB struct. The return value will have the same type:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="254" HEIGHT="156" ALIGN="BOTTOM" BORDER="0"
+ SRC="img106.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="330" HEIGHT="135" ALIGN="BOTTOM" BORDER="0"
+ SRC="img107.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+arg = {1.1,3.3};
+res = f.call(arg);
+display(...
+...
+arg = struct('x',1.1,'y',3.3);
+res = f.call(arg);
+display(res)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+# Python
+arg = [1.1,3.3]
+res = f.call(arg)
+print 'res:', res
+arg = 'x':1.1,'y':3.3
+res = f.call(arg)
+print 'res:', res
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">res: [DM([1.1, 1.1]), DM([-0.17352, -0.17352])]
+res: {'q': DM([-0.17352, -0.17352]), 'r': DM([1.1, 1.1])}
+</PRE>
+</div>
+
+<P>
+
+<H1><A NAME="SECTION00420000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Converting <TT>MX</TT> to <TT>SX</TT></A>
+</H1>
+A function object defined by an <TT>MX</TT> graph that only contains built-in operations (e.g. elementwise operations such as addition, square root, matrix multiplications and calls to <TT>SX</TT> functions, can be converted into a function defined purely by an <TT>SX</TT> graph using the syntax:
+
+<P>
+<BR>
+<IMG
+ WIDTH="374" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img108.png"
+ ALT="\begin{lstlisting}[language=Python]
+sx_function = mx_function.expand()
+\end{lstlisting}">
+<BR>
+
+<P>
+This might speed up the calculations significantly, but might also cause extra memory overhead.
+
+<P>
+
+<H1><A NAME="SECTION00430000000000000000"></A> <A NAME="sec:rootfinder"></A>
+<BR>
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN> Nonlinear root-finding problems
+</H1>
+Consider the following system of equations:
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eq:rfp"></A><!-- MATH
+ \begin{equation}
+\begin{aligned}
+&g_0(z, x_1, x_2, \ldots, x_n) &&= 0 \\
+&g_1(z, x_1, x_2, \ldots, x_n) &&= y_1 \\
+&g_2(z, x_1, x_2, \ldots, x_n) &&= y_2 \\
+&\qquad \vdots \qquad &&\qquad \\
+&g_m(z, x_1, x_2, \ldots, x_n) &&= y_m,
+\end{aligned}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="227" HEIGHT="161" BORDER="0"
+ SRC="img109.png"
+ ALT="\begin{equation*}\begin{aligned}&amp;g_0(z, x_1, x_2, \ldots, x_n) &amp;&amp;= 0 \\ &amp;g_1(z, ...
+...&amp;&amp;\qquad \\ &amp;g_m(z, x_1, x_2, \ldots, x_n) &amp;&amp;= y_m, \end{aligned}\end{equation*}"></SPAN></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where the first equation uniquely defines <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img110.png"
+ ALT="$ z$"></SPAN> as a function of <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img111.png"
+ ALT="$ x_1$"></SPAN>, ..., <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img112.png"
+ ALT="$ x_n$"></SPAN> by the <SPAN  CLASS="textit">implicit function theorem</SPAN>
+and the remaining equations define the auxiliary outputs <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img113.png"
+ ALT="$ y_1$"></SPAN>, ..., <SPAN CLASS="MATH"><IMG
+ WIDTH="27" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img114.png"
+ ALT="$ y_m$"></SPAN>.
+
+<P>
+Given a function <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img115.png"
+ ALT="$ g$"></SPAN> for evaluating <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img116.png"
+ ALT="$ g_0$"></SPAN>, ..., <SPAN CLASS="MATH"><IMG
+ WIDTH="26" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img117.png"
+ ALT="$ g_m$"></SPAN>, we can use <TT>CasADi</TT> to automatically formulate a function
+<!-- MATH
+ $G: \{z_{\text{guess}}, x_1, x_2, \ldots, x_n\} \rightarrow \{z, y_1, y_2, \ldots, y_m\}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="382" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img118.png"
+ ALT="$ G: \{z_{\text{guess}}, x_1, x_2, \ldots, x_n\} \rightarrow \{z, y_1, y_2, \ldots, y_m\}$"></SPAN>.
+This function includes a guess for <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img110.png"
+ ALT="$ z$"></SPAN> to handle the case when the solution is non-unique.
+The syntax for this, assuming <SPAN CLASS="MATH"><IMG
+ WIDTH="92" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img119.png"
+ ALT="$ n=m=1$"></SPAN> for simplicity, is:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="344" HEIGHT="157" ALIGN="BOTTOM" BORDER="0"
+ SRC="img120.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="356" HEIGHT="135" ALIGN="BOTTOM" BORDER="0"
+ SRC="img121.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+z = SX.sym('x',nz);
+x = SX.sym('x',nx);
+g0 =...
+... = Function('g',{z,x},{g0,g1});
+G = rootfinder('G','newton',g);
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+where the <TT>rootfinder</TT> function expects a display name, the name of a solver plugin
+(here a simple full-step Newton method) and the residual function.
+
+<P>
+Rootfinding objects in <TT>CasADi</TT> are differential objects and derivatives can be calculated exactly to arbitrary order.
+
+<P>
+
+<H1><A NAME="SECTION00440000000000000000"></A> <A NAME="sec:integrator"></A>
+<BR>
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN> Initial-value problems and sensitivity analysis
+</H1>
+<TT>CasADi</TT> can be used to solve initial-value problems in ODE or DAE. The problem formulation used
+is a DAE of semi-explicit form with quadratures:
+</SPAN>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{subequations}
+\begin{align}
+ \dot{x} &= f_{\text{ode}}(t,x,z,p), \qquad x(0) = x_0 \\
+      0  &= f_{\text{alg}}(t,x,z,p) \\
+ \dot{q} &= f_{\text{quad}}(t,x,z,p), \qquad q(0) = 0
+\end{align}
+\end{subequations}
+ -->
+<TABLE CLASS="subequations" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="556" HEIGHT="91" ALIGN="BOTTOM" BORDER="0"
+ SRC="img122.png"
+ ALT="\begin{subequations}\begin{align}\dot{x} &amp;= f_{\text{ode}}(t,x,z,p), \qquad x(0)...
+...ot{q} &amp;= f_{\text{quad}}(t,x,z,p), \qquad q(0) = 0 \end{align}\end{subequations}"></SPAN></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><SPAN CLASS="MATH">
+
+<P>
+For solvers of <SPAN  CLASS="textit">ordinary</SPAN> differential equations, the second equation and the algebraic variables <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img110.png"
+ ALT="$ z$"></SPAN> must be absent.
+
+<P>
+An integrator in <TT>CasADi</TT> is a function that takes the state at the initial time <TT>x0</TT>, a set of parameters <TT>p</TT>, and a guess for the algebraic variables (only for DAEs) <TT>z0</TT> and returns the state vector <TT>xf</TT>, algebraic variables <TT>zf</TT> and the quadrature state <TT>qf</TT>, all at the final time.
+
+<P>
+The freely available <A NAME="tex2html6"
+  HREF="https://computation.llnl.gov/casc/sundials/description/description.html">SUNDIALS suite</A>
+(distributed along with <TT>CasADi</TT>) contains the two popular integrators CVodes and IDAS for ODEs and DAEs respectively. These integrators have support for forward and adjoint sensitivity analysis and when used via <TT>CasADi</TT>'s Sundials interface, <TT>CasADi</TT> will automatically formulate the Jacobian information, which is needed by the backward differentiation formula (BDF) that CVodes and IDAS use. Also automatically formulated will be the forward and adjoint sensitivity equations.
+
+<P>
+
+<H2><A NAME="SECTION00441000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Creating integrators</A>
+</H2>
+Integrators are created using <TT>CasADi</TT>'s <TT>integrator</TT> function. Different integrators schemes and interfaces are implemented as <SPAN  CLASS="textit">plugins</SPAN>, essentially shared libraries that are loaded at runtime.
+
+<P>
+Consider for example the DAE:
+</SPAN>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{subequations}
+\begin{align}
+ \dot{x} &= z+p, \\
+      0  &= z \, \cos(z)-x
+\end{align}
+\end{subequations}
+ -->
+<TABLE CLASS="subequations" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="556" HEIGHT="63" ALIGN="BOTTOM" BORDER="0"
+ SRC="img123.png"
+ ALT="\begin{subequations}\begin{align}\dot{x} &amp;= z+p, \\ 0 &amp;= z \, \cos(z)-x \end{align}\end{subequations}"></SPAN></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><SPAN CLASS="MATH">
+
+<P>
+An integrator, using the ''idas'' plugin, can be created using the syntax:
+
+<P>
+<BR>
+<IMG
+ WIDTH="626" HEIGHT="88" ALIGN="BOTTOM" BORDER="0"
+ SRC="img124.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR>
+<BR>
+<IMG
+ WIDTH="657" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img125.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x'); z = SX.sym('z'); p = SX.sym...
+...,'ode',z+p,'alg',z*cos(z)-x);
+F = integrator('F', 'idas', dae);
+\end{lstlisting}">
+<BR>
+
+<div style="display:none">
+<pre>
+# Python
+x = SX.sym('x'); z = SX.sym('z'); p = SX.sym('p')
+dae = 'x':x, 'z':z, 'p':p, 'ode':z+p, 'alg':z*cos(z)-x
+F = integrator('F', 'idas', dae)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+Integrating this DAE from 0 to 1 with <SPAN CLASS="MATH"><IMG
+ WIDTH="74" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img126.png"
+ ALT="$ x(0)=0$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="63" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img127.png"
+ ALT="$ p=0.1$"></SPAN> and using the guess <SPAN CLASS="MATH"><IMG
+ WIDTH="73" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img128.png"
+ ALT="$ z(0)=0$"></SPAN>, can
+be done by evaluating the created function object:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="266" HEIGHT="65" ALIGN="BOTTOM" BORDER="0"
+ SRC="img129.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="320" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img130.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+r = F('x0',0,'z0',0,'p',0.1);
+disp(r.xf)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+# Python
+r = F(x0=0, z0=0, p=0.1)
+print r['xf']
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">0.1724
+</PRE>
+</div>
+
+<P>
+The time horizon is assumed to be fixed<A NAME="tex2html7"
+  HREF="footnode.html#foot972"><SUP><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN></SUP></A> and can be changed from its default [0, 1] by setting the options "t0" and "tf".
+
+<P>
+
+<H2><A NAME="SECTION00442000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Sensitivity analysis</A>
+</H2>
+From a usage point of view, an integrator behaves just like the function objects created from expressions earlier in the chapter.
+You can use member functions in the Function class to generate new function objects corresponding to directional derivatives (forward or reverse mode) or complete Jacobians. Then evaluate these function objects numerically to obtain sensitivity information. The documented example "sensitivity_analysis" (available in <TT>CasADi</TT>'s example collection for Python, MATLAB and C++) demonstrate how <TT>CasADi</TT> can be used to calculate first and second order derivative information (forward-over-forward, forward-over-adjoint, adjoint-over-adjoint) for a simple DAE.
+
+<P>
+
+<H1><A NAME="SECTION00450000000000000000"></A> <A NAME="sec:nlpsol"></A>
+<BR>
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN> Nonlinear programming
+</H1>
+The NLP solvers distributed with or interfaced to <TT>CasADi</TT> solves parametric NLPs of the following form:
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eq:nlp"></A><!-- MATH
+ \begin{equation}
+\begin{array}{cc}
+\begin{array}{c}
+\text{minimize:} \\
+x
+\end{array}
+&
+f(x,p)
+\\
+\begin{array}{c}
+\text{subject to:}
+\end{array}
+&
+\begin{array}{rcl}
+  x_{\text{lb}} \le &  x   & \le x_{\text{ub}} \\
+  g_{\text{lb}} \le &g(x,p)& \le g_{\text{ub}}
+\end{array}
+\end{array}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="291" HEIGHT="109" BORDER="0"
+ SRC="img132.png"
+ ALT="\begin{displaymath}\begin{array}{cc} \begin{array}{c} \text{minimize:} \\ x \end...
+...ext{lb}} \le &amp;g(x,p)&amp; \le g_{\text{ub}} \end{array} \end{array}\end{displaymath}"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+where <!-- MATH
+ $x \in \mathbb{R}^{nx}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="69" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img133.png"
+ ALT="$ x \in \mathbb{R}^{nx}$"></SPAN> is the decision variable and <!-- MATH
+ $p \in \mathbb{R}^{np}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="67" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img134.png"
+ ALT="$ p \in \mathbb{R}^{np}$"></SPAN> is a known parameter vector.
+
+<P>
+An NLP solver in <TT>CasADi</TT> is a function that takes the parameter value, the bounds and a guess for the primal-dual solution and returns the optimal solution. Unlike integrator objects, NLP solver functions are currently not differentiable functions in <TT>CasADi</TT>.
+
+<P>
+There are several NLP solvers interfaced with <TT>CasADi</TT>. The most popular one is IPOPT, an open-source primal-dual interior point method which is included in <TT>CasADi</TT> installations. Others, that require the installation of third-party software, include SNOPT, WORHP and KNITRO. Whatever the NLP solver used, the interface will automatically generate the information that it needs to solve the NLP, which may be solver and option dependent. Typically an NLP solver will need a function that gives the Jacobian of the constraint function and a Hessian of the Lagrangian function (<!-- MATH
+ $L(x,\lambda) = f(x) + \lambda^{\text{T}} \, g(x))$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="213" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img135.png"
+ ALT="$ L(x,\lambda) = f(x) + \lambda^{\text{T}} \, g(x))$"></SPAN> with respect to <SPAN CLASS="MATH"><IMG
+ WIDTH="15" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img83.png"
+ ALT="$ x$"></SPAN>.
+
+<P>
+
+<H2><A NAME="SECTION00451000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Creating NLP solvers</A>
+</H2>
+NLP solvers are created using <TT>CasADi</TT>'s <TT>nlpsol</TT> function. Different solvers and interfaces are implemented as <SPAN  CLASS="textit">plugins</SPAN>.
+Consider the following form of the so-called Rosenbrock problem:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\begin{array}{cc}
+\begin{array}{c}
+\text{minimize:} \\
+x,y,z
+\end{array}
+&
+x^2 + 100 \, z^2  \\
+\begin{array}{c}
+\text{subject to:}
+\end{array}
+&  z+(1-x)^2-y = 0
+\end{array}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="276" HEIGHT="87" BORDER="0"
+ SRC="img136.png"
+ ALT="\begin{displaymath}\begin{array}{cc} \begin{array}{c} \text{minimize:} \\ x,y,z ...
+...c} \text{subject to:} \end{array} &amp; z+(1-x)^2-y = 0 \end{array}\end{displaymath}"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+A solver for this problem, using the ''ipopt'' plugin, can be created using the syntax:
+
+<P>
+<BR>
+<IMG
+ WIDTH="704" HEIGHT="88" ALIGN="BOTTOM" BORDER="0"
+ SRC="img137.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR>
+<BR>
+<IMG
+ WIDTH="658" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img138.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x'); y = SX.sym('y'); z = SX.sym...
+...'f':x^2+100*z^2, 'g',z+(1-x)^2-y)
+S = nlpsol('S', 'ipopt', nlp)
+\end{lstlisting}">
+<BR>
+
+<div style="display:none">
+<pre>
+# Python
+x = SX.sym('x'); y = SX.sym('y'); z = SX.sym('z')
+nlp = 'x':vertcat(x,y,z), 'f':x**2+100*z**2, 'g':z+(1-x)**2-y
+S = nlpsol('S', 'ipopt', nlp)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+Once the solver has been created, we can solve the NLP, using <!-- MATH
+ $[2.5,3.0,0.75]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="113" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img139.png"
+ ALT="$ [2.5,3.0,0.75]$"></SPAN> as an initial guess, by evaluating the
+function <TT>S</TT>:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="277" HEIGHT="110" ALIGN="BOTTOM" BORDER="0"
+ SRC="img140.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="319" HEIGHT="89" ALIGN="BOTTOM" BORDER="0"
+ SRC="img141.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+r = S('x0',[2.5,3.0,0.75],...
+'lbg',0,'ubg',0);
+x_opt = r.x;
+display(x_opt)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<SMALL CLASS="TINY">
+<div style="display:none">
+<pre>
+# Python
+r = S(x0=[2.5,3.0,0.75],       lbg=0, ubg=0)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" ></SMALL>
+<BR>
+<PRE  CLASS="verbatim">
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.12.3, running with linear solver ma57.
+
+Number of nonzeros in equality constraint Jacobian...:        3
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        2
+
+Total number of variables............................:        3
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        1
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  6.2500000e+01 0.00e+00 9.00e+01  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  1.8457621e+01 1.48e-02 4.10e+01  -1.0 4.10e-01   2.0 1.00e+00 1.00e+00f  1
+   2  7.8031530e+00 3.84e-03 8.76e+00  -1.0 2.63e-01   1.5 1.00e+00 1.00e+00f  1
+   3  7.1678278e+00 9.42e-05 1.04e+00  -1.0 9.32e-02   1.0 1.00e+00 1.00e+00f  1
+   4  6.7419924e+00 6.18e-03 9.95e-01  -1.0 2.69e-01   0.6 1.00e+00 1.00e+00f  1
+   5  5.4363330e+00 7.03e-02 1.04e+00  -1.7 8.40e-01   0.1 1.00e+00 1.00e+00f  1
+   6  1.2144815e+00 1.52e+00 1.32e+00  -1.7 3.21e+00  -0.4 1.00e+00 1.00e+00f  1
+   7  1.0214718e+00 2.51e-01 1.17e+01  -1.7 1.33e+00   0.9 1.00e+00 1.00e+00h  1
+   8  3.1864085e-01 1.04e-03 7.53e-01  -1.7 3.58e-01    -  1.00e+00 1.00e+00f  1
+   9  0.0000000e+00 3.19e-01 0.00e+00  -1.7 5.64e-01    -  1.00e+00 1.00e+00f  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10  0.0000000e+00 0.00e+00 0.00e+00  -1.7 3.19e-01    -  1.00e+00 1.00e+00h  1
+
+Number of Iterations....: 10
+
+                                   (scaled)                 (unscaled)
+Objective...............:   0.0000000000000000e+00    0.0000000000000000e+00
+Dual infeasibility......:   0.0000000000000000e+00    0.0000000000000000e+00
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   0.0000000000000000e+00    0.0000000000000000e+00
+Overall NLP error.......:   0.0000000000000000e+00    0.0000000000000000e+00
+
+
+Number of objective function evaluations             = 11
+Number of objective gradient evaluations             = 11
+Number of equality constraint evaluations            = 11
+Number of inequality constraint evaluations          = 0
+Number of equality constraint Jacobian evaluations   = 11
+Number of inequality constraint Jacobian evaluations = 0
+Number of Lagrangian Hessian evaluations             = 10
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.003
+Total CPU secs in NLP function evaluations           =      0.000
+
+EXIT: Optimal Solution Found.
+                   proc           wall      num           mean             mean
+                   time           time     evals       proc time        wall time
+        nlp_f     0.000 [s]      0.000 [s]    11       0.00 [ms]        0.00 [ms]
+        nlp_g     0.000 [s]      0.000 [s]    11       0.00 [ms]        0.01 [ms]
+   nlp_grad_f     0.000 [s]      0.000 [s]    12       0.00 [ms]        0.00 [ms]
+    nlp_jac_g     0.000 [s]      0.000 [s]    12       0.00 [ms]        0.00 [ms]
+   nlp_hess_l     0.000 [s]      0.000 [s]    10       0.00 [ms]        0.00 [ms]
+ all previous     0.000 [s]      0.000 [s]
+callback_prep     0.000 [s]      0.000 [s]    11       0.00 [ms]        0.01 [ms]
+       solver     0.000 [s]      0.004 [s]
+     mainloop     0.000 [s]      0.004 [s]
+</PRE><SMALL CLASS="TINY">
+</div>
+</SMALL>
+
+<div style="display:none">
+<pre>
+x_opt = r['x']
+print 'x_opt: ', x_opt
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">x_opt:  [0, 1, 0]
+</PRE>
+</div>
+
+<P>
+
+<H1><A NAME="SECTION00460000000000000000"></A> <A NAME="sec:qpsol"></A>
+<BR>
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN> Quadratic programming
+</H1>
+<TT>CasADi</TT> provides interfaces to solve quadratic programs (QPs). Supported solvers are the open-source solvers qpOASES (distributed with <TT>CasADi</TT>) and
+OOQP as well as the commercial solvers CPLEX and GUROBI.
+
+<P>
+There are two different ways to solve QPs in <TT>CasADi</TT>, using a high-level interface and a low-level interface. They are described in the following.
+
+<P>
+
+<H2><A NAME="SECTION00461000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> High-level interface</A>
+</H2>
+The high-level interface for quadratic programming mirrors that of nonlinear programming, i.e. expects a problem of the form (<A HREF="#eq:nlp">4.4</A>),
+with the restriction that objective function <SPAN CLASS="MATH"><IMG
+ WIDTH="59" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img142.png"
+ ALT="$ f(x,p)$"></SPAN> must be a convex quadratic function in <SPAN CLASS="MATH"><IMG
+ WIDTH="15" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img83.png"
+ ALT="$ x$"></SPAN> and the constraint function <SPAN CLASS="MATH"><IMG
+ WIDTH="57" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$ g(x,p)$"></SPAN> must be linear in <SPAN CLASS="MATH"><IMG
+ WIDTH="15" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img83.png"
+ ALT="$ x$"></SPAN>.
+If the functions are not quadratic and linear, respectively, the solution is done at the current linearization point, given by the ``initial guess'' for <SPAN CLASS="MATH"><IMG
+ WIDTH="15" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img83.png"
+ ALT="$ x$"></SPAN>.
+
+<P>
+If the objective function is not convex, the solver may or may not fail to find a solution or the solution may not be unique.
+
+<P>
+To illustrate the syntax, we consider the following convex QP:
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eq:simple_qp"></A><!-- MATH
+ \begin{equation}
+\begin{array}{cc}
+\begin{array}{c}
+\text{minimize:} \\
+x,y
+\end{array}
+&
+x^2 + y^2  \\
+\begin{array}{c}
+\text{subject to:}
+\end{array}
+& x+y-10 \ge 0
+\end{array}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="231" HEIGHT="87" BORDER="0"
+ SRC="img144.png"
+ ALT="\begin{displaymath}\begin{array}{cc} \begin{array}{c} \text{minimize:} \\ x,y \e...
+...y}{c} \text{subject to:} \end{array} &amp; x+y-10 \ge 0 \end{array}\end{displaymath}"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+To solve this problem with the high-level interface, we simply replace <TT>nlpsol</TT> with <TT>qpsol</TT> and use a QP solver plugin such as the with <TT>CasADi</TT> distributed qpOASES:
+
+<P>
+<BR>
+<IMG
+ WIDTH="559" HEIGHT="88" ALIGN="BOTTOM" BORDER="0"
+ SRC="img145.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR>
+<BR>
+<IMG
+ WIDTH="524" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img146.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x'); y = SX.sym('y')
+qp = struct('x',[x;y], 'f':x^2+y^2, 'g',x+y-10)
+S = qpsol('S', 'qpoases', qp)
+\end{lstlisting}">
+<BR>
+<SMALL CLASS="TINY">
+<div style="display:none">
+<pre>
+# Python
+x = SX.sym('x'); y = SX.sym('y')
+qp = 'x':vertcat(x,y), 'f':x**2+y**2, 'g':x+y-10
+S = qpsol('S', 'qpoases', qp)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" ></SMALL>
+<BR>
+<PRE  CLASS="verbatim">
+qpOASES -- An Implementation of the Online Active Set Strategy.
+Copyright (C) 2007-2015 by Hans Joachim Ferreau, Andreas Potschka,
+Christian Kirches et al. All rights reserved.
+
+qpOASES is distributed under the terms of the 
+GNU Lesser General Public License 2.1 in the hope that it will be 
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU Lesser General Public License for more details.
+</PRE><SMALL CLASS="TINY">
+</div>
+</SMALL>
+
+<P>
+The created solver object <TT>S</TT> will have the same input and output signature as the solver objects
+created with <TT>nlpsol</TT>. Since the solution is unique, it is less important to provide an initial guess:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="244" HEIGHT="87" ALIGN="BOTTOM" BORDER="0"
+ SRC="img147.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="162" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img148.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+r = S('lbg',0);
+x_opt = r.x;
+display(x_opt)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<SMALL CLASS="TINY">
+<div style="display:none">
+<pre>
+# Python
+r = S(lbg=0)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" ></SMALL>
+<BR>
+<PRE  CLASS="verbatim">
+
+####################   qpOASES  --  QP NO.   1   #####################
+
+    Iter   |    StepLength    |       Info       |   nFX   |   nAC    
+ ----------+------------------+------------------+---------+--------- 
+       0   |   1.866661e-07   |   ADD CON    0   |     1   |     1   
+       1   |   8.333622e-10   |   REM BND    1   |     0   |     1   
+       2   |   1.000000e+00   |    QP SOLVED     |     0   |     1   
+</PRE><SMALL CLASS="TINY">
+</div>
+</SMALL>
+
+<div style="display:none">
+<pre>
+x_opt = r['x']
+print 'x_opt: ', x_opt
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">x_opt:  [5, 5]
+</PRE>
+</div>
+
+<P>
+
+<H2><A NAME="SECTION00462000000000000000">
+<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Low-level interface</A>
+</H2>
+The low-level interface, on the other hand, solves QPs of the following form:
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><A NAME="eq:qp"></A><!-- MATH
+ \begin{equation}
+\begin{array}{cc}
+\begin{array}{c}
+\text{minimize:} \\
+x
+\end{array}
+&
+\frac{1}{2} x^\text{T}\, H \, x + g^\text{T}\, x
+\\
+\begin{array}{c}
+\text{subject to:}
+\end{array}
+&
+\begin{array}{rcl}
+  x_{\text{lb}} \le &  x   & \le x_{\text{ub}} \\
+  a_{\text{lb}} \le & A \, x& \le a_{\text{ub}}
+\end{array}
+\end{array}
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="266" HEIGHT="109" BORDER="0"
+ SRC="img149.png"
+ ALT="\begin{displaymath}\begin{array}{cc} \begin{array}{c} \text{minimize:} \\ x \end...
+...xt{lb}} \le &amp; A \, x&amp; \le a_{\text{ub}} \end{array} \end{array}\end{displaymath}"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">7</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Encoding problem (<A HREF="#eq:simple_qp">4.6</A>) in this form, omitting bounds that are infinite, is straightforward:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="177" HEIGHT="107" ALIGN="BOTTOM" BORDER="0"
+ SRC="img150.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="188" HEIGHT="88" ALIGN="BOTTOM" BORDER="0"
+ SRC="img151.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+H = 2*DM.eye(2);
+A = DM.ones(1,2);
+g = DM.zeros(2);
+lba = 10;
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+# Python
+H = 2*DM.eye(2)
+A = DM.ones(1,2)
+g = DM.zeros(2)
+lba = 10.
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+To create a solver instance, instead of passing symbolic expressions for the QP, we now pass the sparsity patterns of the matrices <SPAN CLASS="MATH"><IMG
+ WIDTH="22" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img152.png"
+ ALT="$ H$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img153.png"
+ ALT="$ A$"></SPAN>.
+Since we used <TT>CasADi</TT>'s <TT>DM</TT>-type above, we can simply query the sparsity patterns:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="300" HEIGHT="111" ALIGN="BOTTOM" BORDER="0"
+ SRC="img154.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="309" HEIGHT="86" ALIGN="BOTTOM" BORDER="0"
+ SRC="img155.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+qp = struct;
+qp.h = H.sparsity();
+qp.a = A.sparsity();
+S = qpsol('S','qpoases',qp);
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+ <SMALL CLASS="TINY">
+<div style="display:none">
+<pre>
+# Python
+qp = 
+qp['h'] = H.sparsity()
+qp['a'] = A.sparsity()
+S = qpsol('S','qpoases',qp)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" ></SMALL>
+<BR>
+<PRE  CLASS="verbatim">
+qpOASES -- An Implementation of the Online Active Set Strategy.
+Copyright (C) 2007-2015 by Hans Joachim Ferreau, Andreas Potschka,
+Christian Kirches et al. All rights reserved.
+
+qpOASES is distributed under the terms of the 
+GNU Lesser General Public License 2.1 in the hope that it will be 
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU Lesser General Public License for more details.
+</PRE><SMALL CLASS="TINY">
+</div>
+</SMALL>
+
+<P>
+The returned <TT>Function</TT> instance will have a <SPAN  CLASS="textit">different</SPAN> input/output signature compared to the high-level interface, one that includes the matrices <SPAN CLASS="MATH"><IMG
+ WIDTH="22" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img152.png"
+ ALT="$ H$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img153.png"
+ ALT="$ A$"></SPAN>:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="244" HEIGHT="110" ALIGN="BOTTOM" BORDER="0"
+ SRC="img156.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="285" HEIGHT="89" ALIGN="BOTTOM" BORDER="0"
+ SRC="img157.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+r = S('h', H, 'g', g,...
+'a', A, 'lba', lba);
+x_opt = r.x;
+display(x_opt)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<SMALL CLASS="TINY">
+<div style="display:none">
+<pre>
+# Python
+r = S(h=H, g=g,        a=A, lba=lba)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" ></SMALL>
+<BR>
+<PRE  CLASS="verbatim">
+
+####################   qpOASES  --  QP NO.   1   #####################
+
+    Iter   |    StepLength    |       Info       |   nFX   |   nAC    
+ ----------+------------------+------------------+---------+--------- 
+       0   |   1.866661e-07   |   ADD CON    0   |     1   |     1   
+       1   |   8.333622e-10   |   REM BND    1   |     0   |     1   
+       2   |   1.000000e+00   |    QP SOLVED     |     0   |     1   
+</PRE><SMALL CLASS="TINY">
+</div>
+</SMALL>
+
+<div style="display:none">
+<pre>
+x_opt = r['x']
+print 'x_opt: ', x_opt
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">x_opt:  [5, 5]
+</PRE>
+</div>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html155"
+  HREF="node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html153"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html147"
+  HREF="node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html156"
+  HREF="node5.html">5. Generating C-code</A>
+<B> Up:</B> <A NAME="tex2html154"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html148"
+  HREF="node3.html">3. Symbolic framework</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+
+2016-03-23
+</ADDRESS>
+</BODY>
+</HTML>

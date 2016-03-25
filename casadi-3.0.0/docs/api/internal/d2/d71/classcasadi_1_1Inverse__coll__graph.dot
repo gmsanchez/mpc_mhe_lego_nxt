@@ -1,0 +1,20 @@
+digraph "casadi::Inverse"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  Node1 [label="casadi::Inverse",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::MXNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d0/d19/classcasadi_1_1MXNode.html",tooltip="Node class for MX objects. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sparsity_" ,fontname="FreeSans.ttf"];
+  Node4 [label="casadi::Sparsity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/da8/classcasadi_1_1Sparsity.html",tooltip="General sparsity class. "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::SharedObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d4a/classcasadi_1_1SharedObject.html",tooltip="SharedObject implements a reference counting framework similar for efficient and easily-maintained me..."];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::PrintableObject\l\< SharedObject \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d18/classcasadi_1_1PrintableObject.html"];
+  Node7 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::SparsityInterface\l\< Sparsity \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6b/classcasadi_1_1SparsityInterface.html"];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="casadi::SparsityInterface\lCommon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d9a/structcasadi_1_1SparsityInterfaceCommon.html",tooltip="Empty Base This class is extended in SWIG. "];
+}

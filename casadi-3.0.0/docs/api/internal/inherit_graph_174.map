@@ -1,0 +1,47 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d7/dee/structcasadi_1_1GenericExpressionCommon.html" title="Empty Base This class is extended in SWIG. " alt="" coords="247,890,436,937"/>
+<area shape="rect" id="node3" href="$d1/d5c/classcasadi_1_1GenericExpression.html" title="Expression interface. " alt="" coords="499,1098,688,1145"/>
+<area shape="rect" id="node5" href="$d1/d5c/classcasadi_1_1GenericExpression.html" title="casadi::GenericExpression\l\&lt; Matrix\&lt; double \&gt; \&gt;" alt="" coords="499,751,688,798"/>
+<area shape="rect" id="node9" href="$d1/d5c/classcasadi_1_1GenericExpression.html" title="casadi::GenericExpression\l\&lt; Matrix\&lt; int \&gt; \&gt;" alt="" coords="499,421,688,467"/>
+<area shape="rect" id="node13" href="$d1/d5c/classcasadi_1_1GenericExpression.html" title="casadi::GenericExpression\l\&lt; Matrix\&lt; Scalar \&gt; \&gt;" alt="" coords="499,890,688,937"/>
+<area shape="rect" id="node17" href="$d1/d5c/classcasadi_1_1GenericExpression.html" title="casadi::GenericExpression\l\&lt; Matrix\&lt; SXElem \&gt; \&gt;" alt="" coords="499,282,688,329"/>
+<area shape="rect" id="node21" href="$d1/d5c/classcasadi_1_1GenericExpression.html" title="casadi::GenericExpression\l\&lt; MX \&gt;" alt="" coords="499,1029,688,1075"/>
+<area shape="rect" id="node25" href="$d1/d5c/classcasadi_1_1GenericExpression.html" title="casadi::GenericExpression\l\&lt; SXElem \&gt;" alt="" coords="499,1167,688,1214"/>
+<area shape="rect" id="node7" href="$dd/df2/singletoncasadi_1_1Matrix.html" title="casadi::Matrix\&lt; double \&gt;" alt="" coords="740,587,921,616"/>
+<area shape="rect" id="node11" href="$dd/df2/singletoncasadi_1_1Matrix.html" title="casadi::Matrix\&lt; int \&gt;" alt="" coords="753,395,908,424"/>
+<area shape="rect" id="node15" href="$dd/df2/singletoncasadi_1_1Matrix.html" title="Sparse matrix class. SX and DM are specializations. " alt="" coords="741,760,920,789"/>
+<area shape="rect" id="node19" href="$dd/df2/singletoncasadi_1_1Matrix.html" title="casadi::Matrix\&lt; SXElem \&gt;" alt="" coords="736,187,925,216"/>
+<area shape="rect" id="node23" href="$de/d57/classcasadi_1_1MX.html" title="MX &#45; Matrix expression. " alt="" coords="785,1037,876,1067"/>
+<area shape="rect" id="node27" href="$d0/d06/classcasadi_1_1SXElem.html" title="The basic scalar symbolic class of CasADi. " alt="" coords="771,1396,891,1425"/>
+<area shape="rect" id="node28" href="$dc/d32/structcasadi_1_1GenericMatrixCommon.html" title="Empty Base This class is extended in SWIG. " alt="" coords="232,387,451,416"/>
+<area shape="rect" id="node30" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="Matrix base class. " alt="" coords="515,143,672,190"/>
+<area shape="rect" id="node32" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; Matrix\&lt; double \&gt; \&gt;" alt="" coords="512,543,675,590"/>
+<area shape="rect" id="node35" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; Matrix\&lt; int \&gt; \&gt;" alt="" coords="515,213,672,259"/>
+<area shape="rect" id="node38" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; Matrix\&lt; Scalar \&gt; \&gt;" alt="" coords="513,682,673,729"/>
+<area shape="rect" id="node41" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; Matrix\&lt; SXElem \&gt; \&gt;" alt="" coords="508,74,679,121"/>
+<area shape="rect" id="node44" href="$dc/df3/classcasadi_1_1GenericMatrix.html" title="casadi::GenericMatrix\l\&lt; MX \&gt;" alt="" coords="515,959,672,1006"/>
+<area shape="rect" id="node46" href="$d3/df2/structcasadi_1_1MatrixCommon.html" title="Empty Base This class is extended in SWIG. " alt="" coords="509,491,677,520"/>
+<area shape="rect" id="node51" href="$d5/d18/classcasadi_1_1PrintableObject.html" title="casadi::PrintableObject\l\&lt; Matrix\&lt; double \&gt; \&gt;" alt="" coords="509,613,677,659"/>
+<area shape="rect" id="node53" href="$d5/d18/classcasadi_1_1PrintableObject.html" title="casadi::PrintableObject\l\&lt; Matrix\&lt; int \&gt; \&gt;" alt="" coords="509,351,677,398"/>
+<area shape="rect" id="node55" href="$d5/d18/classcasadi_1_1PrintableObject.html" title="casadi::PrintableObject\l\&lt; Matrix\&lt; Scalar \&gt; \&gt;" alt="" coords="509,821,677,867"/>
+<area shape="rect" id="node57" href="$d5/d18/classcasadi_1_1PrintableObject.html" title="casadi::PrintableObject\l\&lt; Matrix\&lt; SXElem \&gt; \&gt;" alt="" coords="508,5,679,51"/>
+<area shape="rect" id="node59" href="$d5/d18/classcasadi_1_1PrintableObject.html" title="casadi::PrintableObject\l\&lt; SharedObject \&gt;" alt="" coords="11,1413,179,1459"/>
+<area shape="rect" id="node61" href="$d5/d4a/classcasadi_1_1SharedObject.html" title="SharedObject implements a reference counting framework similar for efficient and easily&#45;maintained me..." alt="" coords="263,1421,420,1451"/>
+<area shape="rect" id="node63" href="$d7/df2/classcasadi_1_1Compiler.html" title="Compiler. " alt="" coords="529,1341,657,1371"/>
+<area shape="rect" id="node65" href="$da/da4/classcasadi_1_1Function.html" title="General function. " alt="" coords="532,1677,655,1707"/>
+<area shape="rect" id="node69" href="$d6/d82/classcasadi_1_1GenericType.html" title="Generic data type, can hold different types such as bool, int, string etc. " alt="" coords="520,1395,667,1424"/>
+<area shape="rect" id="node71" href="$d4/df0/classcasadi_1_1Library.html" title="Library, either just&#45;in&#45;time compiled or dynamically loaded. " alt="" coords="536,1448,651,1477"/>
+<area shape="rect" id="node74" href="$d5/da8/classcasadi_1_1Sparsity.html" title="General sparsity class. " alt="" coords="532,1237,655,1267"/>
+<area shape="rect" id="node76" href="$d8/de8/classcasadi_1_1WeakRef.html" title="Weak reference type A weak reference to a SharedObject. " alt="" coords="532,1501,655,1531"/>
+<area shape="rect" id="node78" href="$d4/d74/classcasadi_1_1XmlFile.html" title="XML parser Can be used for parsing XML files into CasADi data structures. " alt="" coords="536,1555,651,1584"/>
+<area shape="rect" id="node67" href="$d6/dac/classcasadi_1_1Callback.html" title="Callback function functionality This class provides a public API to the FunctionInternal class that c..." alt="" coords="769,1677,892,1707"/>
+<area shape="rect" id="node79" href="$d5/d18/classcasadi_1_1PrintableObject.html" title="casadi::PrintableObject\l\&lt; SXElem \&gt;" alt="" coords="509,1607,677,1654"/>
+<area shape="rect" id="node81" href="$d2/d9a/structcasadi_1_1SparsityInterfaceCommon.html" title="Empty Base This class is extended in SWIG. " alt="" coords="5,543,184,590"/>
+<area shape="rect" id="node83" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="Sparsity interface class. " alt="" coords="252,170,431,217"/>
+<area shape="rect" id="node86" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Matrix\&lt; double \&gt; \&gt;" alt="" coords="252,543,431,590"/>
+<area shape="rect" id="node89" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Matrix\&lt; int \&gt; \&gt;" alt="" coords="252,265,431,311"/>
+<area shape="rect" id="node92" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Matrix\&lt; Scalar \&gt; \&gt;" alt="" coords="252,647,431,694"/>
+<area shape="rect" id="node95" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Matrix\&lt; SXElem \&gt; \&gt;" alt="" coords="252,87,431,134"/>
+<area shape="rect" id="node98" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; MX \&gt;" alt="" coords="252,959,431,1006"/>
+<area shape="rect" id="node101" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Sparsity \&gt;" alt="" coords="252,1129,431,1175"/>
+</map>

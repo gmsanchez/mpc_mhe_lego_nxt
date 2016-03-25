@@ -1,0 +1,16 @@
+digraph "casadi::CvodesInterface"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  Node1 [label="casadi::CvodesInterface",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::SundialsInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d90/classcasadi_1_1SundialsInterface.html"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::Integrator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d3d/classcasadi_1_1Integrator.html",tooltip="Internal storage for integrator related data. "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::FunctionInternal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dab/classcasadi_1_1FunctionInternal.html",tooltip="Internal class for Function. "];
+  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node6 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::PluginInterface\l\< Integrator \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d37/classcasadi_1_1PluginInterface.html"];
+}

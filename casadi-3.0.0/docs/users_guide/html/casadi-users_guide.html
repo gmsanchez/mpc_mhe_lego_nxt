@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>User Documentation for CasADi v3.0.0</TITLE>
+<META NAME="description" CONTENT="User Documentation for CasADi v3.0.0">
+<META NAME="keywords" CONTENT="casadi-users_guide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="casadi-users_guide.css">
+
+<LINK REL="next" HREF="node1.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html21"
+  HREF="node1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev_g.png">   
+<BR>
+<B> Next:</B> <A NAME="tex2html22"
+  HREF="node1.html">1. Introduction</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1 ALIGN=CENTER>User Documentation for <TT>CasADi</TT> v3.0.0</H1>
+<P ALIGN=CENTER><STRONG>Joel Andersson</STRONG>
+</P><P ALIGN=CENTER><STRONG>Joris Gillis</STRONG>
+</P><P ALIGN=CENTER><STRONG>Moritz Diehl</STRONG>
+</P>
+<HR>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html23"
+  HREF="node1.html"><SPAN CLASS="arabic">1</SPAN>. Introduction</A>
+<UL>
+<LI><A NAME="tex2html24"
+  HREF="node1.html#SECTION00110000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> What <TT>CasADi</TT> is and what it is <SPAN  CLASS="textit">not</SPAN></A>
+<LI><A NAME="tex2html25"
+  HREF="node1.html#SECTION00120000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> Help and support</A>
+<LI><A NAME="tex2html26"
+  HREF="node1.html#SECTION00130000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">3</SPAN> Citing <TT>CasADi</TT> </A>
+<LI><A NAME="tex2html27"
+  HREF="node1.html#SECTION00140000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">4</SPAN> Reading this document</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html28"
+  HREF="node2.html"><SPAN CLASS="arabic">2</SPAN>. Obtaining and installing <TT>CasADi</TT> </A>
+<LI><A NAME="tex2html29"
+  HREF="node3.html"><SPAN CLASS="arabic">3</SPAN>. Symbolic framework</A>
+<UL>
+<LI><A NAME="tex2html30"
+  HREF="node3.html#SECTION00310000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> The <TT>SX</TT> symbolics</A>
+<UL>
+<LI><A NAME="tex2html31"
+  HREF="node3.html#SECTION00311000000000000000">Note for C++ users</A>
+</UL>
+<LI><A NAME="tex2html32"
+  HREF="node3.html#SECTION00320000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> <TT>DM</TT></A>
+<LI><A NAME="tex2html33"
+  HREF="node3.html#SECTION00330000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">3</SPAN> The <TT>MX</TT> symbolics</A>
+<LI><A NAME="tex2html34"
+  HREF="node3.html#SECTION00340000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN> Mixing <TT>SX</TT> and <TT>MX</TT></A>
+<LI><A NAME="tex2html35"
+  HREF="node3.html#SECTION00350000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN> The <TT>Sparsity</TT> class</A>
+<UL>
+<LI><A NAME="tex2html36"
+  HREF="node3.html#SECTION00351000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Getting and setting elements in matrices</A>
+</UL>
+<LI><A NAME="tex2html37"
+  HREF="node3.html#SECTION00360000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN> Arithmetic operations</A>
+<LI><A NAME="tex2html38"
+  HREF="node3.html#SECTION00370000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN> Querying properties</A>
+<LI><A NAME="tex2html39"
+  HREF="node3.html#SECTION00380000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN> Linear algebra</A>
+<LI><A NAME="tex2html40"
+  HREF="node3.html#SECTION00390000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN> Calculus - algorithmic differentiation</A>
+<UL>
+<LI><A NAME="tex2html41"
+  HREF="node3.html#SECTION00391000000000000000">Syntax</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html42"
+  HREF="node4.html"><SPAN CLASS="arabic">4</SPAN>. Function objects</A>
+<UL>
+<LI><A NAME="tex2html43"
+  HREF="node4.html#SECTION00410000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Calling function objects</A>
+<LI><A NAME="tex2html44"
+  HREF="node4.html#SECTION00420000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Converting <TT>MX</TT> to <TT>SX</TT></A>
+<LI><A NAME="tex2html45"
+  HREF="node4.html#SECTION00430000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">3</SPAN> Nonlinear root-finding problems</A>
+<LI><A NAME="tex2html46"
+  HREF="node4.html#SECTION00440000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN> Initial-value problems and sensitivity analysis</A>
+<UL>
+<LI><A NAME="tex2html47"
+  HREF="node4.html#SECTION00441000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">1</SPAN> Creating integrators</A>
+<LI><A NAME="tex2html48"
+  HREF="node4.html#SECTION00442000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">2</SPAN> Sensitivity analysis</A>
+</UL>
+<LI><A NAME="tex2html49"
+  HREF="node4.html#SECTION00450000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN> Nonlinear programming</A>
+<UL>
+<LI><A NAME="tex2html50"
+  HREF="node4.html#SECTION00451000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Creating NLP solvers</A>
+</UL>
+<LI><A NAME="tex2html51"
+  HREF="node4.html#SECTION00460000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN> Quadratic programming</A>
+<UL>
+<LI><A NAME="tex2html52"
+  HREF="node4.html#SECTION00461000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> High-level interface</A>
+<LI><A NAME="tex2html53"
+  HREF="node4.html#SECTION00462000000000000000"><SPAN CLASS="arabic">4</SPAN>.<SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Low-level interface</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html54"
+  HREF="node5.html"><SPAN CLASS="arabic">5</SPAN>. Generating C-code</A>
+<UL>
+<LI><A NAME="tex2html55"
+  HREF="node5.html#SECTION00510000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Syntax for generating code</A>
+<LI><A NAME="tex2html56"
+  HREF="node5.html#SECTION00520000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">2</SPAN> Using the generated code</A>
+<UL>
+<LI><A NAME="tex2html57"
+  HREF="node5.html#SECTION00521000000000000000"><TT>CasADi</TT>'s <TT>external</TT> function</A>
+<LI><A NAME="tex2html58"
+  HREF="node5.html#SECTION00522000000000000000">Calling generated code from MATLAB</A>
+<LI><A NAME="tex2html59"
+  HREF="node5.html#SECTION00523000000000000000">Calling generated code from the command line</A>
+<LI><A NAME="tex2html60"
+  HREF="node5.html#SECTION00524000000000000000">Linking against generated code from a C/C++ application</A>
+<LI><A NAME="tex2html61"
+  HREF="node5.html#SECTION00525000000000000000">Dynamically loading generated code from a C/C++ application</A>
+</UL>
+<LI><A NAME="tex2html62"
+  HREF="node5.html#SECTION00530000000000000000"><SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">3</SPAN> API of the generated code</A>
+<UL>
+<LI><A NAME="tex2html63"
+  HREF="node5.html#SECTION00531000000000000000">Reference counting</A>
+<LI><A NAME="tex2html64"
+  HREF="node5.html#SECTION00532000000000000000">Number of inputs and outputs</A>
+<LI><A NAME="tex2html65"
+  HREF="node5.html#SECTION00533000000000000000">Names of inputs and outputs</A>
+<LI><A NAME="tex2html66"
+  HREF="node5.html#SECTION00534000000000000000">Sparsity patterns of inputs and outputs</A>
+<LI><A NAME="tex2html67"
+  HREF="node5.html#SECTION00535000000000000000">Maximum number of memory objects</A>
+<LI><A NAME="tex2html68"
+  HREF="node5.html#SECTION00536000000000000000">Work vectors</A>
+<LI><A NAME="tex2html69"
+  HREF="node5.html#SECTION00537000000000000000">Numerical evaluation</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html70"
+  HREF="node6.html"><SPAN CLASS="arabic">6</SPAN>. User-defined function objects</A>
+<UL>
+<LI><A NAME="tex2html71"
+  HREF="node6.html#SECTION00610000000000000000"><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">1</SPAN> Inheriting from <TT>FunctionInternal</TT> or <TT>Callback</TT></A>
+<UL>
+<LI><A NAME="tex2html72"
+  HREF="node6.html#SECTION00611000000000000000">Python</A>
+<LI><A NAME="tex2html73"
+  HREF="node6.html#SECTION00612000000000000000">MATLAB</A>
+<LI><A NAME="tex2html74"
+  HREF="node6.html#SECTION00613000000000000000">C++</A>
+</UL>
+<LI><A NAME="tex2html75"
+  HREF="node6.html#SECTION00620000000000000000"><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">2</SPAN> Importing a function with <TT>external</TT></A>
+<UL>
+<LI><A NAME="tex2html76"
+  HREF="node6.html#SECTION00621000000000000000">Default functions</A>
+<LI><A NAME="tex2html77"
+  HREF="node6.html#SECTION00622000000000000000">Meta information as comments</A>
+<LI><A NAME="tex2html78"
+  HREF="node6.html#SECTION00623000000000000000">Simplified evaluation signature</A>
+<LI><A NAME="tex2html79"
+  HREF="node6.html#SECTION00624000000000000000">Derivatives</A>
+</UL>
+<LI><A NAME="tex2html80"
+  HREF="node6.html#SECTION00630000000000000000"><SPAN CLASS="arabic">6</SPAN>.<SPAN CLASS="arabic">3</SPAN> Providing a <TT>.casadi</TT> file</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html81"
+  HREF="node7.html"><SPAN CLASS="arabic">7</SPAN>. The <TT>DaeBuilder</TT> class</A>
+<UL>
+<LI><A NAME="tex2html82"
+  HREF="node7.html#SECTION00710000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> Mathematical formulation</A>
+<UL>
+<LI><A NAME="tex2html83"
+  HREF="node7.html#SECTION00711000000000000000">Input expressions</A>
+<LI><A NAME="tex2html84"
+  HREF="node7.html#SECTION00712000000000000000">Output expressions</A>
+</UL>
+<LI><A NAME="tex2html85"
+  HREF="node7.html#SECTION00720000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">2</SPAN> Constructing a <TT>DaeBuilder</TT> instance</A>
+<LI><A NAME="tex2html86"
+  HREF="node7.html#SECTION00730000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">3</SPAN> Import of OCPs from Modelica</A>
+<UL>
+<LI><A NAME="tex2html87"
+  HREF="node7.html#SECTION00731000000000000000">Legacy import of a <TT>modelDescription.xml</TT> file</A>
+</UL>
+<LI><A NAME="tex2html88"
+  HREF="node7.html#SECTION00740000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">4</SPAN> Symbolic reformulation</A>
+<LI><A NAME="tex2html89"
+  HREF="node7.html#SECTION00750000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">5</SPAN> Function factory</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html90"
+  HREF="node8.html"><SPAN CLASS="arabic">8</SPAN>. Optimal control with <TT>CasADi</TT> </A>
+<UL>
+<LI><A NAME="tex2html91"
+  HREF="node8.html#SECTION00810000000000000000"><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">1</SPAN> A simple test problem</A>
+<LI><A NAME="tex2html92"
+  HREF="node8.html#SECTION00820000000000000000"><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">2</SPAN> Direct single-shooting</A>
+<LI><A NAME="tex2html93"
+  HREF="node8.html#SECTION00830000000000000000"><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">3</SPAN> Direct multiple-shooting</A>
+<LI><A NAME="tex2html94"
+  HREF="node8.html#SECTION00840000000000000000"><SPAN CLASS="arabic">8</SPAN>.<SPAN CLASS="arabic">4</SPAN> Direct collocation</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html95"
+  HREF="node9.html"><SPAN CLASS="arabic">9</SPAN>. Difference in usage from different languages</A>
+<UL>
+<LI><A NAME="tex2html96"
+  HREF="node9.html#SECTION00910000000000000000"><SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> General usage</A>
+<LI><A NAME="tex2html97"
+  HREF="node9.html#SECTION00920000000000000000"><SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">2</SPAN> List of operations</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html21"
+  HREF="node1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev_g.png">   
+<BR>
+<B> Next:</B> <A NAME="tex2html22"
+  HREF="node1.html">1. Introduction</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+
+2016-03-23
+</ADDRESS>
+</BODY>
+</HTML>

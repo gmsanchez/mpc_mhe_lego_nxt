@@ -1,0 +1,18 @@
+digraph "casadi::Rootfinder"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  Node1 [label="casadi::Rootfinder",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::FunctionInternal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dab/classcasadi_1_1FunctionInternal.html",tooltip="Internal class for Function. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node4 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::PluginInterface\l\< Rootfinder \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d37/classcasadi_1_1PluginInterface.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::ImplicitToNlp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d7e/classcasadi_1_1ImplicitToNlp.html",tooltip="&#39;nlp&#39; plugin for Rootfinder "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::KinsolInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/def/classcasadi_1_1KinsolInterface.html",tooltip="&#39;kinsol&#39; plugin for Rootfinder "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::Newton",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d69/classcasadi_1_1Newton.html",tooltip="&#39;newton&#39; plugin for Rootfinder "];
+}

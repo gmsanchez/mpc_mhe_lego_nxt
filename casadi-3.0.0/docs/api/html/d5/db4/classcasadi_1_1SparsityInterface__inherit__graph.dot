@@ -1,0 +1,10 @@
+digraph "casadi::SparsityInterface&lt; MatType &gt;"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  Node1 [label="casadi::SparsityInterface\l\< MatType \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::SparsityInterface\lCommon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d9a/structcasadi_1_1SparsityInterfaceCommon.html",tooltip="Empty Base This class is extended in SWIG. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::GenericMatrix\l\< MatType \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/df3/classcasadi_1_1GenericMatrix.html",tooltip="Matrix base class. "];
+}

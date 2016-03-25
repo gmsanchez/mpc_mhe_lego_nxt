@@ -1,0 +1,404 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>9. Difference in usage from different languages</TITLE>
+<META NAME="description" CONTENT="9. Difference in usage from different languages">
+<META NAME="keywords" CONTENT="casadi-users_guide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="casadi-users_guide.css">
+
+<LINK REL="previous" HREF="node8.html">
+<LINK REL="up" HREF="casadi-users_guide.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<IMG WIDTH="81" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next_inactive" SRC="nx_grp_g.png"> 
+<A NAME="tex2html249"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html247"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Up:</B> <A NAME="tex2html250"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html248"
+  HREF="node8.html">8. Optimal control with</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html251"
+  HREF="node9.html#SECTION00910000000000000000"><SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> General usage</A>
+<LI><A NAME="tex2html252"
+  HREF="node9.html#SECTION00920000000000000000"><SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">2</SPAN> List of operations</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00900000000000000000"></A> <A NAME="ch:syntax_differences"></A>
+<BR>
+<SPAN CLASS="arabic">9</SPAN>. Difference in usage from different languages
+</H1>
+
+<P>
+
+<H1><A NAME="SECTION00910000000000000000">
+<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">1</SPAN> General usage</A>
+</H1>
+<DIV ALIGN="CENTER">
+<SMALL CLASS="SCRIPTSIZE">  </SMALL><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">
+      </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> Python </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> C++ </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> MATLAB </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Starting <TT>CasADi</TT> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>from casadi import *</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>#include \</code> <code>"casadi/casadi.hpp"</code> <code>using namespace casadi;</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>import casadi.*</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Printing the <SPAN  CLASS="textit">representation</SPAN> (string representation intended to be <SPAN  CLASS="textit">unambiguous</SPAN>) </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A &lt;ENTER&gt;</code> (interactive), <code>print repr(A)</code> (in scripts) </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>std::cout &lt;&lt; A;</code></SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A &lt;ENTER&gt;</code> or <code>disp A</code></SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Printing the <SPAN  CLASS="textit">description</SPAN> (string representation intended to be <SPAN  CLASS="textit">readable</SPAN>) </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>print A</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A.print();</code> or <code>A.print(stream);</code></SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A.print()</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Calling a class function </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>SX.zeros(3,4)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>SX::zeros(3,4)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>SX.zeros(3,4)</code></SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Creating a dictionary (e.g. for options) </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>d = {'opt1':opt1}</code> or <code>d = {}; a['opt1'] = opt1</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a = Dict();</code> <code>a['opt1'] = opt1;</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a = struct;</code> <code>a.opt1 = opt1;</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Creating a symbol </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>MX.sym("x",2,2)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>MX::sym("x",2,2)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>MX.sym("x",2,2)</code></SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Creating a function </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>Function("f",[x,y],[x+y])</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>Function("f",{x,y},{x+y})</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>Function('f',{x,y},{x+y})</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Calling a function </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>z=f(x,y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>z = f({x,y})</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>z=f(x,y)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Create an NLP solver </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>nlp = {"x":x,"f":f}</code> <code>nlpsol("S","ipopt",nlp)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>MXDict nlp = \</code>    <code>{{"x",x},{"f",f}};</code>  <code>nlpsol("S","ipopt",nlp);</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>nlp=struct('x',x,'f',f);</code> <code>nlpsol('S','ipopt',nlp);</code> </SMALL></TD>
+</TR>
+</TABLE></DIV>
+
+<P>
+
+<H1><A NAME="SECTION00920000000000000000">
+<SPAN CLASS="arabic">9</SPAN>.<SPAN CLASS="arabic">2</SPAN> List of operations</A>
+</H1>
+The following is a list of the most important operations. Operations that differ between the different
+languages are marked with a star (*). This list is neither complete, nor does it show all the variants of
+each operation. Further information is available in the API documentation.
+
+<P>
+<DIV ALIGN="CENTER">
+<SMALL CLASS="SCRIPTSIZE">  </SMALL><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">
+      </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> Python </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> C++ </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> MATLAB </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Addition, subtraction
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>x+y, x-y, -x</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>x+y, x-y, -x</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>x+y, x-y, -x</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Elementwise multiplication, division
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>x*y, x/y</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>x*y, x/y</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>x.*y, x./y</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Natural exponential function and logarithm
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>exp(x)</code> <BR><code>log(x)</code>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>exp(x)</code> <BR><code>log(x)</code>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>exp(x)</code> <BR><code>log(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Exponentiation </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>x**y</code>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>pow(x,y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>x^y</code> or <code>x.^y</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Square root </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sqrt(x)</code>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sqrt(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sqrt(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Trigonometric functions </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sin(x), cos(x), tan(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sin(x), cos(x), tan(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sin(x), cos(x), tan(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Inverse trigonometric </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>asin(x), acos(x), ...</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>asin(x), acos(x), ...</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>asin(x), acos(x), ...</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Two argument arctangent </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>atan2(x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>atan2(x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>atan2(x, y)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Hyperbolic functions </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sinh(x), cosh(x), tanh(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sinh(x), cosh(x), tanh(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sinh(x), cosh(x), tanh(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Inverse hyperbolic </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>asinh(x), acosh(x), ...</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>asinh(x), acosh(x), ...</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>asinh(x), acosh(x), ...</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Inequalities </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a&lt;b, a&lt;=b, a&gt;b, a&gt;=b</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a&lt;b, a&lt;=b, a&gt;b, a&gt;=b</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a&lt;b, a&lt;=b, a&gt;b, a&gt;=b</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *(Not) equal to </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a==b, a!=b</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a==b, a!=b</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a==b, a~=b</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Logical and </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>logic_and(a, b)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"><code>a &amp;&amp; b</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  <code>a &amp; b</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Logical or  </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>logic_or(a, b)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a || b</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>a | b</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Logical not </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>logic_not(a)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>!a</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>~a</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Round to integer
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>floor(x), ceil(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>floor(x), ceil(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>floor(x), ceil(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Modulus after division
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>fmod(x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>fmod(x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>mod(x, y)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Absolute value
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>fabs(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>fabs(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>abs(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Sign function
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sign(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sign(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>sign(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    (Inverse) error function
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>erf(x), erfinv(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>erf(x), erfinv(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>erf(x), erfinv(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Elementwise min and max
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>fmin(x, y), fmax(x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>fmin(x, y), fmax(x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>min(x, y), max(x, y)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Index of first nonzero
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>find(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>find(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>find(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    If-then-else
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>if_else(c, x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>if_else(c, x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>if_else(c, x, y)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Matrix multiplication
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>mtimes(x,y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>mtimes(x,y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>mtimes(x,y)</code> or <code>x*y</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Transpose
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>transpose(A)</code> or <code>A.T</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>transpose(A)</code> or <code>A.T()</code></SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>transpose(A)</code> or <code>A'</code> or <code>A.'</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Inner product
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>dot(x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>dot(x, y)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>dot(x, y)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Horizontal/vertical concatenation
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>horzcat(x, y)</code> <BR><code>vertcat(x, y)</code>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>horzcat(*v)</code> <code>vertcat(*v)</code>, <BR>(<code>v</code> vector of matrices)
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>[x, y]</code> <BR><code>[x; y]</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Horizontal/vertical split (inverse of concatenation)
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>vertsplit(x)</code>, <code>horzsplit(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>vertsplit(x)</code>, <code>horzsplit(x)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>vertsplit(x)</code>, <code>horzsplit(x)</code> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Element access
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A[i,j]</code> and <code>A[i]</code>, <BR><SPAN  CLASS="textit">0-based</SPAN>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A(i,j)</code> and <code>A(i)</code>, <BR><SPAN  CLASS="textit">0-based</SPAN>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A(i,j)</code> and <code>A(i)</code>, <BR><SPAN  CLASS="textit">1-based</SPAN> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Element assignment
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A[i,j] = b</code> and <code>A[i] = b</code>, <BR><SPAN  CLASS="textit">0-based</SPAN>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A(i,j) = b</code> and <code>A(i) = b</code>, <BR><SPAN  CLASS="textit">0-based</SPAN>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A(i,j) = b</code> and <code>A(i) = b</code>, <BR><SPAN  CLASS="textit">1-based</SPAN> </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Nonzero access
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A.nz[k]</code>, <SPAN  CLASS="textit">0-based</SPAN>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A[k]</code>, <SPAN  CLASS="textit">0-based</SPAN>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> (currently unsupported) </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    *Nonzero assignment
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A.nz[k] = b</code>, <SPAN  CLASS="textit">0-based</SPAN>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>A[k] = b</code>, <SPAN  CLASS="textit">0-based</SPAN>
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> (currently unsupported) </SMALL></TD>
+</TR>
+<TR><TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE">  
+    Project to a different sparsity
+    </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>project(x, s)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>project(x, s)</code> </SMALL></TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=99><SMALL CLASS="SCRIPTSIZE"> <code>project(x, s)</code> </SMALL></TD>
+</TR>
+</TABLE></DIV>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<IMG WIDTH="81" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next_inactive" SRC="nx_grp_g.png"> 
+<A NAME="tex2html249"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html247"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Up:</B> <A NAME="tex2html250"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html248"
+  HREF="node8.html">8. Optimal control with</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+
+2016-03-23
+</ADDRESS>
+</BODY>
+</HTML>

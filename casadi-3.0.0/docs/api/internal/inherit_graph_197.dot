@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::UnaryOperation\l\< OP_NOT \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/df1/structcasadi_1_1UnaryOperation_3_01OP__NOT_01_4.html",tooltip="Logical not. "];
+}

@@ -1,0 +1,2184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3. Symbolic framework</TITLE>
+<META NAME="description" CONTENT="3. Symbolic framework">
+<META NAME="keywords" CONTENT="casadi-users_guide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="casadi-users_guide.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="casadi-users_guide.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html130"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html128"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html122"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html131"
+  HREF="node4.html">4. Function objects</A>
+<B> Up:</B> <A NAME="tex2html129"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html123"
+  HREF="node2.html">2. Obtaining and installing</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html132"
+  HREF="node3.html#SECTION00310000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> The <TT>SX</TT> symbolics</A>
+<UL>
+<LI><A NAME="tex2html133"
+  HREF="node3.html#SECTION00311000000000000000">Note for C++ users</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html134"
+  HREF="node3.html#SECTION00320000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> <TT>DM</TT></A>
+<LI><A NAME="tex2html135"
+  HREF="node3.html#SECTION00330000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">3</SPAN> The <TT>MX</TT> symbolics</A>
+<LI><A NAME="tex2html136"
+  HREF="node3.html#SECTION00340000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN> Mixing <TT>SX</TT> and <TT>MX</TT></A>
+<LI><A NAME="tex2html137"
+  HREF="node3.html#SECTION00350000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN> The <TT>Sparsity</TT> class</A>
+<UL>
+<LI><A NAME="tex2html138"
+  HREF="node3.html#SECTION00351000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Getting and setting elements in matrices</A>
+<UL>
+<LI><A NAME="tex2html139"
+  HREF="node3.html#SECTION00351010000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">1</SPAN> Single element access</A>
+<LI><A NAME="tex2html140"
+  HREF="node3.html#SECTION00351020000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">2</SPAN> Slice access</A>
+<LI><A NAME="tex2html141"
+  HREF="node3.html#SECTION00351030000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">3</SPAN> List access</A>
+</UL>
+</UL>
+<BR>
+<LI><A NAME="tex2html142"
+  HREF="node3.html#SECTION00360000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN> Arithmetic operations</A>
+<LI><A NAME="tex2html143"
+  HREF="node3.html#SECTION00370000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN> Querying properties</A>
+<LI><A NAME="tex2html144"
+  HREF="node3.html#SECTION00380000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN> Linear algebra</A>
+<LI><A NAME="tex2html145"
+  HREF="node3.html#SECTION00390000000000000000"><SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN> Calculus - algorithmic differentiation</A>
+<UL>
+<LI><A NAME="tex2html146"
+  HREF="node3.html#SECTION00391000000000000000">Syntax</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00300000000000000000">
+<SPAN CLASS="arabic">3</SPAN>. Symbolic framework</A>
+</H1>
+At the core of <TT>CasADi</TT> is a self-contained symbolic framework that allows the user to construct symbolic expressions using a MATLAB inspired everything-is-a-matrix syntax, i.e. vectors are treated as n-by-1 matrices and scalars as 1-by-1 matrices. All matrices are <SPAN  CLASS="textit">sparse</SPAN> and use a general sparse format - <SPAN  CLASS="textit">compressed column storage</SPAN> (CCS) - to store matrices. In the following, we introduce the most fundamental classes of this framework.
+
+<P>
+
+<H1><A NAME="SECTION00310000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN> The <TT>SX</TT> symbolics</A>
+</H1>
+The <TT>SX</TT> data type is used to represent matrices whose elements consist of symbolic expressions made up by a sequence of unary and binary operations. To see how it works in practice, start an interactive Python shell (e.g. by typing <TT>ipython</TT> from a Linux terminal or inside a integrated development environment such as Spyder) or launch MATLAB. Assuming <TT>CasADi</TT> has been installed correctly, you can import the symbols into the workspace as follows:
+
+<P>
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="223" HEIGHT="41" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="163" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img2.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+import casadi.*
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+from casadi import *
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+Now create a variable <TT>x</TT> using the syntax:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="165" HEIGHT="42" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="174" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img4.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = MX.sym('x');
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+x = MX.sym('x')
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+This creates a 1-by-1 matrix, i.e. a scalar containing a symbolic primitive called ``x''. This is just the display name, not the identifier. Multiple variables can have the same name, but still be different. The identifier is the return value. You can also create vector- or matrix-valued symbolic variables by supplying additional arguments to
+[language=Python]SX.sym:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="209" HEIGHT="65" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="219" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img6.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+y = SX.sym('y',5);
+Z = SX.sym('Z',4,2);
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+y = SX.sym('y',5)
+Z = SX.sym('Z',4,2)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+which creates a 5-by-1 matrix, i.e. a vector, and a 4-by-2 matrix with symbolic primitives, respectively.
+
+<P>
+[language=Python]SX.sym is a (static) function which returns an <TT>SX</TT> instance. When variables have been declared, expressions can now be formed in an intuitive way:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="144" HEIGHT="87" ALIGN="BOTTOM" BORDER="0"
+ SRC="img7.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="139" HEIGHT="65" ALIGN="BOTTOM" BORDER="0"
+ SRC="img8.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+f = x^2 + 10;
+f = sqrt(f);
+display(f)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+f = x**2 + 10
+f = sqrt(f)
+print 'f:', f
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">f: sqrt((10+sq(x)))
+</PRE>
+</div>
+
+<P>
+You can also create constant <TT>SX</TT> instances <SPAN  CLASS="textit">without</SPAN> any symbolic primitives:
+<DL COMPACT>
+<DT></DT>
+<DD>[language=Python]B1 = SX.zeros(4,5): A dense 4-by-5 empty matrix with all zeros
+  Create an <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ m$"></SPAN> symbolic primitive
+  
+</DD>
+<DT></DT>
+<DD>[language=Python]B2 = SX(4,5): A sparse 4-by-5 empty matrix with all zeros
+  
+</DD>
+<DT></DT>
+<DD>[language=Python]B4 = SX.eye(4): A sparse 4-by-4 matrix with ones on the diagonal
+</DD>
+</DL>
+
+<P>
+
+<div style="display:none">
+<pre>
+B1 = SX.zeros(4,5)
+B2 = SX(4,5)
+B4 = SX.eye(4)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+
+<P>
+Note the difference between a sparse matrix with <SPAN  CLASS="textit">structural</SPAN> zeros and a dense matrix with <SPAN  CLASS="textit">actual</SPAN> zeros. When printing an expression with structural zeros, these will be represented as <SPAN CLASS="MATH"><IMG
+ WIDTH="23" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$ 00$"></SPAN> to distinguish them from actual zeros <SPAN CLASS="MATH">0</SPAN>:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="168" HEIGHT="41" ALIGN="BOTTOM" BORDER="0"
+ SRC="img12.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="117" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img13.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+display(B4)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+print 'B4:', B4
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">B4: @1=1, 
+[[@1, 00, 00, 00], 
+ [00, @1, 00, 00], 
+ [00, 00, @1, 00], 
+ [00, 00, 00, @1]]
+</PRE>
+</div>
+
+<P>
+The following list summarizes the most commonly used ways of constructing new <TT>SX</TT> expressions:
+
+<UL>
+<LI>[language=Python]SX.sym(name,n,m): Create an <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ m$"></SPAN> symbolic primitive
+</LI>
+<LI>[language=Python]SX.zeros(n,m): Create an <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ m$"></SPAN> dense matrix with all zeros
+</LI>
+<LI>[language=Python]SX(n,m): Create an <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ m$"></SPAN> sparse matrix with all <SPAN  CLASS="textit">structural</SPAN> zeros
+</LI>
+<LI>[language=Python]SX.ones(n,m): Create an <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ m$"></SPAN> dense matrix with all ones
+</LI>
+<LI>[language=Python]SX.eye(n): Create an <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN> diagonal matrix with ones on the diagonal and structural zeros elsewhere.
+</LI>
+<LI>[language=Python]SX(scalar_type): Create a scalar (1-by-1 matrix) with value given by the argument. This method can be used explicitly, e.g. [language=Python]SX(9), or implicitly, e.g. [language=Python]9 * SX.ones(2,2).
+</LI>
+<LI>[language=Python]SX(matrix_type): Create a matrix given a numerical matrix given as a <SPAN  CLASS="textit">numpy</SPAN> or <SPAN  CLASS="textit">scipy</SPAN> matrix (in Python) or as a dense or sparse matrix (in MATLAB). In MATLAB e.g.
+  [language=Matlab]SX([1,2,3,4]) for a row vector, [language=Matlab]SX([1;2;3;4]) for a column vector and [language=Matlab]SX([1,2;3,4]) for a 2-by-2 matrix. This method can be used explicitly or implicitly.
+</LI>
+<LI>[language=Python]repmat(v,n,m): Repeat expression <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$ v$"></SPAN> <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN> times vertically and <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ m$"></SPAN> times horizontally. [language=Python]repmat(SX(3),2,1) will create a 2-by-1 matrix with all elements 3.
+</LI>
+<LI>(<SPAN  CLASS="textit">Python only</SPAN>) [language=Python]SX(list): Create a column vector (<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-1 matrix) with the elements in the list, e.g. [language=Python]SX([1,2,3,4]) (note the difference between Python lists and MATLAB horizontal concatination, which both uses square bracket syntax)
+</LI>
+<LI>(<SPAN  CLASS="textit">Python only</SPAN>) [language=Python]SX(list of list): Create a dense matrix with the elements in the lists, e.g. [language=Python]SX([[1,2],[3,4]]) or a row vector (1-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN> matrix) using [language=Python]SX([[1,2,3,4]]).
+</LI>
+</UL>
+
+<P>
+
+<H2><A NAME="SECTION00311000000000000000">
+Note for C++ users</A>
+</H2>
+In C++, all public symbols are defined in the <TT>casadi</TT> namespace and require the inclusion of the [language=C++]casadi/casadi.hpp header file.
+The commands above would be equivalent to:
+<BR>
+<IMG
+ WIDTH="435" HEIGHT="274" ALIGN="BOTTOM" BORDER="0"
+ SRC="img15.png"
+ ALT="\begin{lstlisting}[language=C++]
+// C++
+...">
+<BR>
+
+<P>
+
+<H1><A NAME="SECTION00320000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN> <TT>DM</TT></A>
+</H1>
+<TT>DM</TT> is very similar to <TT>SX</TT>, but with the difference that the nonzero elements are numerical values and not symbolic expressions. The syntax is also the same, except for functions such as <TT>SX.sym</TT>, which have no equivalents.
+
+<P>
+<TT>DM</TT> is mainly used for storing matrices in <TT>CasADi</TT> and as inputs and outputs of functions. It is <SPAN  CLASS="textit">not</SPAN> intended to be used for computationally intensive calculations. For this purpose, use the builtin dense or sparse data types in MATLAB, <TT>numpy</TT> or <TT>scipy</TT> matrices in Python or an expression template based library such as <TT>eigen</TT>, <TT>ublas</TT> or <TT>MTL</TT> in C++. Conversion between the types is usually straightforward:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+
+<div style="color: black; background-color: #b9c8db;  border-style: dotted; border-width: 1px; padding:2px;padding-left:1em" >
+<pre>
+# Python
+C = DM(2,3)
+
+<P>
+C_dense = C.full()
+from numpy import array
+C_dense = array(C) # equivalent
+
+<P>
+C_sparse = C.sparse()
+from scipy.sparse import csc_matrix
+C_sparse = csc_matrix(C) # equivalent
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+</PRE>
+</div>
+</TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+  <BR>
+<IMG
+ WIDTH="231" HEIGHT="135" ALIGN="BOTTOM" BORDER="0"
+ SRC="img16.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+C = DM(2,3);
+\par
+C_dense = full(C);
+\par
+C_sparse = sparse(C);
+\par
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+More usage examples for <TT>SX</TT> can be found in the tutorials at <A NAME="tex2html4"
+  HREF="http://docs.casadi.org/">http://docs.casadi.org</A>. For documentation of particular functions of this class (and others), find the ``C++ API docs'' on the website and search for information about [language=C++]casadi::Matrix.
+
+<P>
+
+<H1><A NAME="SECTION00330000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">3</SPAN> The <TT>MX</TT> symbolics</A>
+</H1>
+Let us perform a simple operation using the <TT>SX</TT> above:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="209" HEIGHT="133" ALIGN="BOTTOM" BORDER="0"
+ SRC="img17.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="219" HEIGHT="112" ALIGN="BOTTOM" BORDER="0"
+ SRC="img18.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',2,2);
+y = SX.sym('y');
+f = 3*x + y;
+disp(f)
+disp(size(f))
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+x = SX.sym('x',2,2)
+y = SX.sym('y')
+f = 3*x + y
+print f
+print f.shape
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">@1=3, 
+[[((@1*x_0)+y), ((@1*x_2)+y)], 
+ [((@1*x_1)+y), ((@1*x_3)+y)]]
+(2, 2)
+</PRE>
+</div>
+
+<P>
+As you can see, the output of this operation is a 2-by-2 matrix. Note how the multiplication and the addition were performed elementwise and new expressions (of type <TT>SX</TT>) were created for each entry of the result matrix.
+
+<P>
+We shall now introduce a second, more general <SPAN  CLASS="textit">matrix expression</SPAN> type <TT>MX</TT>. The <TT>MX</TT> type allows, like <TT>SX</TT>, to build up expressions consisting of a sequence of elementary operations. But unlike <TT>SX</TT>, these elementary operations are not restricted to be scalar unary or binary operations (<!-- MATH
+ $\mathbb{R} \rightarrow \mathbb{R}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="62" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img19.png"
+ ALT="$ \mathbb{R} \rightarrow \mathbb{R}$"></SPAN> or <!-- MATH
+ $\mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="99" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$ \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$"></SPAN>. Instead, the elementary operations that are used to form <TT>MX</TT> expressions are allowed to be general <SPAN  CLASS="textit">multiple sparse-matrix valued</SPAN> input, <SPAN  CLASS="textit">multiple sparse-matrix valued</SPAN> output functions: <!-- MATH
+ $\mathbb{R}^{n_1 \times m_1} \times \ldots \times \mathbb{R}^{n_N \times m_N} \rightarrow \mathbb{R}^{p_1 \times q_1} \times \ldots \times \mathbb{R}^{p_M \times q_M}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="413" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$ \mathbb{R}^{n_1 \times m_1} \times \ldots \times \mathbb{R}^{n_N \times m_N} \...
+...ow \mathbb{R}^{p_1 \times q_1} \times \ldots \times \mathbb{R}^{p_M \times q_M}$"></SPAN>.
+
+<P>
+The syntax of <TT>MX</TT> mirrors that of <TT>SX</TT>:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="209" HEIGHT="133" ALIGN="BOTTOM" BORDER="0"
+ SRC="img22.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="219" HEIGHT="112" ALIGN="BOTTOM" BORDER="0"
+ SRC="img23.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2,2);
+y = MX.sym('y');
+f = 3*x + y;
+disp(f)
+disp(size(f))
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+x = MX.sym('x',2,2)
+y = MX.sym('y')
+f = 3*x + y
+print f
+print f.shape
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">((3*x)+y)
+(2, 2)
+</PRE>
+</div>
+
+<P>
+Note how the result consists of only two operations (one multiplication and one addition) using <TT>MX</TT> symbolics, whereas the <TT>SX</TT> equivalent has eight (two for each element of the resulting matrix). As a consequence, <TT>MX</TT> can be more economical when working with operations that are naturally vector or matrix valued with many elements. As we shall see in Chapter&nbsp;<A HREF="node4.html#ch:function">4</A>, it is also much more general since we allow calls to arbitrary functions that cannot be expanded in terms of elementary operations.
+
+<P>
+<TT>MX</TT> supports getting and setting elements, using the same syntax as <TT>SX</TT>, but the way it is implemented is very different. Test, for example, to print the element in the upper-left corner of a 2-by-2 symbolic variable:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="209" HEIGHT="65" ALIGN="BOTTOM" BORDER="0"
+ SRC="img24.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="219" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img25.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2,2);
+x(1,1)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+x = MX.sym('x',2,2)
+print x[0,0]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">x[0]
+</PRE>
+</div>
+
+<P>
+The output should be understood as an expression that is equal to the first (i.e. index 0 in C++) structurally non-zero element of <TT>x</TT>, unlike <TT>x_0</TT> in the <TT>SX</TT> case above, which is the name of a symbolic primitive in the first (index 0) location of the matrix.
+
+<P>
+Similar results can be expected when trying to set elements:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="197" HEIGHT="133" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="210" HEIGHT="112" ALIGN="BOTTOM" BORDER="0"
+ SRC="img27.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2);
+A = MX(2,2);
+A(1,1) = x(1);
+A(2,2) = x(1)+x(2);
+display(A)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+x = MX.sym('x',2)
+A = MX(2,2)
+A[0,0] = x[0]
+A[1,1] = x[0]+x[1]
+print 'A:', A
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">A: project(zeros(2x2, 1 nnz)[0] = x[0]))[1] = (x[0]+x[1]))
+</PRE>
+</div>
+
+<P>
+The interpretation of the (admittedly cryptic) output is that starting with an all zero sparse matrix, an element is assigned to <TT>x_0</TT>. It is then projected to a matrix of different sparsity and an another element is assigned to <TT>x_0+x_1</TT>.
+
+<P>
+Element access and assignment, of the type you have just seen, are examples of operations that can be used to construct expressions. Other examples of operations are matrix multiplications, transposes, concatenations, resizings, reshapings and function calls.
+
+<P>
+
+<H1><A NAME="SECTION00340000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">4</SPAN> Mixing <TT>SX</TT> and <TT>MX</TT></A>
+</H1>
+You can <SPAN  CLASS="textit">not</SPAN> multiply an <TT>SX</TT> object with an <TT>MX</TT> object, or perform any other operation to mix the two in the same expression graph. You can, however, in an <TT>MX</TT> graph include calls to a <SPAN  CLASS="textit">function</SPAN> defined by <TT>SX</TT> expressions. This will be demonstrated in Chapter&nbsp;<A HREF="node4.html#ch:function">4</A>. Mixing <TT>SX</TT> and <TT>MX</TT> is often a good idea since functions defined by <TT>SX</TT> expressions have a much lower overhead per operation making it much faster for operations that are naturally written as a sequence of scalar operations. The <TT>SX</TT> expressions are thus intended to be used for low level operations (for example the DAE right hand side in Section&nbsp;<A HREF="node4.html#sec:integrator">4.4</A>), whereas the <TT>MX</TT> expressions act as a glue and enables the formulation of e.g. the constraint function of an NLP (which might contain calls to ODE/DAE integrators, or might simply be too large to expand as one big expression).
+
+<P>
+
+<H1><A NAME="SECTION00350000000000000000"></A> <A NAME="sec:sparsity_class"></A>
+<BR>
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN> The <TT>Sparsity</TT> class
+</H1>
+As mentioned above, matrices in <TT>CasADi</TT> are stored using the <SPAN  CLASS="textit">compressed column storage</SPAN> (CCS) format. This is a standard format for sparse matrices that allows linear algebra operations such as elementwise operations, matrix multiplication and transposes to be performed efficiently. In the CCS format, the sparsity pattern is decoded using the dimensions - the number of rows and number of columns - and two vectors. The first vector contains the index of the first structurally nonzero element of each column and the second vector contains the row index for every nonzero element. For more details on the CCS format, see e.g. <A NAME="tex2html5"
+  HREF="http://netlib.org/linalg/html_templates/node92.html">Templates for the Solution of Linear Systems</A>
+on Netlib. Note that <TT>CasADi</TT> uses the CCS format for sparse as well as dense matrices.
+
+<P>
+Sparsity patterns in <TT>CasADi</TT> are stored as instances of the <TT>Sparsity</TT> class, which is <SPAN  CLASS="textit">reference-counted</SPAN>, meaning that multiple matrices can share the same sparsity pattern, including <TT>MX</TT> expression graphs and instances of <TT>SX</TT> and <TT>DM</TT>. The <TT>Sparsity</TT> class is also <SPAN  CLASS="textit">cached</SPAN>, meaning that the creation of multiple instances of the same sparsity patterns is always avoided.
+
+<P>
+The following list summarizes the most commonly used ways of constructing new sparsity patterns:
+
+<UL>
+<LI>[language=Python]Sparsity.dense(n,m): Create a dense <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ m$"></SPAN> sparsity pattern
+</LI>
+<LI>[language=Python]Sparsity(n,m): Create a sparse <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ m$"></SPAN> sparsity pattern
+</LI>
+<LI>[language=Python]Sparsity.diag(n): Create a diagonal <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN> sparsity pattern
+</LI>
+<LI>[language=Python]Sparsity.upper(n): Create an upper triangular <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN> sparsity pattern
+</LI>
+<LI>[language=Python]Sparsity.lower(n): Create a lower triangular <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-<SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN> sparsity pattern
+</LI>
+</UL>
+
+<P>
+The <TT>Sparsity</TT> class can be used to create non-standard matrices, e.g.
+
+<P>
+<TABLE  WIDTH="70%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="389" HEIGHT="42" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR>
+<BR>
+<IMG
+ WIDTH="387" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img29.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+disp(SX.sym('x',Sparsity.lower(3)))
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="30%">
+<TR><TD>
+<div style="display:none">
+<pre>
+print SX.sym('x',Sparsity.lower(3))
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[x_0, 00, 00], 
+ [x_1, x_3, 00], 
+ [x_2, x_4, x_5]]
+</PRE>
+</div>
+</TD></TR>
+</TABLE>
+
+<P>
+
+<H2><A NAME="SECTION00351000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN> Getting and setting elements in matrices</A>
+</H2>
+To get or set an element or a set of elements in <TT>CasADi</TT>'s matrix types (<TT>SX</TT>, <TT>MX</TT> and <TT>DM</TT>), we use square brackets in Python and round brackets in C++ and MATLAB. As is conventional in these languages, indexing starts from zero in C++ and Python but from one in MATLAB. In Python and C++, we allow negative indices to specify an index counted from the end. In MATLAB, use the <TT>end</TT> keyword for indexing from the end.
+
+<P>
+Indexing can be done with one index or two indices. With two indices, you reference a particular row (or set or rows) and a particular column (or set of columns). With one index, you reference an element (or set of elements) starting from the upper left corner and columnwise to the lower right corner. All elements are counted regardless of whether they are structurally zero or not.
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="234" HEIGHT="110" ALIGN="BOTTOM" BORDER="0"
+ SRC="img30.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="200" HEIGHT="89" ALIGN="BOTTOM" BORDER="0"
+ SRC="img31.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+M = SX([3,7;4,5]);
+disp(M(1,:))
+M(1,:) = 1;
+disp(M)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+M = SX([[3,7],[4,5]])
+print M[0,:]
+M[0,:] = 1
+print M
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">[[3, 7]]
+@1=1, 
+[[@1, @1], 
+ [4, 5]]
+</PRE>
+</div>
+
+<P>
+Unlike Python's NumPy, <TT>CasADi</TT> slices are not views into the data of the left hand side; rather, a slice access copies the data. As a result, the matrix <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img32.png"
+ ALT="$ M$"></SPAN> is not changed at all in the following example:
+
+<P>
+
+<div style="color: black; background-color: #b9c8db;  border-style: dotted; border-width: 1px; padding:2px;padding-left:1em" >
+<pre>
+# Python
+M = SX([[3,7],[4,5]])
+M[0,:][0,0] = 1
+print M
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[3, 7], 
+ [4, 5]]
+</PRE>
+</div>
+
+<P>
+The getting and setting matrix elements is elaborated in the following. The discussion applies to all of <TT>CasADi</TT>'s matrix types.
+
+<P>
+
+<H4><A NAME="SECTION00351010000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">1</SPAN> Single element access</A>
+</H4> is getting or setting by providing a row-column pair or its flattened index (columnwise starting in the upper left corner of the matrix):
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="257" HEIGHT="64" ALIGN="BOTTOM" BORDER="0"
+ SRC="img33.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="268" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img34.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+M = diag(SX([3,4,5,6]));
+disp(M)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+M = diag(SX([3,4,5,6]))
+print M
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[3, 00, 00, 00], 
+ [00, 4, 00, 00], 
+ [00, 00, 5, 00], 
+ [00, 00, 00, 6]]
+</PRE>
+</div>
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="331" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img35.png"
+ ALT="\begin{lstlisting}[language=Python]
+print M[0,0], M[1,0], M[-1,-1]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="291" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img36.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+M(1,1), M(2,1), M(end,end)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+print M[0,0], M[1,0], M[-1,-1]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">3 00 6
+</PRE>
+</div>
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="185" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img37.png"
+ ALT="\begin{lstlisting}[language=Python]
+print M[5], M[-6]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="158" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img38.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+M(6), M(end-5)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+print M[5], M[-6]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">4 5
+</PRE>
+</div>
+
+<P>
+
+<H4><A NAME="SECTION00351020000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">2</SPAN> Slice access</A>
+</H4> means setting multiple elements at once. This is significantly more efficient than setting the elements one at a time. You get or set a slice by providing a (<SPAN  CLASS="textit">start</SPAN>,<SPAN  CLASS="textit">stop</SPAN>,<SPAN  CLASS="textit">step</SPAN>) triple. In Python and MATLAB, <TT>CasADi</TT> uses standard syntax:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="127" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img39.png"
+ ALT="\begin{lstlisting}[language=Python]
+print M[:,1]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="129" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img40.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+disp(M(:,2))
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+print M[:,1]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">[00, 4, 00, 00]
+</PRE>
+</div>
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="183" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img41.png"
+ ALT="\begin{lstlisting}[language=Python]
+print M[1:,1:4:2]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="219" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img42.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+disp(M(2:end,2:2:4))
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+
+<div style="display:none">
+<pre>
+print M[1:,1:4:2]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[4, 00], 
+ [00, 00], 
+ [00, 6]]
+</PRE>
+</div>
+
+<P>
+In C++, <TT>CasADi</TT>'s <TT>Slice</TT> helper class can be used. For the example above, this means [language=C++]M(Slice(),1) and [language=C++]M(Slice(1,-1),Slice(1,4,2)), respectively.
+
+<P>
+
+<H4><A NAME="SECTION00351030000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">5</SPAN>.<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">0</SPAN>.<SPAN CLASS="arabic">3</SPAN> List access</A>
+</H4> is similar to (but potentially less efficient than) slice access:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="324" HEIGHT="42" ALIGN="BOTTOM" BORDER="0"
+ SRC="img43.png"
+ ALT="\begin{lstlisting}[language=Python]
+M = SX([[3,7,8,9],[4,5,6,1]])
+print M
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="301" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+M = SX([3 7 8 9; 4 5 6 1]);
+disp(M)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+M = SX([[3,7,8,9],[4,5,6,1]])
+print M
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[3, 7, 8, 9], 
+ [4, 5, 6, 1]]
+</PRE>
+</div>
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="296" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img45.png"
+ ALT="\begin{lstlisting}[language=Python]
+print M[0,[0,3]], M[[5,-6]]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="325" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img46.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+M(1,[1,4]), M([6,numel(M)-5])
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+print M[0,[0,3]], M[[5,-6]]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">[[3, 9]] [6, 7]
+</PRE>
+</div>
+
+<P>
+
+<H1><A NAME="SECTION00360000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">6</SPAN> Arithmetic operations</A>
+</H1>
+<TT>CasADi</TT> supports most standard arithmetic operations such as addition, multiplications, powers, trigonometric functions etc:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="208" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img47.png"
+ ALT="\begin{lstlisting}[language=Python]
+x = SX.sym('x')
+y = SX.sym('y',2,2)
+print sin(y)-x
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="219" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img48.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x');
+y = SX.sym('y',2,2);
+sin(y)-x
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+x = SX.sym('x')
+y = SX.sym('y',2,2)
+print sin(y)-x
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[(sin(y_0)-x), (sin(y_2)-x)], 
+ [(sin(y_1)-x), (sin(y_3)-x)]]
+</PRE>
+</div>
+
+<P>
+In C++ and Python (but not in MATLAB), the standard multiplication operation (using <code>*</code>) is reserved for elementwise multiplication (in MATLAB <code>.*</code>). For <SPAN  CLASS="textbf">matrix multiplication</SPAN>, use
+[language=Python]mtimes(A,B):
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="242" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img49.png"
+ ALT="\begin{lstlisting}[language=Python]
+print y*y, mtimes(y,y)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="99" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img50.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+y.*y, y*y
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+print y*y, mtimes(y,y)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[sq(y_0), sq(y_2)], 
+ [sq(y_1), sq(y_3)]] 
+[[(sq(y_0)+(y_2*y_1)), ((y_0*y_2)+(y_2*y_3))], 
+ [((y_1*y_0)+(y_3*y_1)), ((y_1*y_2)+sq(y_3))]]
+</PRE>
+</div>
+
+<P>
+As is customary in MATLAB, multiplication using <code>*</code> and <code>.*</code> are equivalent when either of the arguments is a scalar.
+
+<P>
+<SPAN  CLASS="textbf">Transposes</SPAN> are formed using the syntax [language=Python]A.T in Python, [language=C++]A.T() in C++ and with
+[language=Matlab]A' or [language=Matlab]A.' in MATLAB:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="100" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img51.png"
+ ALT="\begin{lstlisting}[language=Python]
+print y.T
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="18" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+y'
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+print y.T
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[y_0, y_1], 
+ [y_2, y_3]]
+</PRE>
+</div>
+
+<P>
+<SPAN  CLASS="textbf">Reshaping</SPAN> means changing the number of rows and columns but retaining the number of elements and the relative location of the nonzeros. This is a computationally very cheap operation which is performed using the syntax:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="219" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="\begin{lstlisting}[language=Python]
+x = SX.eye(4)
+print reshape(x,2,8)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="152" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.eye(4);
+reshape(x,2,8)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+x = SX.eye(4)
+print reshape(x,2,8)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">@1=1, 
+[[@1, 00, 00, 00, 00, @1, 00, 00], 
+ [00, 00, @1, 00, 00, 00, 00, @1]]
+</PRE>
+</div>
+
+<P>
+<SPAN  CLASS="textbf">Concatenation</SPAN> means stacking matrices horizontally or vertically. Due to the column-major way of storing elements in <TT>CasADi</TT>, it is most efficient to stack matrices horizontally. Matrices that are in fact column vectors (i.e. consisting of a single column), can also be stacked efficiently vertically. Vertical and horizontal concatenation is performed using the functions <TT>vertcat</TT> and <TT>horzcat</TT> (that take a list of input arguments) in Python and C++ and with square brackets in MATLAB:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="198" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img55.png"
+ ALT="\begin{lstlisting}[language=Python]
+x = SX.sym('x',5)
+y = SX.sym('y',5)
+print vertcat(x,y)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="197" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img56.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',5);
+y = SX.sym('y',5);
+[x;y]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+x = SX.sym('x',5)
+y = SX.sym('y',5)
+print vertcat(x,y)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">[x_0, x_1, x_2, x_3, x_4, y_0, y_1, y_2, y_3, y_4]
+</PRE>
+</div>
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="197" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img57.png"
+ ALT="\begin{lstlisting}[language=Python]
+print horzcat(x,y)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="46" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+[x,y]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+print horzcat(x,y)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[x_0, y_0], 
+ [x_1, y_1], 
+ [x_2, y_2], 
+ [x_3, y_3], 
+ [x_4, y_4]]
+</PRE>
+</div>
+
+<P>
+<SPAN  CLASS="textbf">Horizontal and vertical splitting</SPAN> are the inverse operations of the above introduced horizontal and vertical concatenation. To split up an expression horizontally into <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN> smaller expressions, you need to provide, in addition to the expression being splitted, a vector <SPAN  CLASS="textit">offset</SPAN> of length <SPAN CLASS="MATH"><IMG
+ WIDTH="48" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$ n+1$"></SPAN>. The first element of the <SPAN  CLASS="textit">offset</SPAN> vector must be 0 and the last element must be the number of columns. Remaining elements must follow in a non-decreasing order. The output <SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img60.png"
+ ALT="$ i$"></SPAN> of the splitting operation then contains the columns <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$ c$"></SPAN> with <!-- MATH
+ $\textit{offset}[i] \le c < \textit{offset}[i+1]$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="216" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$ \textit{offset}[i] \le c &lt; \textit{offset}[i+1]$"></SPAN>. The following demonstrates the syntax:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="266" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img63.png"
+ ALT="\begin{lstlisting}[language=Python]
+x = SX.sym('x',5,2)
+w = horzsplit(x,[0,1,2])
+print w[0], w[1]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="277" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img64.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',5,2);
+w = horzsplit(x,[0,1,2]);
+w{1}, w{2}
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+x = SX.sym('x',5,2)
+w = horzsplit(x,[0,1,2])
+print w[0], w[1]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">[x_0, x_1, x_2, x_3, x_4] [x_5, x_6, x_7, x_8, x_9]
+</PRE>
+</div>
+
+<P>
+The vertsplit operation works analogously, but with the <SPAN  CLASS="textit">offset</SPAN> vector referring to rows:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="266" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img65.png"
+ ALT="\begin{lstlisting}[language=Python]
+w = vertsplit(x,[0,3,5])
+print w[0], w[1]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="277" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img66.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+w = vertsplit(x,[0,3,5]);
+w{1}, w{2}
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+w = vertsplit(x,[0,3,5])
+print w[0], w[1]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[x_0, x_5], 
+ [x_1, x_6], 
+ [x_2, x_7]] 
+[[x_3, x_8], 
+ [x_4, x_9]]
+</PRE>
+</div>
+
+<P>
+Note that it is always possible to use slice element access instead of horizontal and vertical splitting, for the above vertical splitting:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="264" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img67.png"
+ ALT="\begin{lstlisting}[language=Python]
+w = [x[0:3,:], x[3:5,:]]
+print w[0], w[1]
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="277" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img68.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+w = {x(1:3,:), x(4:5,:)};
+w{1}, w{2}
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+w = [x[0:3,:], x[3:5,:]]
+print w[0], w[1]
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[x_0, x_5], 
+ [x_1, x_6], 
+ [x_2, x_7]] 
+[[x_3, x_8], 
+ [x_4, x_9]]
+</PRE>
+</div>
+
+<P>
+For <TT>SX</TT> graphs, this alternative way is completely equivalent, but for <TT>MX</TT> graphs using <TT>horzsplit</TT>/<TT>vertsplit</TT> is <SPAN  CLASS="textit">significantly more efficient when all the splitted expressions are needed</SPAN>.
+
+<P>
+<SPAN  CLASS="textbf">Inner product</SPAN>, defined as <!-- MATH
+ $<A,B> := \text{tr}(A \, B) = \sum_{i,j} \, A_{i,j} \, B_{i,j}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="102" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img69.png"
+ ALT="$ &lt;A,B&gt; :=$">&nbsp; &nbsp;tr<IMG
+ WIDTH="181" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img70.png"
+ ALT="$ (A \, B) = \sum_{i,j} \, A_{i,j} \, B_{i,j}$"></SPAN> are created as follows:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="208" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="\begin{lstlisting}[language=Python]
+x = SX.sym('x',2,2)
+print dot(x,x)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="208" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',2,2)
+dot(x,x)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+x = SX.sym('x',2,2)
+print dot(x,x)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">(((sq(x_0)+sq(x_1))+sq(x_2))+sq(x_3))
+</PRE>
+</div>
+
+<P>
+Many of the above operations are also defined for the <TT>Sparsity</TT> class (Section&nbsp;<A HREF="#sec:sparsity_class">3.5</A>), e.g. <TT>vertcat</TT>, <TT>horzsplit</TT>, transposing, addition (which returns the <SPAN  CLASS="textit">union</SPAN> of two sparsity patterns) and multiplication (which returns the <SPAN  CLASS="textit">intersection</SPAN> of two sparsity patterns).
+
+<P>
+
+<H1><A NAME="SECTION00370000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">7</SPAN> Querying properties</A>
+</H1>
+You can check if a matrix or sparsity pattern has a certain property by calling an appropriate member function. e.g.
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="220" HEIGHT="42" ALIGN="BOTTOM" BORDER="0"
+ SRC="img73.png"
+ ALT="\begin{lstlisting}[language=Python]
+y = SX.sym('y',10,1)
+print y.shape
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="231" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img74.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+y = SX.sym('y',10,1);
+size(y)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+y = SX.sym('y',10,1)
+print y.shape
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">(10, 1)
+</PRE>
+</div>
+
+<P>
+Note that in MATLAB, [language=Matlab]obj.myfcn(arg) and [language=Matlab]myfcn(obj, arg) are both valid ways of calling a member function <TT>myfcn</TT>. The latter variant is probably preferable from a style viewpoint.
+
+<P>
+Some commonly used properties for a matrix <SPAN  CLASS="textit">A</SPAN> are:
+<DL>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.size1()</STRONG></DT>
+<DD>The number of rows
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.size2()</STRONG></DT>
+<DD>The number of columns
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.shape</STRONG></DT>
+<DD>(in MATLAB "size") The shape, i.e. the pair (<SPAN  CLASS="textit">nrow</SPAN>,<SPAN  CLASS="textit">ncol</SPAN>)
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.numel()</STRONG></DT>
+<DD>The number of elements, i.e <!-- MATH
+ $\textit{nrow} * \textit{ncol}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="95" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img75.png"
+ ALT="$ \textit{nrow} * \textit{ncol}$"></SPAN>
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.nnz()</STRONG></DT>
+<DD>The number of structurally nonzero elements, equal to <SPAN  CLASS="textit">A</SPAN>.numel() if <SPAN  CLASS="textit">dense</SPAN>.
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.sparsity()</STRONG></DT>
+<DD>Retrieve a reference to the sparsity pattern
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.is_dense()</STRONG></DT>
+<DD>Is a matrix dense, i.e. having no structural zeros
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.is_scalar()</STRONG></DT>
+<DD>Is the matrix a scalar, i.e. having dimensions 1-by-1?
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.is_column()</STRONG></DT>
+<DD>Is the matrix a vector, i.e. having dimensions <SPAN CLASS="MATH"><IMG
+ WIDTH="16" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ n$"></SPAN>-by-1?
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.is_square()</STRONG></DT>
+<DD>Is the matrix square?
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.is_triu()</STRONG></DT>
+<DD>Is the matrix upper triangular?
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.is_constant()</STRONG></DT>
+<DD>Are the matrix entries all constant?
+  
+</DD>
+<DT><STRONG><SPAN  CLASS="textit">A</SPAN>.is_integer()</STRONG></DT>
+<DD>Are the matrix entries all integer-valued?
+</DD>
+</DL>
+
+<P>
+The last queries are examples of queries for which <SPAN  CLASS="textit">false negative</SPAN> returns are allowed. A matrix for which <SPAN  CLASS="textit">A</SPAN>.is_constant() is <SPAN  CLASS="textit">true</SPAN> is guaranteed to be constant, but is <SPAN  CLASS="textit">not</SPAN> guaranteed to be non-constant if <SPAN  CLASS="textit">A</SPAN>.is_constant() is <SPAN  CLASS="textit">false</SPAN>. We recommend you to check the API documentation for a particular function before using it for the first time.
+
+<P>
+
+<H1><A NAME="SECTION00380000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">8</SPAN> Linear algebra</A>
+</H1>
+<TT>CasADi</TT> supports a limited number of linear algebra operations, e.g. for solution of linear systems of equations:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="210" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img76.png"
+ ALT="\begin{lstlisting}[language=Python]
+A = MX.sym('A',3,3)
+b = MX.sym('b',3)
+print solve(A,b)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="221" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img77.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+A = MX.sym('A',3,3);
+b = MX.sym('b',3);
+solve(A,b)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+A = MX.sym('A',3,3)
+b = MX.sym('b',3)
+print solve(A,b)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">(A\b)
+</PRE>
+</div>
+
+<P>
+
+<H1><A NAME="SECTION00390000000000000000">
+<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">9</SPAN> Calculus - algorithmic differentiation</A>
+</H1>
+The single most central functionality of <TT>CasADi</TT> is <SPAN  CLASS="textit">algorithmic (or automatic) differentiation</SPAN> (AD).
+For a function <!-- MATH
+ $f: \mathbb{R}^N \rightarrow \mathbb{R}^M$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="117" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img78.png"
+ ALT="$ f: \mathbb{R}^N \rightarrow \mathbb{R}^M$"></SPAN>:
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+y = f(x),
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="81" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img79.png"
+ ALT="$\displaystyle y = f(x),$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">1</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+<SPAN  CLASS="textit">Forward mode</SPAN> directional derivatives can be used to calculate Jacobian-times-vector products:
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\hat{y} = \frac{\partial f}{\partial x} \, \hat{x}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="85" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img80.png"
+ ALT="$\displaystyle \hat{y} = \frac{\partial f}{\partial x} \, \hat{x}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">2</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Similarly, <SPAN  CLASS="textit">reverse mode</SPAN> directional derivatives can be used to calculate Jacobian-transposed-times-vector products:
+<P></P>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{equation}
+\bar{x} = \left(\frac{\partial f}{\partial x}\right)^{\text{T}} \, \bar{y}.
+\end{equation}
+ -->
+<TABLE CLASS="equation" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="126" HEIGHT="73" ALIGN="MIDDLE" BORDER="0"
+ SRC="img81.png"
+ ALT="$\displaystyle \bar{x} = \left(\frac{\partial f}{\partial x}\right)^{\text{T}} \, \bar{y}.$"></SPAN></TD>
+<TD NOWRAP CLASS="eqno" WIDTH="10" ALIGN="RIGHT">
+(<SPAN CLASS="arabic">3</SPAN>.<SPAN CLASS="arabic">3</SPAN>)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+Both forward and reverse mode directional derivatives are calculated at a cost proportional to evaluating <SPAN CLASS="MATH"><IMG
+ WIDTH="41" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img82.png"
+ ALT="$ f(x)$"></SPAN>, <SPAN  CLASS="textit">regardless of the dimension of <SPAN CLASS="MATH"><IMG
+ WIDTH="15" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img83.png"
+ ALT="$ x$"></SPAN></SPAN>.
+
+<P>
+CasADi is also able to generate complete, <SPAN  CLASS="textit">sparse</SPAN> Jacobians efficiently. The algorithm for this is very complex, but essentially consists of the following steps:
+
+<UL>
+<LI>Automatically detect the sparsity pattern of the Jacobian
+</LI>
+<LI>Use graph coloring techniques to find a few forward and/or directional derivatives needed to construct the complete Jacobian
+</LI>
+<LI>Calculate the directional derivatives numerically or symbolically
+</LI>
+<LI>Assemble the complete Jacobian
+</LI>
+</UL>
+
+<P>
+Hessians are calculated by first calculating the gradient and then performing the same steps as above to calculate the Jacobian of the gradient in the same way as above, while exploiting symmetry.
+
+<P>
+
+<H2><A NAME="SECTION00391000000000000000">
+Syntax</A>
+</H2>
+An expression for a Jacobian is obtained using the syntax:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="323" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img84.png"
+ ALT="\begin{lstlisting}[language=Python]
+A = SX.sym('A',3,2)
+x = SX.sym('x',2)
+print jacobian(mtimes(A,x),x)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="221" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img85.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+A = SX.sym('A',3,2);
+x = SX.sym('x',2);
+jacobian(A*x,x)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+A = SX.sym('A',3,2)
+x = SX.sym('x',2)
+print jacobian(mtimes(A,x),x)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[A_0, A_3], 
+ [A_1, A_4], 
+ [A_2, A_5]]
+</PRE>
+</div>
+
+<P>
+When the differentiated expression is a scalar, you can also calculate the gradient in the matrix sense:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="286" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img86.png"
+ ALT="\begin{lstlisting}[language=Python]
+print gradient(dot(A,A),A)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="220" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img87.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+gradient(dot(A,A),A)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+print gradient(dot(A,A),A)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">
+[[(A_0+A_0), (A_3+A_3)], 
+ [(A_1+A_1), (A_4+A_4)], 
+ [(A_2+A_2), (A_5+A_5)]]
+</PRE>
+</div>
+
+<P>
+Hessians, and as a by-product gradients, are obtained as follows:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="298" HEIGHT="42" ALIGN="BOTTOM" BORDER="0"
+ SRC="img88.png"
+ ALT="\begin{lstlisting}[language=Python]
+[H,g] = hessian(dot(x,x),x)
+print 'H:', H
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="307" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img89.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+[H,g] = hessian(dot(x,x),x);
+display(H)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+[H,g] = hessian(dot(x,x),x)
+print 'H:', H
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">H: @1=2, 
+[[@1, 00], 
+ [00, @1]]
+</PRE>
+</div>
+
+<P>
+For calculating a Jacobian-times-vector product, the <TT>jtimes</TT> function - performing forward mode AD - is often more efficient than creating the full Jacobian and performing a matrix-vector multiplication:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="209" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img90.png"
+ ALT="\begin{lstlisting}[language=Python]
+v = SX.sym('v',2)
+f = mtimes(A,x)
+print jtimes(f,x,v)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="197" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img91.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+v = SX.sym('v',2);
+f = A*x;
+jtimes(f,x,v)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+v = SX.sym('v',2)
+f = mtimes(A,x)
+print jtimes(f,x,v)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">[((A_0*v_0)+(A_3*v_1)), ((A_1*v_0)+(A_4*v_1)), ((A_2*v_0)+(A_5*v_1))]
+</PRE>
+</div>
+
+<P>
+The <TT>jtimes</TT> function optionally calculates the transposed-Jacobian-times-vector product, i.e. reverse mode AD:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="267" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img92.png"
+ ALT="\begin{lstlisting}[language=Python]
+w = SX.sym('w',3)
+f = mtimes(A,x)
+print jtimes(f,x,w,True)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="200" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img93.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+w = SX.sym('w',3);
+f = A*x
+jtimes(f,x,w,true)
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<div style="display:none">
+<pre>
+w = SX.sym('w',3)
+f = mtimes(A,x)
+print jtimes(f,x,w,True)
+</pre>
+</div>
+<div style="color: black; background-color: #fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >
+<BR>
+<PRE  CLASS="verbatim">[(((A_2*w_2)+(A_1*w_1))+(A_0*w_0)), (((A_5*w_2)+(A_4*w_1))+(A_3*w_0))]
+</PRE>
+</div>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html130"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html128"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html122"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html131"
+  HREF="node4.html">4. Function objects</A>
+<B> Up:</B> <A NAME="tex2html129"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html123"
+  HREF="node2.html">2. Obtaining and installing</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+
+2016-03-23
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::NargChecker\l\< OP_OR \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dad/structcasadi_1_1NargChecker_3_01OP__OR_01_4.html"];
+}

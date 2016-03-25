@@ -1,0 +1,23 @@
+digraph "casadi::Linsol"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::Linsol",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::FunctionInternal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dab/classcasadi_1_1FunctionInternal.html",tooltip="Internal class for Function. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node4 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::PluginInterface\l\< Linsol \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d37/classcasadi_1_1PluginInterface.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::CSparseCholeskyInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/dd2/classcasadi_1_1CSparseCholeskyInterface.html",tooltip="&#39;csparsecholesky&#39; plugin for Linsol "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::CsparseInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d12/classcasadi_1_1CsparseInterface.html",tooltip="&#39;csparse&#39; plugin for Linsol "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::LapackLu",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d6e/classcasadi_1_1LapackLu.html",tooltip="&#39;lapacklu&#39; plugin for Linsol "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="casadi::LapackQr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d45/classcasadi_1_1LapackQr.html",tooltip="&#39;lapackqr&#39; plugin for Linsol "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="casadi::SymbolicQr",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d15/classcasadi_1_1SymbolicQr.html",tooltip="&#39;symbolicqr&#39; plugin for Linsol "];
+}

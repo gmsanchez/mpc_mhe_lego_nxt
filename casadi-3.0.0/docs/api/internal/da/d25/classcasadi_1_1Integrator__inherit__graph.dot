@@ -1,0 +1,27 @@
+digraph "casadi::Integrator"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::Integrator",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::FunctionInternal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dab/classcasadi_1_1FunctionInternal.html",tooltip="Internal class for Function. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node4 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::PluginInterface\l\< Integrator \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d37/classcasadi_1_1PluginInterface.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::FixedStepIntegrator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$da/da8/classcasadi_1_1FixedStepIntegrator.html"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::ImplicitFixedStep\lIntegrator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d7b/classcasadi_1_1ImplicitFixedStepIntegrator.html"];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::CollocationIntegrator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d2f/classcasadi_1_1CollocationIntegrator.html",tooltip="&#39;collocation&#39; plugin for Integrator "];
+  Node5 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="casadi::RkIntegrator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d6e/classcasadi_1_1RkIntegrator.html",tooltip="&#39;rk&#39; plugin for Integrator "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="casadi::SundialsInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d90/classcasadi_1_1SundialsInterface.html"];
+  Node9 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="casadi::CvodesInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d5f/classcasadi_1_1CvodesInterface.html",tooltip="&#39;cvodes&#39; plugin for Integrator "];
+  Node9 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="casadi::IdasInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d52/classcasadi_1_1IdasInterface.html",tooltip="&#39;idas&#39; plugin for Integrator "];
+}

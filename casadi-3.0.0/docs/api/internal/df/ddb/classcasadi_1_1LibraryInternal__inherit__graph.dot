@@ -1,0 +1,12 @@
+digraph "casadi::LibraryInternal"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  Node1 [label="casadi::LibraryInternal",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::DllLibrary",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/d2e/classcasadi_1_1DllLibrary.html",tooltip="Dynamically linked library. "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::JitLibrary",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/da8/classcasadi_1_1JitLibrary.html",tooltip="Just-in-time library. "];
+}

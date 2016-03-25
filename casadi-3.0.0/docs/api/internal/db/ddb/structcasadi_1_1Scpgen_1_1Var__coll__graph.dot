@@ -1,0 +1,25 @@
+digraph "casadi::Scpgen::Var"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::Scpgen::Var",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" v_defL\nd_defL\nd_def\nv_def\nd_lam\nv_lam\nd\nv" ,fontname="FreeSans.ttf"];
+  Node2 [label="casadi::MX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$de/d57/classcasadi_1_1MX.html",tooltip="MX - Matrix expression. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::GenericExpression\l\< MX \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d1/d5c/classcasadi_1_1GenericExpression.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::GenericExpression\lCommon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/dee/structcasadi_1_1GenericExpressionCommon.html",tooltip="Empty Base This class is extended in SWIG. "];
+  Node5 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::GenericMatrix\l\< MX \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/df3/classcasadi_1_1GenericMatrix.html"];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::GenericMatrixCommon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dc/d32/structcasadi_1_1GenericMatrixCommon.html",tooltip="Empty Base This class is extended in SWIG. "];
+  Node7 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::SparsityInterface\l\< MX \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d6b/classcasadi_1_1SparsityInterface.html"];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="casadi::SparsityInterface\lCommon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d9a/structcasadi_1_1SparsityInterfaceCommon.html",tooltip="Empty Base This class is extended in SWIG. "];
+  Node9 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="casadi::SharedObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d4a/classcasadi_1_1SharedObject.html",tooltip="SharedObject implements a reference counting framework similar for efficient and easily-maintained me..."];
+  Node10 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="casadi::PrintableObject\l\< SharedObject \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d18/classcasadi_1_1PrintableObject.html"];
+}

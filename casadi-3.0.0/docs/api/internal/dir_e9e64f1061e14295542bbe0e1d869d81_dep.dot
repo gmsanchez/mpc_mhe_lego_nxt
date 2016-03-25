@@ -1,0 +1,9 @@
+digraph "sx" {
+  compound=true
+  node [ fontsize="10", fontname="FreeSans.ttf"];
+  edge [ labelfontsize="10", labelfontname="FreeSans.ttf"];
+  subgraph clusterdir_d3f702df5899af83d48ebd5a6235f692 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="core" fontname="FreeSans.ttf", fontsize="10", URL="dir_d3f702df5899af83d48ebd5a6235f692.html"]
+  dir_e9e64f1061e14295542bbe0e1d869d81 [shape=box, label="sx", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_e9e64f1061e14295542bbe0e1d869d81.html"];
+  }
+}

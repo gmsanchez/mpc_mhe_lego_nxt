@@ -1,0 +1,13 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="M",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::NonZeros\< M, K \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/d50/classcasadi_1_1NonZeros.html",tooltip="Access to a set of nonzeros. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::SubIndex\< M, I \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/da1/classcasadi_1_1SubIndex.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::SubMatrix\<\l M, I, J \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d9e/classcasadi_1_1SubMatrix.html"];
+}

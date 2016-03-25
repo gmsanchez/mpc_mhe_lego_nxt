@@ -1,0 +1,8 @@
+<map id="casadi::SundialsInterface" name="casadi::SundialsInterface">
+<area shape="rect" id="node11" href="$d2/d5f/classcasadi_1_1CvodesInterface.html" title="&#39;cvodes&#39; plugin for Integrator " alt="" coords="17,333,191,363"/>
+<area shape="rect" id="node13" href="$d2/d52/classcasadi_1_1IdasInterface.html" title="&#39;idas&#39; plugin for Integrator " alt="" coords="215,333,367,363"/>
+<area shape="rect" id="node2" href="$db/d3d/classcasadi_1_1Integrator.html" title="Internal storage for integrator related data. " alt="" coords="131,179,264,208"/>
+<area shape="rect" id="node4" href="$d2/dab/classcasadi_1_1FunctionInternal.html" title="Internal class for Function. " alt="" coords="16,92,187,121"/>
+<area shape="rect" id="node6" href="$d9/dd3/classcasadi_1_1SharedObjectNode.html" title="casadi::SharedObjectNode" alt="" coords="5,5,197,35"/>
+<area shape="rect" id="node8" href="$d4/d37/classcasadi_1_1PluginInterface.html" title="casadi::PluginInterface\l\&lt; Integrator \&gt;" alt="" coords="211,83,376,130"/>
+</map>

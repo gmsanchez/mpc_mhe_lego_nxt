@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::casadi_math\l\< int \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d3/d8e/structcasadi_1_1casadi__math_3_01int_01_4.html",tooltip="Specialize the class so that it can be used with integer type. "];
+}

@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::F00Checker\l\< OP_FMAX \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d34/structcasadi_1_1F00Checker_3_01OP__FMAX_01_4.html"];
+}

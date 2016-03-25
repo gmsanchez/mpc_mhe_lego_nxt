@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>1. Introduction</TITLE>
+<META NAME="description" CONTENT="1. Introduction">
+<META NAME="keywords" CONTENT="casadi-users_guide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="casadi-users_guide.css">
+
+<LINK REL="next" HREF="node2.html">
+<LINK REL="previous" HREF="casadi-users_guide.html">
+<LINK REL="up" HREF="casadi-users_guide.html">
+<LINK REL="next" HREF="node2.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html106"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html104"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html98"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html107"
+  HREF="node2.html">2. Obtaining and installing</A>
+<B> Up:</B> <A NAME="tex2html105"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html99"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html108"
+  HREF="node1.html#SECTION00110000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> What <TT>CasADi</TT> is and what it is <SPAN  CLASS="textit">not</SPAN></A>
+<LI><A NAME="tex2html109"
+  HREF="node1.html#SECTION00120000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> Help and support</A>
+<LI><A NAME="tex2html110"
+  HREF="node1.html#SECTION00130000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">3</SPAN> Citing <TT>CasADi</TT> </A>
+<LI><A NAME="tex2html111"
+  HREF="node1.html#SECTION00140000000000000000"><SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">4</SPAN> Reading this document</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00100000000000000000">
+<SPAN CLASS="arabic">1</SPAN>. Introduction</A>
+</H1>
+<TT>CasADi</TT> is an open-source software tool for numerical optimization in general and optimal control
+(i.e. optimization involving differential equations) in particular. The project was started by
+Joel Andersson and Joris Gillis while PhD students at the Optimization in Engineering Center
+(OPTEC) of the KU Leuven under supervision of Moritz Diehl.
+
+<P>
+This document aims at giving a condensed introduction to <TT>CasADi</TT>. After reading it, you should be able to formulate and manipulate expressions in <TT>CasADi</TT>'s symbolic framework, generate derivative information efficiently using <SPAN  CLASS="textit">algorithmic differentiation</SPAN>, to set up, solve and perform forward and adjoint sensitivity analysis for systems of ordinary differential equations (ODE) or differential-algebraic equations (DAE) as well as to formulate and solve nonlinear programs (NLP) problems and optimal control problems (OCP).
+
+<P>
+CasADi is available for C++, Python and MATLAB with little or no difference in performance. In general, the Python API is the best documented and is slightly more stable than the MATLAB API. The C++ API is stable, but is not ideal for getting started with CasADi since there is limited documentation and since it lacks the interactivity of interpreted languages like MATLAB and Python.
+
+<P>
+
+<H1><A NAME="SECTION00110000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">1</SPAN> What <TT>CasADi</TT> is and what it is <SPAN  CLASS="textit">not</SPAN></A>
+</H1>
+<TT>CasADi</TT> started out as a tool for algorithmic differentiation (AD) using a syntax borrowed from computer algebra systems (CAS), which explains its name. While AD still forms one of the core functionalities of the tool, the scope of the tool has since been considerably broadened, with the addition of support for ODE/DAE integration and sensitivity analysis, nonlinear programming and interfaces to other numerical tools. In its current form, it is a general-purpose tool for gradient-based numerical optimization - with a strong focus on optimal control - and ``<TT>CasADi</TT>'' is just a name without any particular meaning.
+
+<P>
+It is important to point out that <TT>CasADi</TT> is <SPAN  CLASS="textit">not</SPAN> a conventional AD tool, that can be used to calculate derivative information from existing user code with little to no modification. If you have an existing model written in C++, Python or MATLAB, you need to be prepared to reimplement the model using <TT>CasADi</TT> syntax.
+
+<P>
+Secondly, <TT>CasADi</TT> is <SPAN  CLASS="textit">not</SPAN> a computer algebra system. While the symbolic core does include an increasing set of tools for manipulate symbolic expressions, these capabilities are very limited compared to a proper CAS tool.
+
+<P>
+Finally, <TT>CasADi</TT> is not an ``optimal control problem solver'', that allows the user to enter an OCP and then gives the solution back. Instead, it tries to provide the user with a set of ``building blocks'' that can be used to implement general-purpose or specific-purpose OCP solvers efficiently with a modest programming effort.
+
+<P>
+
+<H1><A NAME="SECTION00120000000000000000"></A> <A NAME="sec:support"></A>
+<BR>
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">2</SPAN> Help and support
+</H1>
+If you find simple bugs or lack some feature that you think would be relatively easy for us to add, the simplest thing is simply to write to the forum, located at <A NAME="tex2html1"
+  HREF="http://forum.casadi.org/">http://forum.casadi.org</A>. We check the forum regularly and try to respond as quickly as possible. The only thing we expect for this kind of support is that you cite us, cf. Section&nbsp;<A HREF="#sec:citing">1.3</A>, whenever you use <TT>CasADi</TT> in scientific work.
+
+<P>
+If you want more help, we are always open for academic or industrial cooperation. An academic cooperation usually take the form of a co-authorship of a peer reviewed paper, and an industrial cooperation involves a negotiated consulting contract. Please contact us directly if you are interested in this.
+
+<P>
+
+<H1><A NAME="SECTION00130000000000000000"></A> <A NAME="sec:citing"></A>
+<BR>
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">3</SPAN> Citing <TT>CasADi</TT> 
+</H1>
+If you use <TT>CasADi</TT> in published scientific work, please cite the following:
+<PRE>
+@PHDTHESIS{Andersson2013b,
+  author = {Joel Andersson},
+  title = {{A} {G}eneral-{P}urpose {S}oftware {F}ramework for
+           {D}ynamic {O}ptimization},
+  school = {Arenberg Doctoral School, KU Leuven},
+  year = {2013},
+  type = {{P}h{D} thesis},
+  address = {Department of Electrical Engineering (ESAT/SCD) and
+             Optimization in Engineering Center,
+             Kasteelpark Arenberg 10, 3001-Heverlee, Belgium},
+  month = {October}
+}
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION00140000000000000000">
+<SPAN CLASS="arabic">1</SPAN>.<SPAN CLASS="arabic">4</SPAN> Reading this document</A>
+</H1>
+The goal of this document is to make the reader familiar with the syntax of <TT>CasADi</TT> and provide easily available building blocks to build numerical optimization and dynamic optimization software. Our explanation is mostly program code driven and provides little mathematical background knowledge. We assume that the reader already has a fair knowledge of theory of optimization theory, solution of initial-value problems in differential equations and the programming language in question (C++, Python or MATLAB).
+
+<P>
+We will use Python and MATLAB syntax side-by-side in this guide, noting that the Python interface is more stable and better documented. We try to point out the instances where has a diverging syntax. To facilitate switching between the programming languages, we also list the major differences in Chapter&nbsp;<A HREF="node9.html#ch:syntax_differences">9</A>.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html106"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html104"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html98"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html107"
+  HREF="node2.html">2. Obtaining and installing</A>
+<B> Up:</B> <A NAME="tex2html105"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html99"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+
+2016-03-23
+</ADDRESS>
+</BODY>
+</HTML>

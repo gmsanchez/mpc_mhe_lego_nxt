@@ -1,0 +1,13 @@
+<map id="casadi::External" name="casadi::External">
+<area shape="rect" id="node2" href="$d2/dab/classcasadi_1_1FunctionInternal.html" title="Internal class for Function. " alt="" coords="820,217,991,247"/>
+<area shape="rect" id="node4" href="$d9/dd3/classcasadi_1_1SharedObjectNode.html" title="casadi::SharedObjectNode" alt="" coords="435,85,627,115"/>
+<area shape="rect" id="node6" href="$d8/de8/classcasadi_1_1WeakRef.html" title="Weak reference type A weak reference to a SharedObject. " alt="" coords="469,139,592,168"/>
+<area shape="rect" id="node8" href="$d5/d4a/classcasadi_1_1SharedObject.html" title="SharedObject implements a reference counting framework similar for efficient and easily&#45;maintained me..." alt="" coords="225,219,383,248"/>
+<area shape="rect" id="node12" href="$da/da4/classcasadi_1_1Function.html" title="General function. " alt="" coords="469,192,592,221"/>
+<area shape="rect" id="node21" href="$d7/df2/classcasadi_1_1Compiler.html" title="Compiler. " alt="" coords="467,245,595,275"/>
+<area shape="rect" id="node24" href="$d4/df0/classcasadi_1_1Library.html" title="Library, either just&#45;in&#45;time compiled or dynamically loaded. " alt="" coords="665,416,780,445"/>
+<area shape="rect" id="node10" href="$d5/d18/classcasadi_1_1PrintableObject.html" title="casadi::PrintableObject\l\&lt; SharedObject \&gt;" alt="" coords="5,210,173,257"/>
+<area shape="rect" id="node15" href="$dd/d13/classcasadi_1_1SparseStorage.html" title="casadi::SparseStorage\l\&lt; casadi::WeakRef \&gt;" alt="" coords="448,298,613,345"/>
+<area shape="rect" id="node17" href="$db/d35/structcasadi_1_1Options.html" title="Options metadata for a class. " alt="" coords="471,368,591,397"/>
+<area shape="rect" id="node19" href="$dd/d13/classcasadi_1_1SparseStorage.html" title="casadi::SparseStorage\l\&lt; casadi::Sparsity \&gt;" alt="" coords="448,15,613,62"/>
+</map>

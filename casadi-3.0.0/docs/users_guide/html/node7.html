@@ -1,0 +1,630 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2008 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>7. The DaeBuilder class</TITLE>
+<META NAME="description" CONTENT="7. The DaeBuilder class">
+<META NAME="keywords" CONTENT="casadi-users_guide">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2008">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="casadi-users_guide.css">
+
+<LINK REL="next" HREF="node8.html">
+<LINK REL="previous" HREF="node6.html">
+<LINK REL="up" HREF="casadi-users_guide.html">
+<LINK REL="next" HREF="node8.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html221"
+  HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html219"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html213"
+  HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html222"
+  HREF="node8.html">8. Optimal control with</A>
+<B> Up:</B> <A NAME="tex2html220"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html214"
+  HREF="node6.html">6. User-defined function objects</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html223"
+  HREF="node7.html#SECTION00710000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> Mathematical formulation</A>
+<UL>
+<LI><A NAME="tex2html224"
+  HREF="node7.html#SECTION00711000000000000000">Input expressions</A>
+<LI><A NAME="tex2html225"
+  HREF="node7.html#SECTION00712000000000000000">Output expressions</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html226"
+  HREF="node7.html#SECTION00720000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">2</SPAN> Constructing a <TT>DaeBuilder</TT> instance</A>
+<LI><A NAME="tex2html227"
+  HREF="node7.html#SECTION00730000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">3</SPAN> Import of OCPs from Modelica</A>
+<UL>
+<LI><A NAME="tex2html228"
+  HREF="node7.html#SECTION00731000000000000000">Legacy import of a <TT>modelDescription.xml</TT> file</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html229"
+  HREF="node7.html#SECTION00740000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">4</SPAN> Symbolic reformulation</A>
+<LI><A NAME="tex2html230"
+  HREF="node7.html#SECTION00750000000000000000"><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">5</SPAN> Function factory</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00700000000000000000"></A> <A NAME="ch:daebuilder"></A>
+<BR>
+<SPAN CLASS="arabic">7</SPAN>. The <TT>DaeBuilder</TT> class
+</H1>
+The <TT>DaeBuilder</TT> class in <TT>CasADi</TT> is an auxiliary class intended to
+facilitate the modeling complex dynamical systems for later use with optimal
+control algorithms. This class can be seen as a low-level alternative to
+a physical modeling language such as Modelica (cf. Section&nbsp;<A HREF="#sec:modelica">7.3</A>),
+while still being higher level than working directly with <TT>CasADi</TT> symbolic
+expressions. Another important usage it to provide an interface to
+physical modeling languages and software and be a building blocks for
+developing domain specific modeling environments.
+
+<P>
+Using the <TT>DaeBuilder</TT> class consists of the following steps:
+
+<UL>
+<LI>Step-by-step constructing a structured system of differential-algebraic
+  equations (DAE) or, alternatively, importing an existing model from Modelica
+</LI>
+<LI>Symbolically reformulate the DAE
+</LI>
+<LI>Generate a chosen set of <TT>CasADi</TT> functions to be used for e.g. optimal
+  control or C code generation
+</LI>
+</UL>
+
+<P>
+In the following sections, we describe the mathematical formulation of the class
+and its intended usage.
+
+<P>
+
+<H1><A NAME="SECTION00710000000000000000"></A> <A NAME="sec:daebuilder_io"></A>
+<BR>
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN> Mathematical formulation
+</H1>
+The <TT>DaeBuilder</TT> class uses a relatively rich problem formulation that
+consists of a set of input expressions and a set of output expressions, each
+defined by a string identifier. The choice of expressions was inspired by the
+<SPAN  CLASS="textit">functional mockup interface</SPAN> (FMI) version 2.0
+<A NAME="tex2html9"
+  HREF="footnode.html#foot1670"><SUP><SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">1</SPAN></SUP></A>
+<P>
+
+<H2><A NAME="SECTION00711000000000000000">
+Input expressions</A>
+</H2>
+<DL COMPACT>
+<DT>'t'</DT>
+<DD>Time <SPAN CLASS="MATH"><IMG
+ WIDTH="11" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img131.png"
+ ALT="$ t$"></SPAN>
+  
+</DD>
+<DT>'c'</DT>
+<DD>Named constants <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$ c$"></SPAN>
+  
+</DD>
+<DT>'p'</DT>
+<DD>Independent parameters <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$ p$"></SPAN>
+  
+</DD>
+<DT>'d'</DT>
+<DD>Dependent parameters <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img192.png"
+ ALT="$ d$"></SPAN>, depends only on <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$ p$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img61.png"
+ ALT="$ c$"></SPAN> and,
+  acyclically, on other <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img192.png"
+ ALT="$ d$"></SPAN>
+  
+</DD>
+<DT>'x'</DT>
+<DD>Differential state <SPAN CLASS="MATH"><IMG
+ WIDTH="15" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img83.png"
+ ALT="$ x$"></SPAN>, defined by an explicit ODE
+  
+</DD>
+<DT>'s'</DT>
+<DD>Differential state <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img193.png"
+ ALT="$ s$"></SPAN>, defined by an implicit ODE
+  
+</DD>
+<DT>'sdot'</DT>
+<DD>Time derivatives implicitly defined differential state <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img194.png"
+ ALT="$ \dot{s}$"></SPAN>
+  
+</DD>
+<DT>'z'</DT>
+<DD>Algebraic variable, defined by an algebraic equation
+  
+</DD>
+<DT>'q'</DT>
+<DD>Quadrature state <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$ q$"></SPAN>. A differential state that may not appear in
+  the right-hand-side and hence can be calculated by quadrature formulas.
+  
+</DD>
+<DT>'w'</DT>
+<DD>Local variables <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img196.png"
+ ALT="$ w$"></SPAN>. Calculated from time and time dependent
+  variables. They may also depend, acyclically, on other <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img196.png"
+ ALT="$ w$"></SPAN>.
+  
+</DD>
+<DT>'y'</DT>
+<DD>Output variables <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img197.png"
+ ALT="$ y$"></SPAN>
+</DD>
+</DL>
+
+<P>
+
+<H2><A NAME="SECTION00712000000000000000">
+Output expressions</A>
+</H2>
+The above input expressions are used to define the following output expressions:
+<DL COMPACT>
+<DT>'ddef'</DT>
+<DD>Explicit expression for calculating <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img192.png"
+ ALT="$ d$"></SPAN>
+  
+</DD>
+<DT>'wdef'</DT>
+<DD>Explicit expression for calculating <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img196.png"
+ ALT="$ w$"></SPAN>
+  
+</DD>
+<DT>'ode'</DT>
+<DD>The explicit ODE right-hand-side:
+    <!-- MATH
+ $\dot{x} = \text{ode}(t,w,x,s,z,u,p,d)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="35" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img198.png"
+ ALT="$ \dot{x} =$">&nbsp; &nbsp;ode<IMG
+ WIDTH="157" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$ (t,w,x,s,z,u,p,d)$"></SPAN>
+  
+</DD>
+<DT>'dae'</DT>
+<DD>The implicit ODE right-hand-side:
+  <!-- MATH
+ $\text{dae}(t,w,x,s,z,u,p,d,\dot{s}) =0$
+ -->
+<SPAN CLASS="MATH">dae<IMG
+ WIDTH="209" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img200.png"
+ ALT="$ (t,w,x,s,z,u,p,d,\dot{s}) =0$"></SPAN>
+  
+</DD>
+<DT>'alg'</DT>
+<DD>The algebraic equations:
+    <!-- MATH
+ $\text{alg}(t,w,x,s,z,u,p,d) = 0$
+ -->
+<SPAN CLASS="MATH">alg<IMG
+ WIDTH="192" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img201.png"
+ ALT="$ (t,w,x,s,z,u,p,d) = 0$"></SPAN>
+  
+</DD>
+<DT>'quad'</DT>
+<DD>The quadrature equations:
+  <!-- MATH
+ $\dot{q} = \text{quad}(t,w,x,s,z,u,p,d)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="33" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img202.png"
+ ALT="$ \dot{q} =$">&nbsp; &nbsp;quad<IMG
+ WIDTH="157" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$ (t,w,x,s,z,u,p,d)$"></SPAN>
+  
+</DD>
+<DT>'ydef'</DT>
+<DD>Explicit expressions for calculating <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img197.png"
+ ALT="$ y$"></SPAN>
+</DD>
+</DL>
+
+<P>
+
+<H1><A NAME="SECTION00720000000000000000"></A> <A NAME="sec:daebuilder_syntax"></A>
+<BR>
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">2</SPAN> Constructing a <TT>DaeBuilder</TT> instance
+</H1>
+Consider the following simple DAE corresponding to a controlled rocket subject to
+quadratic air friction term and gravity, which loses mass as it uses up fuel:
+</SPAN>
+<DIV ALIGN="CENTER" CLASS="mathdisplay"><!-- MATH
+ \begin{subequations}
+\begin{align}
+ \dot{h} &= v,                    \qquad &h(0) = 0 \\
+ \dot{v} &= (u - a \, v^2)/m - g, \qquad &v(0) = 0 \\
+ \dot{m} &= -b \, u^2,            \qquad &m(0) = 1
+\end{align}
+\end{subequations}
+ -->
+<TABLE CLASS="subequations" CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><SPAN CLASS="MATH"><IMG
+ WIDTH="556" HEIGHT="91" ALIGN="BOTTOM" BORDER="0"
+ SRC="img203.png"
+ ALT="\begin{subequations}\begin{align}\dot{h} &amp;= v, \qquad &amp;h(0) = 0 \\ \dot{v} &amp;= (u...
+...v(0) = 0 \\ \dot{m} &amp;= -b \, u^2, \qquad &amp;m(0) = 1 \end{align}\end{subequations}"></SPAN></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><SPAN CLASS="MATH">
+where the three states correspond to height, velocity and mass, respectively.
+<SPAN CLASS="MATH"><IMG
+ WIDTH="15" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img204.png"
+ ALT="$ u$"></SPAN> is the thrust of the rocket and <SPAN CLASS="MATH"><IMG
+ WIDTH="45" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img205.png"
+ ALT="$ (a,b)$"></SPAN> are parameters.
+
+<P>
+To construct a DAE formulation for this problem, start with an empty
+<TT>DaeBuilder</TT> instance and add the input and output expressions step-by-step
+as follows.
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="314" HEIGHT="549" ALIGN="BOTTOM" BORDER="0"
+ SRC="img206.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="267" HEIGHT="434" ALIGN="BOTTOM" BORDER="0"
+ SRC="img207.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+dae = DaeBuilder;
+a = dae.add_p('a');
+b = da...
+...unit('h','m');
+dae.set_unit('v','m/s');
+dae.set_unit('m','kg');
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+Other input and output expressions can be added in an analogous way. For a full
+list of functions, see the C++ API documentation for <TT>DaeBuilder</TT>.
+
+<P>
+
+<H1><A NAME="SECTION00730000000000000000"></A> <A NAME="sec:modelica"></A>
+<BR>
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">3</SPAN> Import of OCPs from Modelica
+</H1>
+An alternative to model directly in <TT>CasADi</TT>, as above, is to use an advanced
+physical modeling language such as Modelica to specity the model. For this,
+<TT>CasADi</TT> offers interoperability with the open-source <A NAME="tex2html11"
+  HREF="http://www.jmodelica.org/">JModelica.org</A>
+compiler, which
+is written specifically with optimal control in mind. Model inport from
+JModelica.org is possible in two different ways; using the JModelica.org's
+<TT>CasadiInterface</TT> or via <TT>DaeBuilder</TT>'s
+[language=Python]parse_fmi command.
+
+<P>
+We recommend the former approach, since it is being actively maintained and
+refer to JModelica.org's user guide for details on how to extract <TT>CasADi</TT> 
+expressions.
+
+<P>
+In the following, we will outline the legacy approach, using
+[language=Python]parse_fmi.
+
+<P>
+
+<H2><A NAME="SECTION00731000000000000000">
+Legacy import of a <TT>modelDescription.xml</TT> file</A>
+</H2>
+To see how to use the Modelica import, look at <A NAME="tex2html12"
+  HREF="https://github.com/casadi/casadi/blob/tested/examples/python/modelica/fritzson_application_examples/thermodynamics_example.py">thermodynamics_example.py</A>
+and <A NAME="tex2html13"
+  HREF="https://github.com/casadi/casadi/blob/tested/examples/cplusplus/cstr.cpp">cstr.cpp</A>
+in <TT>CasADi</TT>'s example collection.
+
+<P>
+Assuming that the Modelica/Optimica model <TT>ModelicaClass.ModelicaModel</TT> is defined in the files <TT>file1.mo</TT> and <TT>file2.mop</TT>, the Python compile command is:
+<BR>
+<IMG
+ WIDTH="704" HEIGHT="88" ALIGN="BOTTOM" BORDER="0"
+ SRC="img208.png"
+ ALT="\begin{lstlisting}[language=Python]
+from pymodelica import compile_jmu
+jmu_name=...
+...
+{'generate_xml_equations':True, 'generate_fmi_me_xml':False})
+\end{lstlisting}">
+<BR>
+
+<P>
+This will generate a <TT>jmu</TT>-file, which is essentially a zip file containing, among other things, the file <TT>modelDescription.xml</TT>. This XML-file contains a symbolic representation of the optimal control problem and can be inspected in a standard XML editor.
+<BR>
+<IMG
+ WIDTH="546" HEIGHT="65" ALIGN="BOTTOM" BORDER="0"
+ SRC="img209.png"
+ ALT="\begin{lstlisting}[language=Python]
+from zipfile import ZipFile
+sfile = ZipFile(jmu_name','r')
+mfile = sfile.extract('modelDescription.xml','.')
+\end{lstlisting}">
+<BR>
+
+<P>
+Once a <TT>modelDescription.xml</TT> file is available, it can be imported
+using the [language=Python]parse_fmi command:
+
+<P>
+<BR>
+<IMG
+ WIDTH="411" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img210.png"
+ ALT="\begin{lstlisting}[language=Python]
+dae = DaeBuilder()
+ocp.parse_fmi('modelDescription.xml')
+\end{lstlisting}">
+<BR>
+
+<P>
+
+<H1><A NAME="SECTION00740000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">4</SPAN> Symbolic reformulation</A>
+</H1>
+One of the original purposes of the <TT>DaeBuilder</TT> class was to reformulate
+a <SPAN  CLASS="textit">fully-implicit DAE</SPAN>, typically coming from Modelica, to a semi-explicit
+DAE that can be used more readily in optimal control algorithms.
+
+<P>
+This can be done by the [language=Python]make_implicit command:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="209" HEIGHT="42" ALIGN="BOTTOM" BORDER="0"
+ SRC="img211.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="219" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img212.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+ocp.make_explicit();
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+Other useful commands available for an instance <TT>ocp</TT> of <TT>DaeBuilder</TT> include:
+<DL>
+<DT><STRONG>print <TT>ocp</TT></STRONG></DT>
+<DD>Print the optimal optimal control problem to screen
+</DD>
+<DT><STRONG><TT>ocp</TT>.scale_variables()</STRONG></DT>
+<DD>Scale all variables using the <SPAN  CLASS="textit">nominal</SPAN> attribute for each variable
+</DD>
+<DT><STRONG><TT>ocp</TT>.eliminate_d()</STRONG></DT>
+<DD>Eliminate all independent parameters from the symbolic expressions
+</DD>
+</DL>
+
+<P>
+For a more detailed description of this class and its functionalities, we again
+refer to the API documentation.
+
+<P>
+
+<H1><A NAME="SECTION00750000000000000000">
+<SPAN CLASS="arabic">7</SPAN>.<SPAN CLASS="arabic">5</SPAN> Function factory</A>
+</H1>
+Once a <TT>DaeBuilder</TT> has been formulated and possibily reformulated to
+a satisfactory form, we can generate <TT>CasADi</TT> functions corresponding to the
+input and output expressions outlined in Section&nbsp;<A HREF="#sec:daebuilder_io">7.1</A>.
+For example, to create a function for the ODE right-hand-side for the rocket
+model in Section&nbsp;<A HREF="#sec:daebuilder_syntax">7.2</A>, simply provide a display
+name of the function being created, a list of input expressions
+and a list of output expressions:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="298" HEIGHT="65" ALIGN="BOTTOM" BORDER="0"
+ SRC="img213.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="307" HEIGHT="43" ALIGN="BOTTOM" BORDER="0"
+ SRC="img214.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+f = dae.create('f',...
+{'x','u','p'},{'ode'});
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+Using a naming convention, we can also create Jacobians, e.g. for the 'ode'
+output with respect to 'x':
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="222" HEIGHT="88" ALIGN="BOTTOM" BORDER="0"
+ SRC="img215.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="239" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"
+ SRC="img216.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+f = dae.create('f',...
+{'x','u','p'},
+{'jac_ode_x'});
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+Functions with second order information can be extracted by first creating
+a named linear combination of the output expressions using [language=Python]add_lc
+and then requesting its Hessian:
+
+<P>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="300" HEIGHT="111" ALIGN="BOTTOM" BORDER="0"
+ SRC="img217.png"
+ ALT="\begin{lstlisting}[language=Python]
+...">
+<BR></TD></TR>
+</TABLE>
+<TABLE  WIDTH="50%">
+<TR><TD>
+<BR>
+<IMG
+ WIDTH="330" HEIGHT="89" ALIGN="BOTTOM" BORDER="0"
+ SRC="img218.png"
+ ALT="\begin{lstlisting}[language=Matlab]
+dae.add_lc('gamma,{'ode'});
+hes = dae.create(’hes’,...
+{'x','u','p','lam_ode'},...
+{'hes_gamma_x_x'});
+\end{lstlisting}">
+<BR></TD></TR>
+</TABLE>
+
+<P>
+It is also possible to simply extract the symbolic expressions from the
+<TT>DaeBuilder</TT> instance and manually create <TT>CasADi</TT> functions.
+For example, [language=Python]dae.x contains all the expressions corresponding to 'x',
+[language=Python]dae.ode contains the expressions corresponding to 'ode', etc.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html221"
+  HREF="node8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html219"
+  HREF="casadi-users_guide.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html213"
+  HREF="node6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html222"
+  HREF="node8.html">8. Optimal control with</A>
+<B> Up:</B> <A NAME="tex2html220"
+  HREF="casadi-users_guide.html">User Documentation for CasADi</A>
+<B> Previous:</B> <A NAME="tex2html214"
+  HREF="node6.html">6. User-defined function objects</A></DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+
+2016-03-23
+</ADDRESS>
+</BODY>
+</HTML>

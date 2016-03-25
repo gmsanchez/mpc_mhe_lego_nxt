@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['eig_5fsymbolic',['eig_symbolic',['../dd/df2/singletoncasadi_1_1Matrix.html#a2109943ada018d396790aec5bcf67995',1,'casadi::Matrix']]],
+  ['element_5fhash',['element_hash',['../dd/df2/singletoncasadi_1_1Matrix.html#a3319a73103fbd287f85d6f8bcb266ce4',1,'casadi::Matrix']]],
+  ['eliminate_5falg',['eliminate_alg',['../d4/db5/classcasadi_1_1DaeBuilder.html#a85502ff45d4665d93f36a46e35ba1046',1,'casadi::DaeBuilder']]],
+  ['eliminate_5fd',['eliminate_d',['../d4/db5/classcasadi_1_1DaeBuilder.html#af4f5445621b0be504822fb22a4b254fd',1,'casadi::DaeBuilder']]],
+  ['eliminate_5fquad',['eliminate_quad',['../d4/db5/classcasadi_1_1DaeBuilder.html#a6bbbc4257b76bf4edcf835a4cb86f8cb',1,'casadi::DaeBuilder']]],
+  ['enlarge',['enlarge',['../dd/df2/singletoncasadi_1_1Matrix.html#a58e9e94c7175d34eacd124e2726a35e5',1,'casadi::Matrix::enlarge()'],['../de/d57/classcasadi_1_1MX.html#a6d2bdf190e5b1ab1896bb03b6d97a9ae',1,'casadi::MX::enlarge()'],['../d5/da8/classcasadi_1_1Sparsity.html#a596434f2d44bbb981f1dd7f276e51a73',1,'casadi::Sparsity::enlarge()']]],
+  ['enlargecolumns',['enlargeColumns',['../d5/da8/classcasadi_1_1Sparsity.html#a7706797099f228741b27d467cf92adce',1,'casadi::Sparsity']]],
+  ['enlargerows',['enlargeRows',['../d5/da8/classcasadi_1_1Sparsity.html#a308a89420bb5075d1d90e18d941272fe',1,'casadi::Sparsity']]],
+  ['erase',['erase',['../dd/df2/singletoncasadi_1_1Matrix.html#a2903dd4414b7a896e47bef3852680a9a',1,'casadi::Matrix::erase(const std::vector&lt; int &gt; &amp;rr, const std::vector&lt; int &gt; &amp;cc, bool ind1=false)'],['../dd/df2/singletoncasadi_1_1Matrix.html#a5f776688fd0716afbfcad71fd961ba3f',1,'casadi::Matrix::erase(const std::vector&lt; int &gt; &amp;rr, bool ind1=false)'],['../de/d57/classcasadi_1_1MX.html#a15376e7f5ee85f2046644a6e3e1416a0',1,'casadi::MX::erase(const std::vector&lt; int &gt; &amp;rr, const std::vector&lt; int &gt; &amp;cc, bool ind1=false)'],['../de/d57/classcasadi_1_1MX.html#a9a4de89a79a5bc198301085640bb8429',1,'casadi::MX::erase(const std::vector&lt; int &gt; &amp;rr, bool ind1=false)'],['../d5/da8/classcasadi_1_1Sparsity.html#ac94ee3baf757cabdc6cc5614499ba691',1,'casadi::Sparsity::erase(const std::vector&lt; int &gt; &amp;rr, const std::vector&lt; int &gt; &amp;cc, bool ind1=false)'],['../d5/da8/classcasadi_1_1Sparsity.html#a28a98639ceee1242c7417d6f16b5ceac',1,'casadi::Sparsity::erase(const std::vector&lt; int &gt; &amp;rr, bool ind1=false)']]],
+  ['erf',['erf',['../d9/dc2/group__expression__tools.html#gab4908b539fc4946310de8da4c6b310e9',1,'casadi::GenericExpression']]],
+  ['erfinv',['erfinv',['../d9/dc2/group__expression__tools.html#gaf5ba33b11554642b934a484ad84901e0',1,'casadi::GenericExpression']]],
+  ['etree',['etree',['../d5/da8/classcasadi_1_1Sparsity.html#a43e8676ddcc59a791d9b3fe1b9b6152e',1,'casadi::Sparsity']]],
+  ['eval',['eval',['../d6/dac/classcasadi_1_1Callback.html#ab15b74460f51acfbd1cb8ab72a961fba',1,'casadi::Callback::eval()'],['../df/d13/classcasadi_1_1CallbackInternal.html#a93e59516bb2fa72cfbf5427340c7f058',1,'casadi::CallbackInternal::eval()'],['../dd/de8/classcasadi_1_1Solve.html#a4d3e5d4009393cf2b2acba2341dd3261',1,'casadi::Solve::eval()']]],
+  ['eval_5fmx',['eval_mx',['../dd/de8/classcasadi_1_1Solve.html#aa193a059919fda1f501f24744ea5e87e',1,'casadi::Solve']]],
+  ['eval_5fsx',['eval_sx',['../dd/de8/classcasadi_1_1Solve.html#a3448c8eb7ac9cee01f85823e5e941b70',1,'casadi::Solve']]],
+  ['evaladj',['evalAdj',['../dd/de8/classcasadi_1_1Solve.html#a92bd4f178ca85552776439279207c525',1,'casadi::Solve']]],
+  ['evalfwd',['evalFwd',['../dd/de8/classcasadi_1_1Solve.html#a71f8ace4e5a2c5182148f05fba4b4083',1,'casadi::Solve']]],
+  ['exp',['exp',['../d9/dc2/group__expression__tools.html#gace802271e60c35e8a404e151cdfd3de4',1,'casadi::GenericExpression']]],
+  ['expand',['expand',['../da/da4/classcasadi_1_1Function.html#aaae810676d223db36070faaa3e97fa15',1,'casadi::Function::expand() const '],['../da/da4/classcasadi_1_1Function.html#acae082b60199921eabf8a5cca09e569f',1,'casadi::Function::expand(const std::string &amp;name, const Dict &amp;opts=Dict()) const '],['../d9/dc2/group__expression__tools.html#ga6e7dc90d2721069348f9a0a3836c5ab9',1,'casadi::Matrix::expand()']]],
+  ['expression_20tools',['Expression tools',['../d9/dc2/group__expression__tools.html',1,'']]],
+  ['external',['external',['../d7/d23/namespacecasadi.html#a6ec8d9072ed30b916fc83595ead89f06',1,'casadi::external(const std::string &amp;name, const Dict &amp;opts=Dict())'],['../d7/d23/namespacecasadi.html#a9b524f563531dc95616285ef3f447560',1,'casadi::external(const std::string &amp;name, const std::string &amp;bin_name, const Dict &amp;opts=Dict())'],['../d7/d23/namespacecasadi.html#a75845f81e8eb950576e98f5c4316501d',1,'casadi::external(const std::string &amp;name, const Compiler &amp;compiler, const Dict &amp;opts=Dict())']]],
+  ['eye',['eye',['../dd/df2/singletoncasadi_1_1Matrix.html#a5e527284d9556726553e1f9eed9b6034',1,'casadi::Matrix::eye()'],['../de/d57/classcasadi_1_1MX.html#af7a2632f6841e8aa04ab9e0db80c10f7',1,'casadi::MX::eye()']]]
+];

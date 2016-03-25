@@ -1,0 +1,2424 @@
+\batchmode
+\documentclass[a4paper,12pt]{book}
+\RequirePackage{ifthen}
+
+
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{a4wide}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{html}
+\usepackage{verbatim}
+\usepackage{pytex}
+\usepackage{xspace}
+
+%
+\providecommand{\n}{\\n}%
+\providecommand{\CasADi}{\texttt{CasADi}\xspace}%
+\providecommand{\trace}[1]{\text{tr}(#1)}%
+\providecommand{\T}{\text{T}}%
+\providecommand{\lb}{\text{lb}}%
+\providecommand{\ub}{\text{ub}}%
+\providecommand{\python}[1]{\lstinline[language=Python]{#1}}%
+\providecommand{\cxx}[1]{\lstinline[language=C++]{#1}} 
+
+%
+\providecommand{\currentversion}{currentversionplaceholder} 
+
+\newcounter{pytexcount} 
+\newcounter{pytexsubcount} 
+\newcounter{pytexlinecountstart} 
+\newcounter{pytexlinecountend} 
+
+\setcounter{pytexcount}{0}
+\setcounter{pytexlinecountstart}{0}
+\setcounter{pytexlinecountend}{0}
+
+
+
+%
+\newenvironment{pytexTemplate}[1]{
+\begin{rawhtml}
+
+<div style="display:none">\end{rawhtml}
+
+}{
+\begin{rawhtml}
+
+</div>\end{rawhtml}
+
+} 
+
+%
+\providecommand{\pytexStart}[1]{
+  \addtocounter{pytexcount}{1}%   'pytexcount'++
+  \setcounter{pytexsubcount}{0}%  reset 'pytexsubcount'
+} 
+
+
+\renewenvironment{pytex}{\addtocounter{pytexsubcount}{1}%                                             'pytexsubcount'++
+  \begin{rawhtml}
+
+<div style="color: black; background-color: \#b9c8db;  border-style: dotted; border-width: 1px; padding:2px;padding-left:1em" >
+<pre>\end{rawhtml}
+
+}%
+{\begin{rawhtml}
+
+</pre>
+</div>
+<div style="color: black; background-color: \#fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >\end{rawhtml}
+%
+\verbatiminputeval{pytex_\alph{pytexcount}_\arabic{pytexsubcount}.log}%
+\begin{rawhtml}
+
+</div>\end{rawhtml}
+
+}
+\renewenvironment{pytexoutput}{\addtocounter{pytexsubcount}{1}%                                             'pytexsubcount'++
+  \begin{rawhtml}
+
+<div style="display:none">
+<pre>\end{rawhtml}
+
+}%
+{\begin{rawhtml}
+
+</pre>
+</div>
+<div style="color: black; background-color: \#fffff;  border-style: solid; border-width: 1px; padding:2px;padding-left:1em;margin-left:1em;" >\end{rawhtml}
+%
+\verbatiminputeval{pytex_\alph{pytexcount}_\arabic{pytexsubcount}.log}%
+\begin{rawhtml}
+
+</div>\end{rawhtml}
+
+}%
+\providecommand{\codebegin}{
+\begin{rawhtml}
+
+<div style="color: black; background-color: \#b9c8db;  border-style: dotted; border-width: 1px;padding:2px;padding-left:1em" >\end{rawhtml}
+
+}%
+\providecommand{\codeend}{
+\begin{rawhtml}
+
+</div>\end{rawhtml}
+
+}%
+\providecommand{\codebegin}{
+
+
+}%
+\providecommand{\codeend}{
+
+
+} 
+
+
+\author{Joel Andersson \and Joris Gillis \and Moritz Diehl}
+\title{User Documentation for \texttt{CasADi}\xspace vcurrentversionplaceholder}
+
+
+
+\pagecolor[gray]{.7}
+
+\usepackage[]{inputenc}
+
+
+
+\makeatletter
+
+\makeatletter
+\count@=\the\catcode`\_ \catcode`\_=8 
+\newenvironment{tex2html_wrap}{}{}%
+\catcode`\<=12\catcode`\_=\count@
+\newcommand{\providedcommand}[1]{\expandafter\providecommand\csname #1\endcsname}%
+\newcommand{\renewedcommand}[1]{\expandafter\providecommand\csname #1\endcsname{}%
+  \expandafter\renewcommand\csname #1\endcsname}%
+\newcommand{\newedenvironment}[1]{\newenvironment{#1}{}{}\renewenvironment{#1}}%
+\let\newedcommand\renewedcommand
+\let\renewedenvironment\newedenvironment
+\makeatother
+\let\mathon=$
+\let\mathoff=$
+\ifx\AtBeginDocument\undefined \newcommand{\AtBeginDocument}[1]{}\fi
+\newbox\sizebox
+\setlength{\hoffset}{0pt}\setlength{\voffset}{0pt}
+\addtolength{\textheight}{\footskip}\setlength{\footskip}{0pt}
+\addtolength{\textheight}{\topmargin}\setlength{\topmargin}{0pt}
+\addtolength{\textheight}{\headheight}\setlength{\headheight}{0pt}
+\addtolength{\textheight}{\headsep}\setlength{\headsep}{0pt}
+\setlength{\textwidth}{349pt}
+\newwrite\lthtmlwrite
+\makeatletter
+\let\realnormalsize=\normalsize
+\global\topskip=2sp
+\def\preveqno{}\let\real@float=\@float \let\realend@float=\end@float
+\def\@float{\let\@savefreelist\@freelist\real@float}
+\def\liih@math{\ifmmode$\else\bad@math\fi}
+\def\end@float{\realend@float\global\let\@freelist\@savefreelist}
+\let\real@dbflt=\@dbflt \let\end@dblfloat=\end@float
+\let\@largefloatcheck=\relax
+\let\if@boxedmulticols=\iftrue
+\def\@dbflt{\let\@savefreelist\@freelist\real@dbflt}
+\def\adjustnormalsize{\def\normalsize{\mathsurround=0pt \realnormalsize
+ \parindent=0pt\abovedisplayskip=0pt\belowdisplayskip=0pt}%
+ \def\phantompar{\csname par\endcsname}\normalsize}%
+\def\lthtmltypeout#1{{\let\protect\string \immediate\write\lthtmlwrite{#1}}}%
+\newcommand\lthtmlhboxmathA{\adjustnormalsize\setbox\sizebox=\hbox\bgroup\kern.05em }%
+\newcommand\lthtmlhboxmathB{\adjustnormalsize\setbox\sizebox=\hbox to\hsize\bgroup\hfill }%
+\newcommand\lthtmlvboxmathA{\adjustnormalsize\setbox\sizebox=\vbox\bgroup %
+ \let\ifinner=\iffalse \let\)\liih@math }%
+\newcommand\lthtmlboxmathZ{\@next\next\@currlist{}{\def\next{\voidb@x}}%
+ \expandafter\box\next\egroup}%
+\newcommand\lthtmlmathtype[1]{\gdef\lthtmlmathenv{#1}}%
+\newcommand\lthtmllogmath{\dimen0\ht\sizebox \advance\dimen0\dp\sizebox
+  \ifdim\dimen0>.95\vsize
+   \lthtmltypeout{%
+*** image for \lthtmlmathenv\space is too tall at \the\dimen0, reducing to .95 vsize ***}%
+   \ht\sizebox.95\vsize \dp\sizebox\z@ \fi
+  \lthtmltypeout{l2hSize %
+:\lthtmlmathenv:\the\ht\sizebox::\the\dp\sizebox::\the\wd\sizebox.\preveqno}}%
+\newcommand\lthtmlfigureA[1]{\let\@savefreelist\@freelist
+       \lthtmlmathtype{#1}\lthtmlvboxmathA}%
+\newcommand\lthtmlpictureA{\bgroup\catcode`\_=8 \lthtmlpictureB}%
+\newcommand\lthtmlpictureB[1]{\lthtmlmathtype{#1}\egroup
+       \let\@savefreelist\@freelist \lthtmlhboxmathB}%
+\newcommand\lthtmlpictureZ[1]{\hfill\lthtmlfigureZ}%
+\newcommand\lthtmlfigureZ{\lthtmlboxmathZ\lthtmllogmath\copy\sizebox
+       \global\let\@freelist\@savefreelist}%
+\newcommand\lthtmldisplayA{\bgroup\catcode`\_=8 \lthtmldisplayAi}%
+\newcommand\lthtmldisplayAi[1]{\lthtmlmathtype{#1}\egroup\lthtmlvboxmathA}%
+\newcommand\lthtmldisplayB[1]{\edef\preveqno{(\theequation)}%
+  \lthtmldisplayA{#1}\let\@eqnnum\relax}%
+\newcommand\lthtmldisplayZ{\lthtmlboxmathZ\lthtmllogmath\lthtmlsetmath}%
+\newcommand\lthtmlinlinemathA{\bgroup\catcode`\_=8 \lthtmlinlinemathB}
+\newcommand\lthtmlinlinemathB[1]{\lthtmlmathtype{#1}\egroup\lthtmlhboxmathA
+  \vrule height1.5ex width0pt }%
+\newcommand\lthtmlinlineA{\bgroup\catcode`\_=8 \lthtmlinlineB}%
+\newcommand\lthtmlinlineB[1]{\lthtmlmathtype{#1}\egroup\lthtmlhboxmathA}%
+\newcommand\lthtmlinlineZ{\egroup\expandafter\ifdim\dp\sizebox>0pt %
+  \expandafter\centerinlinemath\fi\lthtmllogmath\lthtmlsetinline}
+\newcommand\lthtmlinlinemathZ{\egroup\expandafter\ifdim\dp\sizebox>0pt %
+  \expandafter\centerinlinemath\fi\lthtmllogmath\lthtmlsetmath}
+\newcommand\lthtmlindisplaymathZ{\egroup %
+  \centerinlinemath\lthtmllogmath\lthtmlsetmath}
+\def\lthtmlsetinline{\hbox{\vrule width.1em \vtop{\vbox{%
+  \kern.1em\copy\sizebox}\ifdim\dp\sizebox>0pt\kern.1em\else\kern.3pt\fi
+  \ifdim\hsize>\wd\sizebox \hrule depth1pt\fi}}}
+\def\lthtmlsetmath{\hbox{\vrule width.1em\kern-.05em\vtop{\vbox{%
+  \kern.1em\kern0.8 pt\hbox{\hglue.17em\copy\sizebox\hglue0.8 pt}}\kern.3pt%
+  \ifdim\dp\sizebox>0pt\kern.1em\fi \kern0.8 pt%
+  \ifdim\hsize>\wd\sizebox \hrule depth1pt\fi}}}
+\def\centerinlinemath{%
+  \dimen1=\ifdim\ht\sizebox<\dp\sizebox \dp\sizebox\else\ht\sizebox\fi
+  \advance\dimen1by.5pt \vrule width0pt height\dimen1 depth\dimen1 
+ \dp\sizebox=\dimen1\ht\sizebox=\dimen1\relax}
+
+\def\lthtmlcheckvsize{\ifdim\ht\sizebox<\vsize 
+  \ifdim\wd\sizebox<\hsize\expandafter\hfill\fi \expandafter\vfill
+  \else\expandafter\vss\fi}%
+\providecommand{\selectlanguage}[1]{}%
+\makeatletter \tracingstats = 1 
+\providecommand{\Beta}{\textrm{B}}
+\providecommand{\Mu}{\textrm{M}}
+\providecommand{\Kappa}{\textrm{K}}
+\providecommand{\Rho}{\textrm{R}}
+\providecommand{\Epsilon}{\textrm{E}}
+\providecommand{\Chi}{\textrm{X}}
+\providecommand{\Iota}{\textrm{J}}
+\providecommand{\omicron}{\textrm{o}}
+\providecommand{\Zeta}{\textrm{Z}}
+\providecommand{\Eta}{\textrm{H}}
+\providecommand{\Omicron}{\textrm{O}}
+\providecommand{\Nu}{\textrm{N}}
+\providecommand{\Tau}{\textrm{T}}
+\providecommand{\Alpha}{\textrm{A}}
+
+
+\begin{document}
+\pagestyle{empty}\thispagestyle{empty}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength hsize=\the\hsize}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength vsize=\the\vsize}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength hoffset=\the\hoffset}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength voffset=\the\voffset}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength topmargin=\the\topmargin}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength topskip=\the\topskip}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength headheight=\the\headheight}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength headsep=\the\headsep}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength parskip=\the\parskip}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength oddsidemargin=\the\oddsidemargin}\lthtmltypeout{}%
+\makeatletter
+\if@twoside\lthtmltypeout{latex2htmlLength evensidemargin=\the\evensidemargin}%
+\else\lthtmltypeout{latex2htmlLength evensidemargin=\the\oddsidemargin}\fi%
+\lthtmltypeout{}%
+\makeatother
+\setcounter{page}{1}
+\onecolumn
+
+% !!! IMAGES START HERE !!!
+
+\setcounter{pytexcount}{0}
+\setcounter{pytexlinecountstart}{0}
+\setcounter{pytexlinecountend}{0}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{chapter}
+\stepcounter{chapter}
+\stepcounter{section}
+\addtocounter{pytexcount}{1}
+\setcounter{pytexsubcount}{0}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting99}%
+\begin{lstlisting}[language=Python]
+# Python
+from casadi import *
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting104}%
+\begin{lstlisting}[language=Matlab]
+import casadi.*
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting112}%
+\begin{lstlisting}[language=Python]
+# Python
+x = MX.sym('x')
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting117}%
+\begin{lstlisting}[language=Matlab]
+x = MX.sym('x');
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting125}%
+\begin{lstlisting}[language=Python]
+# Python
+y = SX.sym('y',5)
+Z = SX.sym('Z',4,2)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting130}%
+\begin{lstlisting}[language=Matlab]
+y = SX.sym('y',5);
+Z = SX.sym('Z',4,2);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting139}%
+\begin{lstlisting}[language=Python]
+# Python
+f = x**2 + 10
+f = sqrt(f)
+print 'f:', f
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting144}%
+\begin{lstlisting}[language=Matlab]
+f = x^2 + 10;
+f = sqrt(f);
+display(f)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5154}%
+$ n$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5156}%
+$ m$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5161}%
+$ 00$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting162}%
+\begin{lstlisting}[language=Python]
+# Python
+print 'B4:', B4
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting167}%
+\begin{lstlisting}[language=Matlab]
+display(B4)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5186}%
+$ v$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting202}%
+\begin{lstlisting}[language=C++]
+// C++
+#include <casadi/casadi.hpp>
+using namespace casadi;
+int main() {
+  SX x = SX::sym("x");
+  SX y = SX::sym("y",5);
+  SX Z = SX::sym("Z",4,2)
+  SX f = pow(x,2) + 10;
+  f = sqrt(f);
+  std::cout << "f: " << f << std::endl;
+  return 0;
+}
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting223}%
+\begin{lstlisting}[language=Matlab]
+C = DM(2,3);
+\par
+C_dense = full(C);
+\par
+C_sparse = sparse(C);
+\par
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting234}%
+\begin{lstlisting}[language=Python]
+# Python
+x = SX.sym('x',2,2)
+y = SX.sym('y')
+f = 3*x + y
+print f
+print f.shape
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting239}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',2,2);
+y = SX.sym('y');
+f = 3*x + y;
+disp(f)
+disp(size(f))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5203}%
+$ \mathbb{R} \rightarrow \mathbb{R}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5205}%
+$ \mathbb{R} \times \mathbb{R} \rightarrow \mathbb{R}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5207}%
+$ \mathbb{R}^{n_1 \times m_1} \times \ldots \times \mathbb{R}^{n_N \times m_N} \rightarrow \mathbb{R}^{p_1 \times q_1} \times \ldots \times \mathbb{R}^{p_M \times q_M}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting270}%
+\begin{lstlisting}[language=Python]
+# Python
+x = MX.sym('x',2,2)
+y = MX.sym('y')
+f = 3*x + y
+print f
+print f.shape
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting275}%
+\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2,2);
+y = MX.sym('y');
+f = 3*x + y;
+disp(f)
+disp(size(f))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting288}%
+\begin{lstlisting}[language=Python]
+# Python
+x = MX.sym('x',2,2)
+print x[0,0]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting293}%
+\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2,2);
+x(1,1)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting303}%
+\begin{lstlisting}[language=Python]
+# Python
+x = MX.sym('x',2)
+A = MX(2,2)
+A[0,0] = x[0]
+A[1,1] = x[0]+x[1]
+print 'A:', A
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting308}%
+\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2);
+A = MX(2,2);
+A(1,1) = x(1);
+A(2,2) = x(1)+x(2);
+display(A)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting352}%
+\begin{lstlisting}[language=Python]
+# Python
+print SX.sym('x',Sparsity.lower(3))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting354}%
+\begin{lstlisting}[language=Matlab]
+disp(SX.sym('x',Sparsity.lower(3)))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting369}%
+\begin{lstlisting}[language=Python]
+# Python
+M = SX([[3,7],[4,5]])
+print M[0,:]
+M[0,:] = 1
+print M
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting374}%
+\begin{lstlisting}[language=Matlab]
+M = SX([3,7;4,5]);
+disp(M(1,:))
+M(1,:) = 1;
+disp(M)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5242}%
+$ M$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{paragraph}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting384}%
+\begin{lstlisting}[language=Python]
+# Python
+M = diag(SX([3,4,5,6]))
+print M
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting389}%
+\begin{lstlisting}[language=Matlab]
+M = diag(SX([3,4,5,6]));
+disp(M)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting396}%
+\begin{lstlisting}[language=Python]
+print M[0,0], M[1,0], M[-1,-1]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting401}%
+\begin{lstlisting}[language=Matlab]
+M(1,1), M(2,1), M(end,end)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting408}%
+\begin{lstlisting}[language=Python]
+print M[5], M[-6]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting413}%
+\begin{lstlisting}[language=Matlab]
+M(6), M(end-5)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{paragraph}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting424}%
+\begin{lstlisting}[language=Python]
+print M[:,1]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting429}%
+\begin{lstlisting}[language=Matlab]
+disp(M(:,2))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting436}%
+\begin{lstlisting}[language=Python]
+print M[1:,1:4:2]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting441}%
+\begin{lstlisting}[language=Matlab]
+disp(M(2:end,2:2:4))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{paragraph}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting452}%
+\begin{lstlisting}[language=Python]
+M = SX([[3,7,8,9],[4,5,6,1]])
+print M
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting457}%
+\begin{lstlisting}[language=Matlab]
+M = SX([3 7 8 9; 4 5 6 1]);
+disp(M)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting464}%
+\begin{lstlisting}[language=Python]
+print M[0,[0,3]], M[[5,-6]]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting469}%
+\begin{lstlisting}[language=Matlab]
+M(1,[1,4]), M([6,numel(M)-5])
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting477}%
+\begin{lstlisting}[language=Python]
+x = SX.sym('x')
+y = SX.sym('y',2,2)
+print sin(y)-x
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting482}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x');
+y = SX.sym('y',2,2);
+sin(y)-x
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting491}%
+\begin{lstlisting}[language=Python]
+print y*y, mtimes(y,y)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting496}%
+\begin{lstlisting}[language=Matlab]
+y.*y, y*y
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting508}%
+\begin{lstlisting}[language=Python]
+print y.T
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting513}%
+\begin{lstlisting}[language=Matlab]
+y'
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting521}%
+\begin{lstlisting}[language=Python]
+x = SX.eye(4)
+print reshape(x,2,8)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting526}%
+\begin{lstlisting}[language=Matlab]
+x = SX.eye(4);
+reshape(x,2,8)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting536}%
+\begin{lstlisting}[language=Python]
+x = SX.sym('x',5)
+y = SX.sym('y',5)
+print vertcat(x,y)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting541}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',5);
+y = SX.sym('y',5);
+[x;y]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting548}%
+\begin{lstlisting}[language=Python]
+print horzcat(x,y)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting553}%
+\begin{lstlisting}[language=Matlab]
+[x,y]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5276}%
+$ n+1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5278}%
+$ i$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5280}%
+$ c$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5282}%
+$ \textit{offset}[i] \le c < \textit{offset}[i+1]$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting565}%
+\begin{lstlisting}[language=Python]
+x = SX.sym('x',5,2)
+w = horzsplit(x,[0,1,2])
+print w[0], w[1]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting570}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',5,2);
+w = horzsplit(x,[0,1,2]);
+w{1}, w{2}
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting580}%
+\begin{lstlisting}[language=Python]
+w = vertsplit(x,[0,3,5])
+print w[0], w[1]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting585}%
+\begin{lstlisting}[language=Matlab]
+w = vertsplit(x,[0,3,5]);
+w{1}, w{2}
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting594}%
+\begin{lstlisting}[language=Python]
+w = [x[0:3,:], x[3:5,:]]
+print w[0], w[1]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting599}%
+\begin{lstlisting}[language=Matlab]
+w = {x(1:3,:), x(4:5,:)};
+w{1}, w{2}
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5290}%
+$ <A,B> :=$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5291}%
+$ (A \, B) = \sum_{i,j} \, A_{i,j} \, B_{i,j}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting619}%
+\begin{lstlisting}[language=Python]
+x = SX.sym('x',2,2)
+print dot(x,x)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting624}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',2,2)
+dot(x,x)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting638}%
+\begin{lstlisting}[language=Python]
+y = SX.sym('y',10,1)
+print y.shape
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting643}%
+\begin{lstlisting}[language=Matlab]
+y = SX.sym('y',10,1);
+size(y)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5311}%
+$ \textit{nrow} * \textit{ncol}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting682}%
+\begin{lstlisting}[language=Python]
+A = MX.sym('A',3,3)
+b = MX.sym('b',3)
+print solve(A,b)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting687}%
+\begin{lstlisting}[language=Matlab]
+A = MX.sym('A',3,3);
+b = MX.sym('b',3);
+solve(A,b)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5319}%
+$ f: \mathbb{R}^N \rightarrow \mathbb{R}^M$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay5321}%
+$\displaystyle y = f(x),$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay5323}%
+$\displaystyle \hat{y} = \frac{\partial f}{\partial x} \, \hat{x}.$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay5325}%
+$\displaystyle \bar{x} = \left(\frac{\partial f}{\partial x}\right)^{\text{T}} \, \bar{y}.$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5327}%
+$ f(x)$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5329}%
+$ x$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting720}%
+\begin{lstlisting}[language=Python]
+A = SX.sym('A',3,2)
+x = SX.sym('x',2)
+print jacobian(mtimes(A,x),x)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting725}%
+\begin{lstlisting}[language=Matlab]
+A = SX.sym('A',3,2);
+x = SX.sym('x',2);
+jacobian(A*x,x)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting732}%
+\begin{lstlisting}[language=Python]
+print gradient(dot(A,A),A)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting737}%
+\begin{lstlisting}[language=Matlab]
+gradient(dot(A,A),A)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting744}%
+\begin{lstlisting}[language=Python]
+[H,g] = hessian(dot(x,x),x)
+print 'H:', H
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting749}%
+\begin{lstlisting}[language=Matlab]
+[H,g] = hessian(dot(x,x),x);
+display(H)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting757}%
+\begin{lstlisting}[language=Python]
+v = SX.sym('v',2)
+f = mtimes(A,x)
+print jtimes(f,x,v)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting762}%
+\begin{lstlisting}[language=Matlab]
+v = SX.sym('v',2);
+f = A*x;
+jtimes(f,x,v)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting770}%
+\begin{lstlisting}[language=Python]
+w = SX.sym('w',3)
+f = mtimes(A,x)
+print jtimes(f,x,w,True)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting775}%
+\begin{lstlisting}[language=Matlab]
+w = SX.sym('w',3);
+f = A*x
+jtimes(f,x,w,true)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{chapter}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting783}%
+\begin{lstlisting}[language=Python]
+f = functionname(name, arguments, ..., [options])
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting789}%
+\begin{lstlisting}[language=Python]
+# Python
+x = SX.sym('x',2)
+y = SX.sym('y')
+f = Function('f',[x,y],\
+           [x,sin(y)*x])
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting794}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x',2);
+y = SX.sym('y');
+f = Function('f',{x,y},...
+           {x,sin(y)*x});
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5345}%
+$ f : \mathbb{R}^{2} \times \mathbb{R} \rightarrow \mathbb{R}^{2} \times \mathbb{R}^{2}, \quad (x,y) \mapsto (x,\sin(y) x)$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting811}%
+\begin{lstlisting}[language=Python]
+# Python
+x = MX.sym('x',2)
+y = MX.sym('y')
+f = Function('f',[x,y],\
+             [x,sin(y)*x])
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting816}%
+\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2);
+y = MX.sym('y');
+f = Function('f',{x,y},...
+             {x,sin(y)*x});
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting827}%
+\begin{lstlisting}[language=Python]
+# Python
+x = MX.sym('x',2)
+y = MX.sym('y')
+f = Function('f',[x,y],\
+      [x,sin(y)*x],\
+      ['x','y'],['r','q'])
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting832}%
+\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2);
+y = MX.sym('y');
+f = Function('f',{x,y},...
+      {x,sin(y)*x},...
+      {'x','y'},{'r','q'});
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting852}%
+\begin{lstlisting}[language=Python]
+# Python
+r0, q0 = f(1.1,3.3)
+print 'r0:',r0
+print 'q0:',q0
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting857}%
+\begin{lstlisting}[language=Matlab]
+[r0, q0] = f(1.1,3.3);
+display(r0)
+display(q0)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting867}%
+\begin{lstlisting}[language=Python]
+# Python
+res = f(x=1.1, y=3.3)
+print 'res:', res
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting872}%
+\begin{lstlisting}[language=Matlab]
+res = f('x',1.1,'y',3.3);
+display(res)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting882}%
+\begin{lstlisting}[language=Python]
+# Python
+arg = [1.1,3.3]
+res = f.call(arg)
+print 'res:', res
+arg = {'x':1.1,'y':3.3}
+res = f.call(arg)
+print 'res:', res
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting888}%
+\begin{lstlisting}[language=Matlab]
+arg = {1.1,3.3};
+res = f.call(arg);
+display(res)
+arg = struct('x',1.1,'y',3.3);
+res = f.call(arg);
+display(res)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting900}%
+\begin{lstlisting}[language=Python]
+sx_function = mx_function.expand()
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmldisplayA{displaymath5360}%
+\begin{equation*}\begin{aligned} &g_0(z, x_1, x_2, \ldots, x_n) &&= 0 \\&g_1(z, x_1, x_2, \ldots, x_n) &&= y_1 \\&g_2(z, x_1, x_2, \ldots, x_n) &&= y_2 \\&\qquad \vdots \qquad &&\qquad \\&g_m(z, x_1, x_2, \ldots, x_n) &&= y_m, \end{aligned}\end{equation*}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5362}%
+$ z$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5364}%
+$ x_1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5366}%
+$ x_n$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5368}%
+$ y_1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5370}%
+$ y_m$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5372}%
+$ g$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5374}%
+$ g_0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5376}%
+$ g_m$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5378}%
+$ G: \{z_{\text{guess}}, x_1, x_2, \ldots, x_n\} \rightarrow \{z, y_1, y_2, \ldots, y_m\}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5382}%
+$ n=m=1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting913}%
+\begin{lstlisting}[language=Python]
+# Python
+z = SX.sym('x',nz)
+x = SX.sym('x',nx)
+g0 = (an expression of x, z)
+g1 = (an expression of x, z)
+g = Function('g',[z,x],[g0,g1])
+G = rootfinder('G','newton',g)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting918}%
+\begin{lstlisting}[language=Matlab]
+z = SX.sym('x',nz);
+x = SX.sym('x',nx);
+g0 = (an expression of x, z)
+g1 = (an expression of x, z)
+g = Function('g',{z,x},{g0,g1});
+G = rootfinder('G','newton',g);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\setcounter{equation}{1}
+\lthtmldisplayA{subequations5387}%
+\begin{subequations}\begin{align}  \dot{x} &= f_{\text{ode}}(t,x,z,p), \qquad x(0) = x_0 \\0  &= f_{\text{alg}}(t,x,z,p) \\\dot{q} &= f_{\text{quad}}(t,x,z,p), \qquad q(0) = 0 \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+{\newpage\clearpage
+\setcounter{equation}{2}
+\lthtmldisplayA{subequations5392}%
+\setcounter{equation}{1}
+\begin{subequations}\begin{align}  \dot{x} &= z+p, \\0  &= z \, \cos(z)-x \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting952}%
+\begin{lstlisting}[language=Python]
+# Python
+x = SX.sym('x'); z = SX.sym('z'); p = SX.sym('p')
+dae = {'x':x, 'z':z, 'p':p, 'ode':z+p, 'alg':z*cos(z)-x}
+F = integrator('F', 'idas', dae)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting955}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x'); z = SX.sym('z'); p = SX.sym('p');
+dae = struct('x',x,'z',z,'p',p,'ode',z+p,'alg',z*cos(z)-x);
+F = integrator('F', 'idas', dae);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5394}%
+$ x(0)=0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5396}%
+$ p=0.1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5398}%
+$ z(0)=0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting962}%
+\begin{lstlisting}[language=Python]
+# Python
+r = F(x0=0, z0=0, p=0.1)
+print r['xf']
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting967}%
+\begin{lstlisting}[language=Matlab]
+r = F('x0',0,'z0',0,'p',0.1);
+disp(r.xf)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5404}%
+$ t$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmldisplayA{displaymath5408}%
+\begin{displaymath}\begin{array}{cc} \begin{array}{c} \text{minimize:} \\x \end{array} & f(x,p) \\\begin{array}{c} \text{subject to:} \end{array} & \begin{array}{rcl}   x_{\text{lb}} \le &  x   & \le x_{\text{ub}} \\g_{\text{lb}} \le &g(x,p)& \le g_{\text{ub}} \end{array} \end{array}\end{displaymath}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5410}%
+$ x \in \mathbb{R}^{nx}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5412}%
+$ p \in \mathbb{R}^{np}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5414}%
+$ L(x,\lambda) = f(x) + \lambda^{\text{T}} \, g(x))$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmldisplayA{displaymath5419}%
+\begin{displaymath}\begin{array}{cc} \begin{array}{c} \text{minimize:} \\x,y,z \end{array} & x^2 + 100 \, z^2  \\\begin{array}{c} \text{subject to:} \end{array} &  z+(1-x)^2-y = 0 \end{array}\end{displaymath}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1018}%
+\begin{lstlisting}[language=Python]
+# Python
+x = SX.sym('x'); y = SX.sym('y'); z = SX.sym('z')
+nlp = {'x':vertcat(x,y,z), 'f':x**2+100*z**2, 'g':z+(1-x)**2-y}
+S = nlpsol('S', 'ipopt', nlp)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1021}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x'); y = SX.sym('y'); z = SX.sym('z');
+nlp = struct('x',[x;y;z], 'f':x^2+100*z^2, 'g',z+(1-x)^2-y)
+S = nlpsol('S', 'ipopt', nlp)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5421}%
+$ [2.5,3.0,0.75]$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1029}%
+\begin{lstlisting}[language=Python]
+# Python
+r = S(x0=[2.5,3.0,0.75],\
+      lbg=0, ubg=0)
+x_opt = r['x']
+print 'x_opt: ', x_opt
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1034}%
+\begin{lstlisting}[language=Matlab]
+r = S('x0',[2.5,3.0,0.75],...
+      'lbg',0,'ubg',0);
+x_opt = r.x;
+display(x_opt)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5427}%
+$ f(x,p)$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5431}%
+$ g(x,p)$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmldisplayA{displaymath5437}%
+\begin{displaymath}\begin{array}{cc} \begin{array}{c} \text{minimize:} \\x,y \end{array} & x^2 + y^2  \\\begin{array}{c} \text{subject to:} \end{array} & x+y-10 \ge 0 \end{array}\end{displaymath}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1061}%
+\begin{lstlisting}[language=Python]
+# Python
+x = SX.sym('x'); y = SX.sym('y')
+qp = {'x':vertcat(x,y), 'f':x**2+y**2, 'g':x+y-10}
+S = qpsol('S', 'qpoases', qp)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1064}%
+\begin{lstlisting}[language=Matlab]
+x = SX.sym('x'); y = SX.sym('y')
+qp = struct('x',[x;y], 'f':x^2+y^2, 'g',x+y-10)
+S = qpsol('S', 'qpoases', qp)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1073}%
+\begin{lstlisting}[language=Python]
+# Python
+r = S(lbg=0)
+x_opt = r['x']
+print 'x_opt: ', x_opt
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1078}%
+\begin{lstlisting}[language=Matlab]
+r = S('lbg',0);
+x_opt = r.x;
+display(x_opt)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\addtocounter{pytexsubcount}{1}
+\stepcounter{subsection}
+{\newpage\clearpage
+\lthtmldisplayA{displaymath5442}%
+\begin{displaymath}\begin{array}{cc} \begin{array}{c} \text{minimize:} \\x \end{array} & \frac{1}{2} x^\text{T}\, H \, x + g^\text{T}\, x \\\begin{array}{c} \text{subject to:} \end{array} & \begin{array}{rcl}   x_{\text{lb}} \le &  x   & \le x_{\text{ub}} \\a_{\text{lb}} \le & A \, x& \le a_{\text{ub}} \end{array} \end{array}\end{displaymath}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1112}%
+\begin{lstlisting}[language=Python]
+# Python
+H = 2*DM.eye(2)
+A = DM.ones(1,2)
+g = DM.zeros(2)
+lba = 10.
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1117}%
+\begin{lstlisting}[language=Matlab]
+H = 2*DM.eye(2);
+A = DM.ones(1,2);
+g = DM.zeros(2);
+lba = 10;
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5446}%
+$ H$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5448}%
+$ A$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1125}%
+\begin{lstlisting}[language=Python]
+# Python
+qp = {}
+qp['h'] = H.sparsity()
+qp['a'] = A.sparsity()
+S = qpsol('S','qpoases',qp)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1131}%
+\begin{lstlisting}[language=Matlab]
+qp = struct;
+qp.h = H.sparsity();
+qp.a = A.sparsity();
+S = qpsol('S','qpoases',qp);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1141}%
+\begin{lstlisting}[language=Python]
+# Python
+r = S(h=H, g=g, \
+      a=A, lba=lba)
+x_opt = r['x']
+print 'x_opt: ', x_opt
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1146}%
+\begin{lstlisting}[language=Matlab]
+r = S('h', H, 'g', g,...
+      'a', A, 'lba', lba);
+x_opt = r.x;
+display(x_opt)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\addtocounter{pytexsubcount}{1}
+\stepcounter{chapter}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1164}%
+\begin{lstlisting}[language=Python]
+# Python
+x = MX.sym('x',2)
+y = MX.sym('y')
+f = Function('f',[x,y],\
+      [x,sin(y)*x],\
+      ['x','y'],['r','q'])
+f.generate('gen.c')
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1169}%
+\begin{lstlisting}[language=Matlab]
+x = MX.sym('x',2);
+y = MX.sym('y');
+f = Function('f',{x,y},...
+      {x,sin(y)*x},...
+      {'x','y'},{'r','q'});
+f.generate('gen.c');
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1185}%
+\begin{lstlisting}[language=Python]
+# Python
+f = Function('f',[x],[sin(x)])
+g = Function('g',[x],[cos(x)])
+C = CodeGenerator()
+C.add(f)
+C.add(g)
+C.generate('gen.c')
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1190}%
+\begin{lstlisting}[language=Matlab]
+f = Function('f',{x},{sin(x)});
+g = Function('g',{x},{cos(x)});
+C = CodeGenerator();
+C.add(f);
+C.add(g);
+C.generate('gen.c');
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1205}%
+\begin{lstlisting}[language=Python]
+# Python
+f = Function('f',[x],[sin(x)])
+opts = dict(main=True, \
+            mex=True)
+f.generate('ff.c',opts)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1210}%
+\begin{lstlisting}[language=Matlab]
+f = Function('f',{x},{sin(x)});
+opts = struct('main', true,...
+              'mex', true);
+f.generate('ff.c',opts);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1233}%
+\begin{lstlisting}[language=sh]
+gcc -fPIC -shared gen.c -o gen.so
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1241}%
+\begin{lstlisting}[language=Python]
+# Python
+f = external('f', './ff.so')
+print f(3.14)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1246}%
+\begin{lstlisting}[language=Matlab]
+f = external('f', './ff.so');
+disp(f(3.14))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1256}%
+\begin{lstlisting}[language=Python]
+# Python
+C = Compiler('ff.c','clang')
+f = external('f',C);
+print f(3.14)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1261}%
+\begin{lstlisting}[language=Matlab]
+C = Compiler('ff.c','clang');
+f = external('f',C);
+disp(f(3.14))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1270}%
+\begin{lstlisting}[language=Matlab]
+mex ff.c -largeArrayDims
+disp(ff('f', 3.14))
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1278}%
+\begin{lstlisting}[language=sh]
+# Command line
+echo 3.14 3.14 > ff_in.txt
+gcc ff.c -o ff
+./ff f < ff_in.txt > ff_out.txt
+cat ff_out.txt
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\addtocounter{pytexsubcount}{1}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1291}%
+\begin{lstlisting}[language=C]
+void fname_incref(void);
+void fname_decref(void);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1294}%
+\begin{lstlisting}[language=C]
+int fname_n_in(void);
+int fname_n_out(void);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1297}%
+\begin{lstlisting}[language=C]
+const char* fname_name_in(int ind);
+const char* fname_name_out(int ind);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1300}%
+\begin{lstlisting}[language=C]
+const int* fname_sparsity_in(int ind);
+const int* fname_sparsity_out(int ind);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5483}%
+$ \texttt{ncol}+1$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5487}%
+$ \texttt{colind}[i]$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5489}%
+$ \texttt{colind}[i+1]$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5491}%
+$ \texttt{colind}[\texttt{ncol}]$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5493}%
+$ \texttt{nnz} \ne \texttt{nrow}*\texttt{ncol}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1322}%
+\begin{lstlisting}[language=C]
+int fname_n_mem(void);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1325}%
+\begin{lstlisting}[language=C]
+int fname_work(int* sz_arg, int* sz_res, int* sz_iw, int* sz_w);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1328}%
+\begin{lstlisting}[language=C]
+int fname(const double** arg, double** res,
+          int* iw, double* w, int mem);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{chapter}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1357}%
+\begin{lstlisting}[language=Python]
+class MyCallback(Callback):
+  def __init__(self, name, d, opts={}):
+    Callback.__init__(self)
+    self.d = d
+    self.construct(name, opts)
+\par
+# Number of inputs and outputs
+  def get_n_in(self): return 1
+  def get_n_out(self): return 1
+\par
+# Initialize the object
+  def init(self):
+     print 'initializing object'
+\par
+# Evaluate numerically
+  def eval(self, arg):
+    x = arg[0]
+    f = sin(self.d*x)
+    return [f]
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1362}%
+\begin{lstlisting}[language=Python]
+# Use the function
+f = MyCallback('f', 0.5)
+res = f(2)
+print res
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1365}%
+\begin{lstlisting}[language=Matlab]
+  classdef MyCallback < casadi.Callback
+    properties
+      d
+    end
+    methods
+      function self = MyCallback(name, d)
+        self@casadi.Callback();
+        self.d = d;
+        construct(self, name);
+      end
+\par
+function v=get_n_in(self)
+        v=1;
+      end
+      function v=get_n_out(self)
+        v=1;
+      end
+\par
+function init(self)
+        disp('initializing object')
+      end
+\par
+function arg = eval(self, arg)
+        x = arg{1};
+        f = sin(self.d * x);
+        arg = {f};
+      end
+    end
+  end
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1371}%
+\begin{lstlisting}[language=Matlab]
+f = MyCallback('f', 0.5);
+res = f(2);
+disp(res)
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1374}%
+\begin{lstlisting}[language=C++]
+#include "casadi/casadi.hpp"
+using namespace casadi;
+class MyCallback : public Callback {
+private:
+  // Data members
+  double d;
+  // Private constructor
+  MyCallback(double d) : d(d) {}
+public:
+  // Creator function, creates an owning reference
+  static Function create(const std::string& name, double d,
+                         const Dict& opts=Dict()) {
+    return Callback::create(name, new MyCallback(d), opts);
+  }
+\par
+// Number of inputs and outputs
+  virtual int get_n_in() { return 1;}
+  virtual int get_n_out() { return 1;}
+\par
+// Initialize the object
+  virtual void init() {
+    std::cout << "initializing object" << std::endl;
+  }
+\par
+// Evaluate numerically
+  virtual std::vector<DM> eval(const std::vector<DM>& arg) {
+    DM x = arg.at(0);
+    DM f = sin(d*x);
+    return {f};
+  }
+};
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1386}%
+\begin{lstlisting}[language=C++]
+int main() {
+  Function f = MyCallback::create("f", 0.5);
+  std::vector<DM> arg = {2};
+  std::vector<DM> res = f(arg);
+  std::cout << res << std::endl;
+  return 0;
+}
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1398}%
+\begin{lstlisting}[language=C]
+/*CASADIMETA
+:fname_N_IN 1
+:fname_N_OUT 2
+:fname_NAME_IN[0] x
+:fname_NAME_OUT[0] r
+:fname_NAME_OUT[1] s
+:fname_SPARSITY_IN[0] 2 1 0 2
+*/
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1403}%
+\begin{lstlisting}[language=C]
+void fname_simple(const double* arg, double* res);
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+\stepcounter{chapter}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5529}%
+$ p$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5531}%
+$ d$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5541}%
+$ s$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5543}%
+$ \dot{s}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5545}%
+$ q$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5547}%
+$ w$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5551}%
+$ y$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5576}%
+$ \dot{x} =$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5577}%
+$ (t,w,x,s,z,u,p,d)$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5579}%
+$ (t,w,x,s,z,u,p,d,\dot{s}) =0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5581}%
+$ (t,w,x,s,z,u,p,d) = 0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5583}%
+$ \dot{q} =$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\setcounter{equation}{0}
+\lthtmldisplayA{subequations5596}%
+\setcounter{equation}{-1}
+\begin{subequations}\begin{align}  \dot{h} &= v,                    \qquad &h(0) = 0 \\\dot{v} &= (u - a \, v^2)/m - g, \qquad &v(0) = 0 \\\dot{m} &= -b \, u^2,            \qquad &m(0) = 1 \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5598}%
+$ u$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5600}%
+$ (a,b)$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1447}%
+\begin{lstlisting}[language=Python]
+# Python
+dae = DaeBuilder()
+# Add input expressions
+a = dae.add_p('a')
+b = dae.add_p('b')
+u = dae.add_u('u')
+h = dae.add_x('h')
+v = dae.add_x('v')
+m = dae.add_x('m')
+# Add output expressions
+hdot = v
+vdot = (u-a*v**2)/m-g
+mdot = -b*u**2
+dae.add_ode(hdot)
+dae.add_ode(vdot)
+dae.add_ode(mdot)
+# Specify initial conditions
+dae.set_start('h', 0)
+dae.set_start('v', 0)
+dae.set_start('m', 1)
+# Add meta information
+dae.set_unit('h','m')
+dae.set_unit('v','m/s')
+dae.set_unit('m','kg')
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1452}%
+\begin{lstlisting}[language=Matlab]
+dae = DaeBuilder;
+a = dae.add_p('a');
+b = dae.add_p('b');
+u = dae.add_u('u');
+h = dae.add_x('h');
+v = dae.add_x('v');
+m = dae.add_x('m');
+hdot = v;
+vdot = (u-a*v^2)/m-g;
+mdot = -b*u^2;
+dae.add_ode(hdot);
+dae.add_ode(vdot);
+dae.add_ode(mdot);
+dae.set_start('h', 0);
+dae.set_start('v', 0);
+dae.set_start('m', 1);
+dae.set_unit('h','m');
+dae.set_unit('v','m/s');
+dae.set_unit('m','kg');
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1472}%
+\begin{lstlisting}[language=Python]
+from pymodelica import compile_jmu
+jmu_name=compile_jmu('ModelicaClass.ModelicaModel', \
+  ['file1.mo','file2.mop'],'auto','ipopt',\
+  {'generate_xml_equations':True, 'generate_fmi_me_xml':False})
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1477}%
+\begin{lstlisting}[language=Python]
+from zipfile import ZipFile
+sfile = ZipFile(jmu_name','r')
+mfile = sfile.extract('modelDescription.xml','.')
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1481}%
+\begin{lstlisting}[language=Python]
+dae = DaeBuilder()
+ocp.parse_fmi('modelDescription.xml')
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1489}%
+\begin{lstlisting}[language=Python]
+# Python
+ocp.make_explicit()
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1494}%
+\begin{lstlisting}[language=Matlab]
+ocp.make_explicit();
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1511}%
+\begin{lstlisting}[language=Python]
+# Python
+f = dae.create('f',\
+     ['x','u','p'],['ode'])
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1516}%
+\begin{lstlisting}[language=Matlab]
+f = dae.create('f',...
+     {'x','u','p'},{'ode'});
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1523}%
+\begin{lstlisting}[language=Python]
+# Python
+f = dae.create('f',\
+     ['x','u','p'],\
+     ['jac_ode_x'])
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1528}%
+\begin{lstlisting}[language=Matlab]
+f = dae.create('f',...
+     {'x','u','p'},
+     {'jac_ode_x'});
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1536}%
+\begin{lstlisting}[language=Python]
+# Python
+dae.add_lc('gamma',['ode'])
+hes = dae.create('hes’,\
+  ['x','u','p','lam_ode'],\
+  ['hes_gamma_x_x'])
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlfigureA{lstlisting1541}%
+\begin{lstlisting}[language=Matlab]
+dae.add_lc('gamma,{'ode'});
+hes = dae.create(’hes’,...
+  {'x','u','p','lam_ode'},...
+  {'hes_gamma_x_x'});
+\end{lstlisting}%
+\lthtmlfigureZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{chapter}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmldisplayA{displaymath5625}%
+\begin{displaymath}\begin{array}{lc} \begin{array}{l} \text{minimize:} \\x(\cdot) \in \mathbb{R}^2, \, u(\cdot) \in \mathbb{R} \end{array} \quad \displaystyle \int_{t=0}^{T}{(x_0^2 + x_1^2 + u^2) \, dt} \\\\\text{subject to:} \\\\\begin{array}{ll} \left\{ \begin{array}{l} \dot{x}_0 = (1-x_1^2) \, x_0 - x_1 + u \\\dot{x}_1 = x_0 \\-1.0 \le u \le 1.0, \quad x \ge -0.25 \end{array} \right. & \text{for $0 \le t \le T$} \\x_0(0)=0, \quad x_1(0)=1, \end{array} \end{array}\end{displaymath}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline5627}%
+$ T=10$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{chapter}
+\stepcounter{section}
+\stepcounter{section}
+
+\end{document}

@@ -1,0 +1,12 @@
+digraph "casadi" {
+  compound=true
+  node [ fontsize="10", fontname="FreeSans.ttf"];
+  edge [ labelfontsize="10", labelfontname="FreeSans.ttf"];
+  subgraph clusterdir_2c2314939267d1c2b8853bb59ef27393 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_2c2314939267d1c2b8853bb59ef27393.html"];
+    dir_2c2314939267d1c2b8853bb59ef27393 [shape=plaintext label="casadi"];
+    dir_d3f702df5899af83d48ebd5a6235f692 [shape=box label="core" color="red" fillcolor="white" style="filled" URL="dir_d3f702df5899af83d48ebd5a6235f692.html"];
+    dir_3704cb05e0a8565fe7675e5730d54a9f [shape=box label="interfaces" color="red" fillcolor="white" style="filled" URL="dir_3704cb05e0a8565fe7675e5730d54a9f.html"];
+    dir_436731c1d76f6716b57931f9c3f648cc [shape=box label="solvers" color="black" fillcolor="white" style="filled" URL="dir_436731c1d76f6716b57931f9c3f648cc.html"];
+  }
+}

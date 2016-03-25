@@ -1,0 +1,117 @@
+<map id="casadi::SharedObjectNode" name="casadi::SharedObjectNode">
+<area shape="rect" id="node3" href="$d6/d84/classcasadi_1_1CompilerInternal.html" title="Compiler internal class. " alt="" coords="248,59,424,88"/>
+<area shape="rect" id="node9" href="$d2/dab/classcasadi_1_1FunctionInternal.html" title="Internal class for Function. " alt="" coords="251,699,421,728"/>
+<area shape="rect" id="node111" href="$d3/dd0/classcasadi_1_1GenericTypeBase.html" title="casadi::GenericTypeBase" alt="" coords="247,1436,425,1465"/>
+<area shape="rect" id="node115" href="$d4/d65/classcasadi_1_1LibraryInternal.html" title="Just&#45;in&#45;time compiled or dynamically linked library. " alt="" coords="255,1520,417,1549"/>
+<area shape="rect" id="node121" href="$d0/d19/classcasadi_1_1MXNode.html" title="Node class for MX objects. " alt="" coords="275,2203,397,2232"/>
+<area shape="rect" id="node225" href="$d7/d05/classcasadi_1_1SparsityInternal.html" title="casadi::SparsityInternal" alt="" coords="251,2256,421,2285"/>
+<area shape="rect" id="node227" href="$d6/df3/classcasadi_1_1WeakRefInternal.html" title="casadi::WeakRefInternal" alt="" coords="251,2309,421,2339"/>
+<area shape="rect" id="node229" href="$d5/db8/classcasadi_1_1XmlFileInternal.html" title="casadi::XmlFileInternal" alt="" coords="255,2691,417,2720"/>
+<area shape="rect" id="node5" href="$de/d87/classcasadi_1_1ClangCompiler.html" title="&#39;clang&#39; plugin for Compiler " alt="" coords="495,5,657,35"/>
+<area shape="rect" id="node7" href="$d6/d62/classcasadi_1_1ShellCompiler.html" title="&#39;shell&#39; plugin for Compiler " alt="" coords="497,59,655,88"/>
+<area shape="rect" id="node11" href="$df/d13/classcasadi_1_1CallbackInternal.html" title="casadi::CallbackInternal" alt="" coords="491,112,661,141"/>
+<area shape="rect" id="node13" href="$d8/db5/classcasadi_1_1External.html" title="casadi::External" alt="" coords="515,165,637,195"/>
+<area shape="rect" id="node19" href="$db/d3d/classcasadi_1_1Integrator.html" title="Internal storage for integrator related data. " alt="" coords="509,219,643,248"/>
+<area shape="rect" id="node35" href="$dd/d54/classcasadi_1_1Jit.html" title="casadi::Jit" alt="" coords="535,325,617,355"/>
+<area shape="rect" id="node37" href="$dd/db9/classcasadi_1_1KernelSum.html" title="casadi::KernelSum" alt="" coords="507,379,645,408"/>
+<area shape="rect" id="node39" href="$d5/d08/classcasadi_1_1Linsol.html" title="casadi::Linsol" alt="" coords="523,432,629,461"/>
+<area shape="rect" id="node51" href="$da/d4b/classcasadi_1_1Mapaccum.html" title="casadi::Mapaccum" alt="" coords="505,565,647,595"/>
+<area shape="rect" id="node53" href="$de/d7d/classcasadi_1_1MapBase.html" title="casadi::MapBase" alt="" coords="511,619,641,648"/>
+<area shape="rect" id="node63" href="$d8/dc2/classcasadi_1_1Nlpsol.html" title="NLP solver storage class. " alt="" coords="521,725,631,755"/>
+<area shape="rect" id="node77" href="$d4/d85/classcasadi_1_1Qpsol.html" title="Internal class. " alt="" coords="523,992,629,1021"/>
+<area shape="rect" id="node91" href="$d4/d10/classcasadi_1_1Rootfinder.html" title="Internal class. " alt="" coords="509,1045,643,1075"/>
+<area shape="rect" id="node99" href="$d5/da2/classcasadi_1_1Switch.html" title="casadi::Switch" alt="" coords="520,1099,632,1128"/>
+<area shape="rect" id="node101" href="$d7/d72/classcasadi_1_1XFunction.html" title="Internal node class for the base class of SXFunction and MXFunction (lacks a public counterpart) The ..." alt="" coords="493,1152,659,1216"/>
+<area shape="rect" id="node103" href="$d7/d72/classcasadi_1_1XFunction.html" title="casadi::XFunction\&lt;\l MXFunction, MX, MXNode \&gt;" alt="" coords="476,1239,676,1286"/>
+<area shape="rect" id="node107" href="$d7/d72/classcasadi_1_1XFunction.html" title="casadi::XFunction\&lt;\l SXFunction, Matrix\l\&lt; SXElem \&gt;, SXNode \&gt;" alt="" coords="489,1309,663,1373"/>
+<area shape="rect" id="node15" href="$de/de8/classcasadi_1_1GenericExternal.html" title="casadi::GenericExternal" alt="" coords="760,32,931,61"/>
+<area shape="rect" id="node17" href="$d4/dfb/classcasadi_1_1SimplifiedExternal.html" title="casadi::SimplifiedExternal" alt="" coords="753,85,937,115"/>
+<area shape="rect" id="node21" href="$da/da8/classcasadi_1_1FixedStepIntegrator.html" title="casadi::FixedStepIntegrator" alt="" coords="748,139,943,168"/>
+<area shape="rect" id="node29" href="$d6/d90/classcasadi_1_1SundialsInterface.html" title="casadi::SundialsInterface" alt="" coords="755,192,936,221"/>
+<area shape="rect" id="node23" href="$d8/d7b/classcasadi_1_1ImplicitFixedStepIntegrator.html" title="casadi::ImplicitFixedStep\lIntegrator" alt="" coords="1013,69,1192,115"/>
+<area shape="rect" id="node27" href="$d6/d6e/classcasadi_1_1RkIntegrator.html" title="&#39;rk&#39; plugin for Integrator " alt="" coords="1028,139,1177,168"/>
+<area shape="rect" id="node25" href="$d1/d2f/classcasadi_1_1CollocationIntegrator.html" title="&#39;collocation&#39; plugin for Integrator " alt="" coords="1241,77,1444,107"/>
+<area shape="rect" id="node31" href="$d2/d5f/classcasadi_1_1CvodesInterface.html" title="&#39;cvodes&#39; plugin for Integrator " alt="" coords="1016,192,1189,221"/>
+<area shape="rect" id="node33" href="$d2/d52/classcasadi_1_1IdasInterface.html" title="&#39;idas&#39; plugin for Integrator " alt="" coords="1027,245,1179,275"/>
+<area shape="rect" id="node41" href="$de/dd2/classcasadi_1_1CSparseCholeskyInterface.html" title="&#39;csparsecholesky&#39; plugin for Linsol " alt="" coords="727,245,964,275"/>
+<area shape="rect" id="node43" href="$db/d12/classcasadi_1_1CsparseInterface.html" title="&#39;csparse&#39; plugin for Linsol " alt="" coords="756,299,935,328"/>
+<area shape="rect" id="node45" href="$db/d6e/classcasadi_1_1LapackLu.html" title="&#39;lapacklu&#39; plugin for Linsol " alt="" coords="780,352,911,381"/>
+<area shape="rect" id="node47" href="$d6/d45/classcasadi_1_1LapackQr.html" title="&#39;lapackqr&#39; plugin for Linsol " alt="" coords="780,405,911,435"/>
+<area shape="rect" id="node49" href="$d1/d15/classcasadi_1_1SymbolicQr.html" title="&#39;symbolicqr&#39; plugin for Linsol " alt="" coords="773,459,917,488"/>
+<area shape="rect" id="node55" href="$d1/da7/classcasadi_1_1MapSum.html" title="casadi::MapSum" alt="" coords="781,512,909,541"/>
+<area shape="rect" id="node59" href="$de/d75/classcasadi_1_1PureMap.html" title="casadi::PureMap" alt="" coords="783,565,908,595"/>
+<area shape="rect" id="node57" href="$d1/d41/classcasadi_1_1MapSumSerial.html" title="casadi::MapSumSerial" alt="" coords="1021,512,1184,541"/>
+<area shape="rect" id="node61" href="$d8/da9/classcasadi_1_1MapSerial.html" title="casadi::MapSerial" alt="" coords="1036,565,1169,595"/>
+<area shape="rect" id="node65" href="$d7/d2f/classcasadi_1_1IpoptInterface.html" title="&#39;ipopt&#39; plugin for Nlpsol " alt="" coords="767,619,924,648"/>
+<area shape="rect" id="node67" href="$db/dba/classcasadi_1_1KnitroInterface.html" title="&#39;knitro&#39; plugin for Nlpsol " alt="" coords="764,672,927,701"/>
+<area shape="rect" id="node69" href="$d6/dd8/classcasadi_1_1Scpgen.html" title="&#39;scpgen&#39; plugin for Nlpsol " alt="" coords="787,725,904,755"/>
+<area shape="rect" id="node71" href="$d8/d05/classcasadi_1_1SnoptInterface.html" title="&#39;snopt&#39; plugin for Nlpsol " alt="" coords="763,779,928,808"/>
+<area shape="rect" id="node73" href="$d8/dad/classcasadi_1_1Sqpmethod.html" title="&#39;sqpmethod&#39; plugin for Nlpsol " alt="" coords="772,832,919,861"/>
+<area shape="rect" id="node75" href="$d5/d79/classcasadi_1_1WorhpInterface.html" title="&#39;worhp&#39; plugin for Nlpsol " alt="" coords="763,885,928,915"/>
+<area shape="rect" id="node79" href="$d3/d93/classcasadi_1_1CplexInterface.html" title="&#39;cplex&#39; plugin for Qpsol " alt="" coords="764,939,927,968"/>
+<area shape="rect" id="node81" href="$de/d8c/classcasadi_1_1GurobiInterface.html" title="&#39;gurobi&#39; plugin for Qpsol " alt="" coords="761,992,929,1021"/>
+<area shape="rect" id="node83" href="$db/dbb/classcasadi_1_1OoqpInterface.html" title="&#39;ooqp&#39; plugin for Qpsol " alt="" coords="765,1045,925,1075"/>
+<area shape="rect" id="node85" href="$d5/d43/classcasadi_1_1QpoasesInterface.html" title="&#39;qpoases&#39; plugin for Qpsol " alt="" coords="755,1099,936,1128"/>
+<area shape="rect" id="node87" href="$dd/dd9/classcasadi_1_1QpToNlp.html" title="&#39;nlp&#39; plugin for Qpsol " alt="" coords="784,1152,907,1181"/>
+<area shape="rect" id="node89" href="$df/d48/classcasadi_1_1SqicInterface.html" title="&#39;sqic&#39; plugin for Qpsol " alt="" coords="768,1205,923,1235"/>
+<area shape="rect" id="node93" href="$d5/d7e/classcasadi_1_1ImplicitToNlp.html" title="&#39;nlp&#39; plugin for Rootfinder " alt="" coords="771,1259,920,1288"/>
+<area shape="rect" id="node95" href="$d6/def/classcasadi_1_1KinsolInterface.html" title="&#39;kinsol&#39; plugin for Rootfinder " alt="" coords="764,1312,927,1341"/>
+<area shape="rect" id="node97" href="$dd/d69/classcasadi_1_1Newton.html" title="&#39;newton&#39; plugin for Rootfinder " alt="" coords="787,1365,904,1395"/>
+<area shape="rect" id="node105" href="$d6/dfe/classcasadi_1_1MXFunction.html" title="Internal node class for MXFunction. " alt="" coords="775,1419,916,1448"/>
+<area shape="rect" id="node109" href="$df/d79/classcasadi_1_1SXFunction.html" title="Internal node class for SXFunction Do not use any internal class directly &#45; always use the public Fun..." alt="" coords="775,1472,916,1501"/>
+<area shape="rect" id="node113" href="$df/d15/classcasadi_1_1GenericTypeInternal.html" title="casadi::GenericTypeInternal\l\&lt; ID, T \&gt;" alt="" coords="479,1397,673,1443"/>
+<area shape="rect" id="node117" href="$d6/d2e/classcasadi_1_1DllLibrary.html" title="Dynamically linked library. " alt="" coords="511,1467,641,1496"/>
+<area shape="rect" id="node119" href="$d7/da8/classcasadi_1_1JitLibrary.html" title="Just&#45;in&#45;time library. " alt="" coords="513,1520,639,1549"/>
+<area shape="rect" id="node123" href="$de/d0e/classcasadi_1_1Assertion.html" title="Assertion. " alt="" coords="511,1573,641,1603"/>
+<area shape="rect" id="node125" href="$d9/d89/classcasadi_1_1Bilin.html" title="Calculate quadratic form. " alt="" coords="528,1627,624,1656"/>
+<area shape="rect" id="node127" href="$d6/d67/classcasadi_1_1BinaryMX.html" title="Represents any binary operation that involves two matrices. " alt="" coords="489,1679,663,1726"/>
+<area shape="rect" id="node129" href="$d5/d65/classcasadi_1_1Concat.html" title="Concatenation: Join multiple expressions stacking the nonzeros. " alt="" coords="519,1749,633,1779"/>
+<area shape="rect" id="node137" href="$d6/dc0/classcasadi_1_1ConstantMX.html" title="Represents an MX that is only composed of a constant. " alt="" coords="503,1803,649,1832"/>
+<area shape="rect" id="node145" href="$df/d64/classcasadi_1_1Determinant.html" title="Matrix determinant. " alt="" coords="500,1856,652,1885"/>
+<area shape="rect" id="node147" href="$d0/d8c/classcasadi_1_1Dot.html" title="Matrix dot. " alt="" coords="529,1909,623,1939"/>
+<area shape="rect" id="node149" href="$d7/daf/classcasadi_1_1Find.html" title="Finds the first nonzero element in a vector. " alt="" coords="528,1963,624,1992"/>
+<area shape="rect" id="node151" href="$d5/da1/classcasadi_1_1GetNonzeros.html" title="Get nonzeros of a matrix. " alt="" coords="499,2016,653,2045"/>
+<area shape="rect" id="node159" href="$d7/d93/classcasadi_1_1HorzRepmat.html" title="Horizontal repmat. " alt="" coords="501,2069,651,2099"/>
+<area shape="rect" id="node161" href="$d9/da9/classcasadi_1_1HorzRepsum.html" title="Horizontal repsum. " alt="" coords="500,2123,652,2152"/>
+<area shape="rect" id="node163" href="$df/dbc/classcasadi_1_1Inverse.html" title="Matrix inverse. " alt="" coords="517,2176,635,2205"/>
+<area shape="rect" id="node165" href="$d8/d30/classcasadi_1_1Monitor.html" title="Monitor. " alt="" coords="517,2229,635,2259"/>
+<area shape="rect" id="node167" href="$d2/d31/classcasadi_1_1MultipleOutput.html" title="casadi::MultipleOutput" alt="" coords="495,2283,657,2312"/>
+<area shape="rect" id="node181" href="$da/d52/classcasadi_1_1Multiplication.html" title="An MX atomic for matrix&#45;matrix product, note that the first factor must be provided transposed..." alt="" coords="499,2336,653,2365"/>
+<area shape="rect" id="node185" href="$dc/d0b/classcasadi_1_1Norm.html" title="Matrix and vector norms. " alt="" coords="523,2389,629,2419"/>
+<area shape="rect" id="node195" href="$d6/d60/classcasadi_1_1OutputNode.html" title="casadi::OutputNode" alt="" coords="501,2443,651,2472"/>
+<area shape="rect" id="node197" href="$da/d17/classcasadi_1_1Project.html" title="Change the sparsity of an expression. " alt="" coords="519,2496,633,2525"/>
+<area shape="rect" id="node199" href="$dc/ddc/classcasadi_1_1Rank1.html" title="Calculate rank1 update. " alt="" coords="521,2549,631,2579"/>
+<area shape="rect" id="node201" href="$df/d15/classcasadi_1_1Reshape.html" title="Reshape an expression. " alt="" coords="513,2603,639,2632"/>
+<area shape="rect" id="node203" href="$d7/d1c/classcasadi_1_1SetNonzeros.html" title="Assign or add entries to a matrix. " alt="" coords="499,2655,653,2702"/>
+<area shape="rect" id="node211" href="$dd/de8/classcasadi_1_1Solve.html" title="An MX atomic for linear solver solution: x = r * A^&#45;1 or x = r * A^&#45;T. " alt="" coords="503,2725,649,2755"/>
+<area shape="rect" id="node213" href="$db/d8d/classcasadi_1_1SubAssign.html" title="Reference to a submatrix. " alt="" coords="507,2779,645,2808"/>
+<area shape="rect" id="node215" href="$d5/d58/classcasadi_1_1SubRef.html" title="Reference to a submatrix. " alt="" coords="519,2832,633,2861"/>
+<area shape="rect" id="node217" href="$db/d76/classcasadi_1_1SymbolicMX.html" title="Represents a symbolic MX. " alt="" coords="503,2885,649,2915"/>
+<area shape="rect" id="node219" href="$d4/d84/classcasadi_1_1Transpose.html" title="Matrix transpose. " alt="" coords="509,2939,643,2968"/>
+<area shape="rect" id="node223" href="$d9/d19/classcasadi_1_1UnaryMX.html" title="Represents a general unary operation on an MX. " alt="" coords="512,2992,640,3021"/>
+<area shape="rect" id="node131" href="$dd/de9/classcasadi_1_1Diagcat.html" title="Diagonal concatenation of matrices. " alt="" coords="785,1643,905,1672"/>
+<area shape="rect" id="node133" href="$d0/d4d/classcasadi_1_1Horzcat.html" title="Horizontal concatenation. " alt="" coords="785,1696,905,1725"/>
+<area shape="rect" id="node135" href="$dd/dad/classcasadi_1_1Vertcat.html" title="Vertical concatenation of vectors. " alt="" coords="787,1749,904,1779"/>
+<area shape="rect" id="node139" href="$d9/d78/classcasadi_1_1Constant.html" title="A constant with all entries identical. " alt="" coords="748,1803,943,1832"/>
+<area shape="rect" id="node141" href="$dc/d35/classcasadi_1_1ConstantDM.html" title="A constant given as a DM. " alt="" coords="771,1856,920,1885"/>
+<area shape="rect" id="node143" href="$d2/d3f/classcasadi_1_1ZeroByZero.html" title="A zero&#45;by&#45;zero matrix. " alt="" coords="771,1909,920,1939"/>
+<area shape="rect" id="node153" href="$d0/d4b/classcasadi_1_1GetNonzerosSlice.html" title="casadi::GetNonzerosSlice" alt="" coords="753,1963,937,1992"/>
+<area shape="rect" id="node155" href="$d9/dc1/classcasadi_1_1GetNonzerosSlice2.html" title="casadi::GetNonzerosSlice2" alt="" coords="749,2016,941,2045"/>
+<area shape="rect" id="node157" href="$de/de4/classcasadi_1_1GetNonzerosVector.html" title="casadi::GetNonzerosVector" alt="" coords="748,2069,943,2099"/>
+<area shape="rect" id="node169" href="$d7/d7d/classcasadi_1_1GenericCall.html" title="casadi::GenericCall" alt="" coords="775,2208,916,2237"/>
+<area shape="rect" id="node173" href="$d9/d1d/classcasadi_1_1Split.html" title="Split: Split into multiple expressions splitting the nonzeros. " alt="" coords="796,2275,895,2304"/>
+<area shape="rect" id="node171" href="$db/d2a/classcasadi_1_1Call.html" title="casadi::Call" alt="" coords="1056,2195,1149,2224"/>
+<area shape="rect" id="node175" href="$df/df5/classcasadi_1_1Diagsplit.html" title="Diag split, x &#45;&gt; x0, x1, ... " alt="" coords="1040,2248,1165,2277"/>
+<area shape="rect" id="node177" href="$da/d91/classcasadi_1_1Horzsplit.html" title="Horizontal split, x &#45;&gt; x0, x1, ... " alt="" coords="1040,2301,1165,2331"/>
+<area shape="rect" id="node179" href="$d6/d6c/classcasadi_1_1Vertsplit.html" title="Vertical split of vectors, x &#45;&gt; x0, x1, ... " alt="" coords="1041,2355,1164,2384"/>
+<area shape="rect" id="node183" href="$da/dbe/classcasadi_1_1DenseMultiplication.html" title="An MX atomic for matrix&#45;matrix product, note that the factor must be provided transposed. " alt="" coords="748,2328,943,2357"/>
+<area shape="rect" id="node187" href="$da/dc0/classcasadi_1_1Norm1.html" title="1&#45;norm " alt="" coords="788,2381,903,2411"/>
+<area shape="rect" id="node189" href="$d0/d84/classcasadi_1_1Norm2.html" title="Represents a 2&#45;norm (spectral norm) " alt="" coords="788,2435,903,2464"/>
+<area shape="rect" id="node191" href="$d2/dda/classcasadi_1_1NormF.html" title="Represents a Frobenius norm. " alt="" coords="788,2488,903,2517"/>
+<area shape="rect" id="node193" href="$df/d80/classcasadi_1_1NormInf.html" title="Represents an infinity&#45;norm operation on a MX. " alt="" coords="784,2541,907,2571"/>
+<area shape="rect" id="node205" href="$d5/d5f/classcasadi_1_1SetNonzerosSlice.html" title="casadi::SetNonzerosSlice\l\&lt; Add \&gt;" alt="" coords="753,2594,937,2641"/>
+<area shape="rect" id="node207" href="$d7/d12/classcasadi_1_1SetNonzerosSlice2.html" title="casadi::SetNonzerosSlice2\l\&lt; Add \&gt;" alt="" coords="749,2663,941,2710"/>
+<area shape="rect" id="node209" href="$d7/de6/classcasadi_1_1SetNonzerosVector.html" title="Add the nonzeros of a matrix to another matrix. " alt="" coords="748,2733,943,2779"/>
+<area shape="rect" id="node221" href="$d6/dc3/classcasadi_1_1DenseTranspose.html" title="Matrix transpose (dense) " alt="" coords="757,2939,933,2968"/>
+<area shape="rect" id="node231" href="$d6/d22/classcasadi_1_1TinyXmlInterface.html" title="&#39;tinyxml&#39; plugin for XmlFile " alt="" coords="488,3045,664,3075"/>
+</map>

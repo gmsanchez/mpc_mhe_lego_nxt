@@ -1,0 +1,18 @@
+digraph "examples" {
+  compound=true
+  node [ fontsize="10", fontname="FreeSans.ttf"];
+  edge [ labelfontsize="10", labelfontname="FreeSans.ttf"];
+  subgraph clusterdir_c338a0fe4a5498415556b59ba12fd991 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_c338a0fe4a5498415556b59ba12fd991.html"];
+    dir_c338a0fe4a5498415556b59ba12fd991 [shape=plaintext label="examples"];
+    dir_efbb58edd138d7fa9aab917ddb172254 [shape=box label="algebra" color="black" fillcolor="white" style="filled" URL="dir_efbb58edd138d7fa9aab917ddb172254.html"];
+    dir_a63d868fb2a2ec60a66d113e7576ef6d [shape=box label="ctemplate" color="black" fillcolor="white" style="filled" URL="dir_a63d868fb2a2ec60a66d113e7576ef6d.html"];
+    dir_54eb16df1329b6f4878d51870fbdeadd [shape=box label="Function" color="black" fillcolor="white" style="filled" URL="dir_54eb16df1329b6f4878d51870fbdeadd.html"];
+    dir_08aff95f19118ca73986321a348e9a80 [shape=box label="integrators" color="black" fillcolor="white" style="filled" URL="dir_08aff95f19118ca73986321a348e9a80.html"];
+    dir_b91da69c1ba929b3f6f00a89d59053c0 [shape=box label="matrix" color="black" fillcolor="white" style="filled" URL="dir_b91da69c1ba929b3f6f00a89d59053c0.html"];
+    dir_64b42a38ca0dba37999b475f443426c2 [shape=box label="misc" color="black" fillcolor="white" style="filled" URL="dir_64b42a38ca0dba37999b475f443426c2.html"];
+    dir_923ab39ee1e99541db90679679ff7f59 [shape=box label="MX" color="black" fillcolor="white" style="filled" URL="dir_923ab39ee1e99541db90679679ff7f59.html"];
+    dir_946cb7d061b8258ed7058e26412ec2df [shape=box label="solvers" color="black" fillcolor="white" style="filled" URL="dir_946cb7d061b8258ed7058e26412ec2df.html"];
+    dir_73b64a8c4186fd45f5e22d6b2cc46d53 [shape=box label="SX" color="black" fillcolor="white" style="filled" URL="dir_73b64a8c4186fd45f5e22d6b2cc46d53.html"];
+  }
+}

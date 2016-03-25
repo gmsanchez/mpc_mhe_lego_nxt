@@ -1,0 +1,17 @@
+<map id="casadi::IpoptInterface" name="casadi::IpoptInterface">
+<area shape="rect" id="node2" href="$d8/dc2/classcasadi_1_1Nlpsol.html" title="NLP solver storage class. " alt="" coords="1153,343,1263,372"/>
+<area shape="rect" id="node4" href="$d2/dab/classcasadi_1_1FunctionInternal.html" title="Internal class for Function. " alt="" coords="849,343,1020,372"/>
+<area shape="rect" id="node6" href="$d9/dd3/classcasadi_1_1SharedObjectNode.html" title="casadi::SharedObjectNode" alt="" coords="464,364,656,393"/>
+<area shape="rect" id="node8" href="$d8/de8/classcasadi_1_1WeakRef.html" title="Weak reference type A weak reference to a SharedObject. " alt="" coords="499,471,621,500"/>
+<area shape="rect" id="node10" href="$d5/d4a/classcasadi_1_1SharedObject.html" title="SharedObject implements a reference counting framework similar for efficient and easily&#45;maintained me..." alt="" coords="245,209,403,239"/>
+<area shape="rect" id="node14" href="$da/da4/classcasadi_1_1Function.html" title="General function. " alt="" coords="499,153,621,183"/>
+<area shape="rect" id="node23" href="$d7/df2/classcasadi_1_1Compiler.html" title="Compiler. " alt="" coords="496,417,624,447"/>
+<area shape="rect" id="node32" href="$d5/da8/classcasadi_1_1Sparsity.html" title="General sparsity class. " alt="" coords="499,93,621,123"/>
+<area shape="rect" id="node12" href="$d5/d18/classcasadi_1_1PrintableObject.html" title="casadi::PrintableObject\l\&lt; SharedObject \&gt;" alt="" coords="11,201,179,247"/>
+<area shape="rect" id="node17" href="$dd/d13/classcasadi_1_1SparseStorage.html" title="casadi::SparseStorage\l\&lt; casadi::WeakRef \&gt;" alt="" coords="477,294,643,341"/>
+<area shape="rect" id="node19" href="$db/d35/structcasadi_1_1Options.html" title="Options metadata for a class. " alt="" coords="500,541,620,571"/>
+<area shape="rect" id="node21" href="$dd/d13/classcasadi_1_1SparseStorage.html" title="casadi::SparseStorage\l\&lt; casadi::Sparsity \&gt;" alt="" coords="477,225,643,271"/>
+<area shape="rect" id="node26" href="$d4/d37/classcasadi_1_1PluginInterface.html" title="casadi::PluginInterface\l\&lt; Nlpsol \&gt;" alt="" coords="852,395,1017,442"/>
+<area shape="rect" id="node35" href="$dd/d6b/classcasadi_1_1SparsityInterface.html" title="casadi::SparsityInterface\l\&lt; Sparsity \&gt;" alt="" coords="235,85,413,131"/>
+<area shape="rect" id="node37" href="$d2/d9a/structcasadi_1_1SparsityInterfaceCommon.html" title="Empty Base This class is extended in SWIG. " alt="" coords="5,85,184,131"/>
+</map>

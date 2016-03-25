@@ -1,0 +1,7 @@
+<map id="casadi::ConstantMX" name="casadi::ConstantMX">
+<area shape="rect" id="node7" href="$d9/d78/classcasadi_1_1Constant.html" title="A constant with all entries identical. " alt="" coords="5,237,200,267"/>
+<area shape="rect" id="node9" href="$dc/d35/classcasadi_1_1ConstantDM.html" title="A constant given as a DM. " alt="" coords="224,237,373,267"/>
+<area shape="rect" id="node11" href="$d2/d3f/classcasadi_1_1ZeroByZero.html" title="A zero&#45;by&#45;zero matrix. " alt="" coords="397,237,547,267"/>
+<area shape="rect" id="node2" href="$d0/d19/classcasadi_1_1MXNode.html" title="Node class for MX objects. " alt="" coords="237,83,360,112"/>
+<area shape="rect" id="node4" href="$d9/dd3/classcasadi_1_1SharedObjectNode.html" title="casadi::SharedObjectNode" alt="" coords="203,5,395,35"/>
+</map>

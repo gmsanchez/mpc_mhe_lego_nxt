@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::casadi_math\< T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d93/structcasadi_1_1casadi__math.html",tooltip="Easy access to all the functions for a particular type. "];
+}

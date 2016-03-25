@@ -1,0 +1,9 @@
+digraph "sqic" {
+  compound=true
+  node [ fontsize="10", fontname="FreeSans.ttf"];
+  edge [ labelfontsize="10", labelfontname="FreeSans.ttf"];
+  subgraph clusterdir_3704cb05e0a8565fe7675e5730d54a9f {
+    graph [ bgcolor="#ddddee", pencolor="black", label="interfaces" fontname="FreeSans.ttf", fontsize="10", URL="dir_3704cb05e0a8565fe7675e5730d54a9f.html"]
+  dir_734d05e4276bf16fc107913bbe4662f3 [shape=box, label="sqic", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_734d05e4276bf16fc107913bbe4662f3.html"];
+  }
+}

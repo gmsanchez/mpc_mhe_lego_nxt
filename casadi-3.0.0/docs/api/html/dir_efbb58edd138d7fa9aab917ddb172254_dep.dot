@@ -1,0 +1,9 @@
+digraph "algebra" {
+  compound=true
+  node [ fontsize="10", fontname="FreeSans.ttf"];
+  edge [ labelfontsize="10", labelfontname="FreeSans.ttf"];
+  subgraph clusterdir_c338a0fe4a5498415556b59ba12fd991 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="examples" fontname="FreeSans.ttf", fontsize="10", URL="dir_c338a0fe4a5498415556b59ba12fd991.html"]
+  dir_efbb58edd138d7fa9aab917ddb172254 [shape=box, label="algebra", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_efbb58edd138d7fa9aab917ddb172254.html"];
+  }
+}

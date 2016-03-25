@@ -1,0 +1,31 @@
+digraph "casadi::SXNode"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::SXNode",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::BinarySX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$dd/d51/classcasadi_1_1BinarySX.html",tooltip="Represents a basic binary operation on two SXElem nodes. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::ConstantSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d9d/classcasadi_1_1ConstantSX.html",tooltip="Represents a constant SX. "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::InfSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/d43/classcasadi_1_1InfSX.html",tooltip="Represents an infinity SX. "];
+  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::IntegerSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d6f/classcasadi_1_1IntegerSX.html",tooltip="Represents a constant integer SX. "];
+  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::MinusInfSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d0e/classcasadi_1_1MinusInfSX.html",tooltip="Represents a minus infinity SX. "];
+  Node3 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::MinusOneSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d25/classcasadi_1_1MinusOneSX.html",tooltip="Represents a minus one SX. "];
+  Node3 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="casadi::NanSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/d78/classcasadi_1_1NanSX.html",tooltip="Represents a not-a-number SX. "];
+  Node3 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="casadi::OneSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d5d/classcasadi_1_1OneSX.html",tooltip="Represents a one SX. "];
+  Node3 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="casadi::RealtypeSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$df/de7/classcasadi_1_1RealtypeSX.html",tooltip="DERIVED CLASSES. "];
+  Node3 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="casadi::ZeroSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/dbe/classcasadi_1_1ZeroSX.html",tooltip="Represents a zero SX. "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node12 [label="casadi::SymbolicSX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/de8/classcasadi_1_1SymbolicSX.html",tooltip="Represents a scalar symbolic expression. "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node13 [label="casadi::UnarySX",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/d8a/classcasadi_1_1UnarySX.html",tooltip="Represents a basic unary operation on an SXElem node. "];
+}

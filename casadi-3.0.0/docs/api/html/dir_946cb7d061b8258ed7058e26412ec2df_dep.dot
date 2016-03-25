@@ -1,0 +1,9 @@
+digraph "solvers" {
+  compound=true
+  node [ fontsize="10", fontname="FreeSans.ttf"];
+  edge [ labelfontsize="10", labelfontname="FreeSans.ttf"];
+  subgraph clusterdir_c338a0fe4a5498415556b59ba12fd991 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="examples" fontname="FreeSans.ttf", fontsize="10", URL="dir_c338a0fe4a5498415556b59ba12fd991.html"]
+  dir_946cb7d061b8258ed7058e26412ec2df [shape=box, label="solvers", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_946cb7d061b8258ed7058e26412ec2df.html"];
+  }
+}

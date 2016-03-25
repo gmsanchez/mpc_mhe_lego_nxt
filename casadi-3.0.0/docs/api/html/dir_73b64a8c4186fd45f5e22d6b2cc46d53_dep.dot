@@ -1,0 +1,9 @@
+digraph "SX" {
+  compound=true
+  node [ fontsize="10", fontname="FreeSans.ttf"];
+  edge [ labelfontsize="10", labelfontname="FreeSans.ttf"];
+  subgraph clusterdir_c338a0fe4a5498415556b59ba12fd991 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="examples" fontname="FreeSans.ttf", fontsize="10", URL="dir_c338a0fe4a5498415556b59ba12fd991.html"]
+  dir_73b64a8c4186fd45f5e22d6b2cc46d53 [shape=box, label="SX", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_73b64a8c4186fd45f5e22d6b2cc46d53.html"];
+  }
+}

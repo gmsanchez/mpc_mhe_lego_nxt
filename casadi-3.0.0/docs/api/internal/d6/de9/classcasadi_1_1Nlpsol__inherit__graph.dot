@@ -1,0 +1,25 @@
+digraph "casadi::Nlpsol"
+{
+  edge [fontname="FreeSans.ttf",fontsize="10",labelfontname="FreeSans.ttf",labelfontsize="10"];
+  node [fontname="FreeSans.ttf",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="casadi::Nlpsol",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="casadi::FunctionInternal",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d2/dab/classcasadi_1_1FunctionInternal.html",tooltip="Internal class for Function. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="casadi::SharedObjectNode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d9/dd3/classcasadi_1_1SharedObjectNode.html"];
+  Node4 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="casadi::PluginInterface\l\< Nlpsol \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d4/d37/classcasadi_1_1PluginInterface.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="casadi::IpoptInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d7/d2f/classcasadi_1_1IpoptInterface.html",tooltip="&#39;ipopt&#39; plugin for Nlpsol "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="casadi::KnitroInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db/dba/classcasadi_1_1KnitroInterface.html",tooltip="&#39;knitro&#39; plugin for Nlpsol "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="casadi::Scpgen",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d6/dd8/classcasadi_1_1Scpgen.html",tooltip="&#39;scpgen&#39; plugin for Nlpsol "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="casadi::SnoptInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/d05/classcasadi_1_1SnoptInterface.html",tooltip="&#39;snopt&#39; plugin for Nlpsol "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="casadi::Sqpmethod",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d8/dad/classcasadi_1_1Sqpmethod.html",tooltip="&#39;sqpmethod&#39; plugin for Nlpsol "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="casadi::WorhpInterface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$d5/d79/classcasadi_1_1WorhpInterface.html",tooltip="&#39;worhp&#39; plugin for Nlpsol "];
+}

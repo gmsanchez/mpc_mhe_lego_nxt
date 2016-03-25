@@ -1,12 +1,11 @@
 # We show two different ways to create a CasADi function.
 # Using plain CasADi and using Rawlings' mpc-toolbox-casadi function helper.
-
-import sys
-from os.path import expanduser
-home = expanduser("~")
-code_dir = home+"/fun/thesis/code/"
-if code_dir not in sys.path:
-    sys.path.extend([code_dir])
+# import sys
+# from os.path import expanduser
+# home = expanduser("~")
+# code_dir = home+"/fun/thesis/code/"
+# if code_dir not in sys.path:
+#     sys.path.extend([code_dir])
 
 import casadi
 import model_lego as model

@@ -91,3 +91,52 @@ def mtimes(*args, **kwargs):
     # Now actually do multiplication.
     ans = ctools.mtimes(args) if useMul else reduce(np.dot, args)
     return ans
+
+
+def jaccsd(fun, x, u=None):
+    """ Jacobian through complex step differentiation
+
+    :param fun: any python callable function
+    :param np.multiarray.ndarray x: vector of current state of the system
+    :param np.multiarray.ndarray u: vector of current input of the system
+    :return: A = df(x,u)/dx, B = df(x,u)/du
+
+    References:
+    [1] http://blogs.mathworks.com/cleve/2013/10/14/complex-step-differentiation/
+    [2] http://mdolab.engin.umich.edu/sites/default/files/Martins2003CSD.pdf
+    """
+
+    if u is None:
+        p = 0
+        z = fun(x)
+        m = np.size(z)
+        B = np.zeros([m, p])
+    else:
+        p = np.size(u)
+        z = fun(x, u)
+        m = np.size(z)
+        B = np.zeros([m, p])
+
+    # Just to make sure we don't touch the the original values when we convert them to complex numbers.
+    u = u.astype(complex, copy=True).ravel()
+    x = x.astype(complex, copy=True).ravel()
+
+    n = np.size(x)
+    A = np.zeros([m, n])
+
+    # Get machine espsilon for floats
+    h = np.finfo(np.float).eps * 100
+    for k in range(n):
+        x1 = x.copy()
+        x1[k] += h * 1j
+        if u is None:
+            A[:, k] = np.imag(fun(x1)) / h
+        else:
+            A[:, k] = np.imag(fun(x1, u)) / h
+
+    for k in range(p):
+        u1 = u.copy()
+        u1[k] += h * 1j
+        B[:, k] = np.imag(fun(x, u1)) / h
+
+    return [z, A, B]

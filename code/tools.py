@@ -10,7 +10,7 @@ def nmhe(f, h, u, y, l, N, lx=None, x0bar=None, lb={}, ub={}, guess={}, g=None,
     pass
 
 
-def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None):
+def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_guess=None, guess=None, returnSolver=False):
 
     N = N.copy()
     # Check specified sizes.
@@ -41,10 +41,12 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None):
                                      ctools.entry("Gd", repeat=N["t"], shape=(N["x"], N["w"])),
                                      ctools.entry("fd", repeat=N["t"], shape=(N["x"], 1))])
 
+    # print "Ad: ", len(parStruct["Ad"])
+
     # Build the objective
     obj = 0
     # First, the arrival cost
-    # obj += lx((varStruct["x", 0] - parStruct["x0bar"]), parStruct["P0"])[0]
+    obj += lx((varStruct["x", 0] - parStruct["x0bar"]), parStruct["P0"])
     for i in range(N["t"]):
         obj += l(varStruct["w", i], varStruct["v", i])
     # Final term of stage costs.
@@ -78,11 +80,36 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None):
     varVal = varStruct(0)
     parVal = parStruct(0)
 
+    parVal["P0"] = P0
+    parVal["x0bar"] = x0bar
+
+    if ltv_guess is not None:
+        for k in ltv_guess.keys():
+            for t in range(len(parVal[k])):
+                parVal[k,t] = ltv_guess[k,t]
+            # print k, parVal[k]
+
+    for t in range(len(parVal["u"])):
+        parVal["u",t] = u[t,:]
+
+    for t in range(len(parVal["y"])):
+        parVal["y", t] = y[t, :]
+
+    # parDict = {'u': u, 'y': y}
+    # for k in parDict.keys(): #("y","u"):
+    #     for t in range(len(parVal[k])):
+    #         parVal[k,t] = parDict[k][t, :]
+
     # Formulate the NLP
     nlp = {'x': varStruct, 'p': parStruct, 'f': obj, 'g': con}
-    opts = {"ipopt.print_level": 4, "print_time": False, 'ipopt.max_iter': 100}
+    opts = {"ipopt.print_level": 0, "print_time": False, 'ipopt.max_iter': 100}
     nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
-    res = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0)
+    if returnSolver:
+        return nlp_solver
+    else:
+        sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0)
+        return varStruct(sol["x"])
+
 
 def nmhe_rk4():
     pass

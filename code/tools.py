@@ -115,6 +115,36 @@ def nmhe_rk4():
     pass
 
 
+def extendCasadiSymStruct(thisStruct, copycontents=False):
+
+    structDict = {}
+    structType = type(thisStruct)
+    for k in thisStruct.keys():
+        structDict[k] = thisStruct.struct.getStructEntryByStructIndex([k]).dict.copy()
+        if 'repeat' in structDict[k].keys():
+            # print structDict[k]['repeat']
+            structDict[k]['repeat'] += 1
+
+    structArgs = tuple([ctools.entry(name, **args) for (name, args) in structDict.items()])
+    # extStruct = ctools.struct([structArgs])
+    if isinstance(thisStruct, casadi.tools.structure.DMStruct):
+        extStruct = ctools.struct_symSX([structArgs])
+        extStruct = extStruct(0)
+    else:
+        extStruct = structType([structArgs])
+
+    if copycontents:
+        if isinstance(thisStruct,casadi.tools.structure.DMStruct):
+            for k in thisStruct.keys():
+                if isinstance(extStruct[k],list):
+                    extStruct[k,0:-1] = thisStruct[k,:]
+                    extStruct[k,-1] = thisStruct[k,-1]
+                else:
+                    extStruct[k] = thisStruct[k]
+
+    return extStruct
+
+
 def getCasadiSymStruct(allVars, theseVars, finalx=False, finaly=False):
     pass
 

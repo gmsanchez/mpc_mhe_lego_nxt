@@ -7,6 +7,7 @@ import tools
 import util
 import matplotlib.pyplot as plt
 from scipy import linalg
+import time
 
 doSimPlots = False
 doMHEPlots = True
@@ -153,6 +154,7 @@ for t in range(Nsim):
     tmax = t+1
 
     print (tmin, tmax)
+    starttime = time.clock()
     # print "ltv_len: ",len(range(N["t"]))
     for k in range(N["t"]):
         ltv_guess["Ad",k], ltv_guess["Bd",k], ltv_guess["Gd",k], ltv_guess["fd",k] =\
@@ -178,6 +180,8 @@ for t in range(Nsim):
     #     curr_sol['x',0:tmax] = sol['x',0:tmax]
 
     # raw_input("Ciclo for...")
+    print "%3d (%10.5g s)" % (t, time.clock() - starttime)
+    # print "%3d (%10.5g s): %s" % (t, time.clock() - starttime, sol["status"])
 
 for i in xrange(1,len(curr_sol["x"])):
     xhat_ltv.append(np.array(curr_sol["x",i]).flatten())

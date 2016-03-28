@@ -80,6 +80,11 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
     varVal = varStruct(0)
     parVal = parStruct(0)
 
+    if guess is not None:
+        for k in set(guess.keys()).intersection(varVal.keys()):
+            for i in range(len(varVal[k])):
+                varVal[k][i] = guess[k][i]
+
     parVal["P0"] = P0
     parVal["x0bar"] = x0bar
 
@@ -111,8 +116,116 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
         return varStruct(sol["x"])
 
 
-def nmhe_rk4():
-    pass
+def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnSolver=False):
+
+    N = N.copy()
+    # Check specified sizes.
+    try:
+        for i in ["x", "y"]:
+            if N[i] <= 0:
+                N[i] = 1
+            if N["t"] < 0:
+                N["t"] = 0
+        if "w" not in N:
+            N["w"] = N["x"]
+        N["v"] = N["y"]
+    except KeyError:
+        raise KeyError("Invalid or missing entries in N dictionary!")
+
+    # Structure that will be degrees of freedom for the optimizer
+    varStruct = ctools.struct_symSX([ctools.entry("x", repeat=N["t"]+1, shape=(N["x"], 1)),
+                                     ctools.entry("w", repeat=N["t"], shape=(N["w"], 1)),
+                                     ctools.entry("v", repeat=N["t"]+1, shape=(N["v"], 1))])
+
+    # Structure that will be fixed parameters for the optimizer
+    parStruct = ctools.struct_symSX([ctools.entry("y", repeat=N["t"]+1, shape=(N["y"], 1)),
+                                     ctools.entry("u", repeat=N["t"], shape=(N["u"], 1)),
+                                     ctools.entry("x0bar", shape=(N["x"], 1)),
+                                     ctools.entry("P0", shape=(N["x"], N["x"])) ])
+                                     # ctools.entry("Ad", repeat=N["t"], shape=(N["x"], N["x"])),
+                                     # ctools.entry("Bd", repeat=N["t"], shape=(N["x"], N["u"])),
+                                     # ctools.entry("Gd", repeat=N["t"], shape=(N["x"], N["w"])),
+                                     # ctools.entry("fd", repeat=N["t"], shape=(N["x"], 1))])
+
+    # print "Ad: ", len(parStruct["Ad"])
+
+    # Build the objective
+    obj = 0
+    # First, the arrival cost
+    obj += lx((varStruct["x", 0] - parStruct["x0bar"]), parStruct["P0"])
+    for i in range(N["t"]):
+        obj += l(varStruct["w", i], varStruct["v", i])
+    # Final term of stage costs.
+    obj += l(np.zeros((N["w"],)), varStruct["v", -1])  # Or should we use N["t"]+1 as index?
+
+    # Build the constraints
+    # State evolution f.
+    state_constraints = []
+    for t in range(N["t"]):
+        state_constraints.append(varStruct["x", t+1] - f(varStruct["x",t], parStruct["u",t], np.zeros((N["w"],))) - varStruct["w",t])
+                                 # casadi.mtimes(parStruct["Ad", t], varStruct["x", t]) -
+                                 # casadi.mtimes(parStruct["Bd", t], parStruct["u", t]) -
+                                 # casadi.mtimes(parStruct["Gd", t], varStruct["w", t]) -
+                                 # parStruct["fd", t])
+    # for idx, thiscon in enumerate(state_constraints):
+    #     print (idx, thiscon)
+    #     raw_input()
+
+    # Measurement h.
+    measurement_constraints = []
+    for t in range(N["t"]+1):
+        measurement_constraints.append(parStruct["y", t] - h(varStruct["x", t]) - varStruct["v", t])
+    # for idx, thiscon in enumerate(measurement_constraints):
+    #     print (idx, thiscon)
+    #     raw_input()
+
+    # Build up constraints.
+    con = []
+    for k in range(len(state_constraints)):
+        con.append(state_constraints[k])
+    for k in range(len(measurement_constraints)):
+        con.append(measurement_constraints[k])
+    # con = state_constraints + measurement_constraints
+    con = casadi.vertcat(*con)
+
+    varVal = varStruct(0)
+    parVal = parStruct(0)
+
+    if guess is not None:
+        for k in set(guess.keys()).intersection(varVal.keys()):
+            for i in range(len(varVal[k])):
+                varVal[k][i] = guess[k][i]
+
+
+    parVal["P0"] = P0
+    parVal["x0bar"] = x0bar
+
+    # if ltv_guess is not None:
+    #     for k in ltv_guess.keys():
+    #         for t in range(len(parVal[k])):
+    #             parVal[k,t] = ltv_guess[k,t]
+            # print k, parVal[k]
+
+    for t in range(len(parVal["u"])):
+        parVal["u",t] = u[t,:]
+
+    for t in range(len(parVal["y"])):
+        parVal["y", t] = y[t, :]
+
+    # parDict = {'u': u, 'y': y}
+    # for k in parDict.keys(): #("y","u"):
+    #     for t in range(len(parVal[k])):
+    #         parVal[k,t] = parDict[k][t, :]
+
+    # Formulate the NLP
+    nlp = {'x': varStruct, 'p': parStruct, 'f': obj, 'g': con}
+    opts = {"ipopt.print_level": 0, "print_time": False, 'ipopt.max_iter': 100}
+    nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
+    if returnSolver:
+        return nlp_solver
+    else:
+        sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0)
+        return varStruct(sol["x"])
 
 
 def extendCasadiSymStruct(thisStruct, copycontents=False):

@@ -16,8 +16,8 @@ v0 = np.zeros(Ny)
 # DC motor state space system model
 # http://ctms.engin.umich.edu/CTMS/index.php?example=MotorPosition&section=SystemModeling
 
-wR = 43.2*0.5   # Wheel radius [mm]
-wB = 82.0       # Distance between wheels [mm]
+wR = (43.2*0.5)/1000.0   # Wheel radius [mm]
+wB = (82.0)/1000.0       # Distance between wheels [mm]
 fm = 0.0022     # motor viscous friction constant
 Jm = 1e-5       # DC motor inertia moment [kgm^2]
 Rm = 6.69       # DC motor resistance []
@@ -62,7 +62,7 @@ def F(x, u, w=w0):
     
     return np.array([0.5*wR*(x[4]+x[7])*np.cos(x[2]),
                      0.5*wR*(x[4]+x[7])*np.sin(x[2]),
-                     (wR/wB)*(-x[4]+x[7]),
+                     (wR/wB)*(x[4]-x[7]),
                      x[4],
                      -(fm/Jm)*x[4] + (Kt/Jm)*x[5],
                      -(Kb/L)* x[4] - (Rm/L)* x[5] + ((Gu*(mu*Vb-Vo))/L)*u[0],

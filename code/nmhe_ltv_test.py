@@ -50,8 +50,8 @@ x0 = np.zeros((Nx,))
 wsim = 0.0*sigma_w*np.fabs(np.random.randn(Nsim, Nw))
 vsim = 0.0*sigma_v*(np.random.rand(Nsim, Nv)-0.5)
 
-usim = [40.0, 40.0]*np.ones((Nsim, Nu))
-usim[0:25,0] = np.linspace(0,40,25)
+usim = [80.0, 40.0]*np.ones((Nsim, Nu))
+usim[0:25,0] = np.linspace(0,80,25)
 usim[0:25,1] = np.linspace(0,40,25)
 # usim[0:,0] =
 ysim = np.zeros((Nsim, Ny))

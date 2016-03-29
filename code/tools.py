@@ -41,8 +41,6 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
                                      ctools.entry("Gd", repeat=N["t"], shape=(N["x"], N["w"])),
                                      ctools.entry("fd", repeat=N["t"], shape=(N["x"], 1))])
 
-    # print "Ad: ", len(parStruct["Ad"])
-
     # Build the objective
     obj = 0
     # First, the arrival cost
@@ -83,7 +81,7 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
     if guess is not None:
         for k in set(guess.keys()).intersection(varVal.keys()):
             for i in range(len(varVal[k])):
-                varVal[k][i] = guess[k][i]
+                varVal[k,i] = guess[k,i]
 
     parVal["P0"] = P0
     parVal["x0bar"] = x0bar
@@ -194,7 +192,7 @@ def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnS
     if guess is not None:
         for k in set(guess.keys()).intersection(varVal.keys()):
             for i in range(len(varVal[k])):
-                varVal[k][i] = guess[k][i]
+                varVal[k,i] = guess[k,i]
 
 
     parVal["P0"] = P0
@@ -228,9 +226,94 @@ def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnS
         return varStruct(sol["x"])
 
 
-def nmpc_ltv()
-    pass
+def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_guess=None, guess=None, returnSolver=False):
 
+    N = N.copy()
+    # Check specified sizes.
+    try:
+        for i in ["t","x"]:
+            if N[i] <= 0:
+                N[i] = 1
+        # if e is not None and N["e"] <= 0:
+        #     N["e"] = 1
+    except KeyError as err:
+        raise KeyError("Missing entries in N dictionary: %s" % (err.message,))
+
+    # Structure that will be degrees of freedom for the optimizer
+    varStruct = ctools.struct_symSX([ctools.entry("x", repeat=N["t"],   shape=(N["x"], 1)),
+                                     ctools.entry("u", repeat=N["t"]-1, shape=(N["u"], 1))])
+
+    # Structure that will be fixed parameters for the optimizer
+    parStruct = ctools.struct_symSX([ctools.entry("x0", shape=(N["x"], 1)),
+                                     ctools.entry("Qn", shape=(N["x"], N["x"])),
+                                     ctools.entry("Ad", repeat=N["t"]-1, shape=(N["x"], N["x"])),
+                                     ctools.entry("Bd", repeat=N["t"]-1, shape=(N["x"], N["u"])),
+                                     ctools.entry("fd", repeat=N["t"]-1, shape=(N["x"], 1))])
+
+    # Build the objective
+    obj = 0
+    # First, the cost-to-go. The matrix Qn might be time varying.
+    obj += lx(varStruct["x",-1],parStruct["Qn"])
+    for i in range(N["t"]-1):
+        obj += l(varStruct["x",i],varStruct["u",i])
+
+    # Build the constraints
+    # State evolution f.
+    state_constraints = []
+    # Add x0 equality contraint.
+    state_constraints.append(varStruct["x",0] - parStruct["x0"])
+
+    for t in range(N["t"]-1):
+        state_constraints.append(varStruct["x", t+1] -
+                                 casadi.mtimes(parStruct["Ad", t], varStruct["x", t]) -
+                                 casadi.mtimes(parStruct["Bd", t], varStruct["u", t]) -
+                                 # casadi.mtimes(parStruct["Gd", t], varStruct["w", t]) -
+                                 parStruct["fd", t])
+
+    con = state_constraints
+    con = casadi.vertcat(*con)
+###
+    varVal = varStruct(0)
+    parVal = parStruct(0)
+
+    lbx = varStruct(-casadi.inf)
+    for k in set(lb.keys()).intersection(lbx.keys()):
+        for t in range(len(lbx[k])):
+            lbx[k,t] = lb[k]
+
+    ubx = varStruct(casadi.inf)
+    for k in set(ub.keys()).intersection(ubx.keys()):
+        for t in range(len(ubx[k])):
+            ubx[k,t] = ub[k]
+
+    if guess is not None:
+        for k in set(guess.keys()).intersection(varVal.keys()):
+            for i in range(len(varVal[k])):
+                varVal[k][i] = guess[k][i]
+                # print guess[k][i]
+                # raw_input()
+
+    parVal["Qn"] = Qn
+    parVal["x0"] = x0
+
+    if ltv_guess is not None:
+        for k in set(ltv_guess.keys()).intersection(set(["Ad", "Bd", "fd"])):
+            for t in range(len(parVal[k])):
+                parVal[k,t] = ltv_guess[k,t]
+                # print k, ltv_guess[k,t]
+                # print k, parVal[k,t]
+                # raw_input()
+
+    # Formulate the NLP
+    nlp = {'x': varStruct, 'p': parStruct, 'f': obj, 'g': con}
+    opts = {"ipopt.print_level": 0, "print_time": False, 'ipopt.max_iter': 100}
+    nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
+    if returnSolver:
+        return nlp_solver
+    else:
+        sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lbx, ubx=ubx)
+        return varStruct(sol["x"]), varVal, parVal
+###
 
 def extendCasadiSymStruct(thisStruct, copycontents=False):
 

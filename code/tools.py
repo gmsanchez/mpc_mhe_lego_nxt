@@ -228,6 +228,10 @@ def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnS
         return varStruct(sol["x"])
 
 
+def nmpc_ltv()
+    pass
+
+
 def extendCasadiSymStruct(thisStruct, copycontents=False):
 
     structDict = {}

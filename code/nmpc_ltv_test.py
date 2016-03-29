@@ -108,8 +108,8 @@ for t in range(Nsim):
 
     sol,_,_ = tools.nmpc_ltv(f_casadi, l, N, x0=_xk, lx=lx, Qn=Qn, lb=lb, ub=ub, ltv_guess=parVal, guess=varVal)
 
-    # _uk = np.around( sol["u"][0].full().ravel() , decimals=0)
-    _uk = sol["u"][0].full().ravel()
+    _uk = np.around( sol["u"][0].full().ravel() , decimals=0)
+    # _uk = sol["u"][0].full().ravel()
     # print _uk
     _xk = sol["x"][0].full().ravel()
     # print _xk

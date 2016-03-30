@@ -309,7 +309,8 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
     opts = {"ipopt.print_level": 0, "print_time": False, 'ipopt.max_iter': 100}
     nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
     if returnSolver:
-        return nlp_solver
+        sol = varStruct(0)
+        return nlp_solver, sol, varVal, parVal, lbx, ubx
     else:
         sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lbx, ubx=ubx)
         return varStruct(sol["x"]), varVal, parVal

@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 
 doPlots = True
 
-f = model.F
-h = model.H
+f = model.f
+h = model.h
 
 Nx = model.Nx
 Nu = model.Nu
@@ -25,10 +25,10 @@ Nsim = 80
 # sigma_v = 0.25  # Standard deviation of the measurements
 # sigma_p = 0.5    # Standard deviation for prior
 
-f_casadi = tools.getCasadiFunc(model.F, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=False)
+f_casadi = tools.getCasadiFunc(f, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=False)
 h_casadi = tools.getCasadiFunc(h, [Nx], ["x"], "H")
 
-f_casadi_int = tools.getCasadiIntegrator(model.F,Delta,[Nx,Nu],["x","u"],"int_f")
+f_casadi_int = tools.getCasadiIntegrator(f,Delta,[Nx,Nu],["x","u"],"int_f")
 
 def _calc_lin_disc_wrapper_for_mp_map(item):
     """ Function wrapper for map or multiprocessing.map . """

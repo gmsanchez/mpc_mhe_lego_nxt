@@ -3,7 +3,7 @@ import casadi.tools as ctools
 import numpy as np
 import scipy.linalg
 # import model_dcmotor as model
-import model_lego as model
+import model_nmhe_example as model
 import tools
 import util
 import matplotlib.pyplot as plt
@@ -14,8 +14,8 @@ doSimPlots = False
 doMHEPlots = True
 fullInformation = False
 
-f = model.F
-h = model.H
+f = model.f
+h = model.h
 
 Nx = model.Nx
 Nu = model.Nu
@@ -23,17 +23,17 @@ Nw = model.Nw
 Ny = model.Ny
 Nv = model.Nv
 
-Delta = 0.01
+Delta = 0.25
 Nt = 10         # Horizon size
 Nsim = 80
 
-sigma_w = 0.0001   # Standard deviation for the process noise
-sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
+sigma_w = 0.001   # Standard deviation for the process noise
+sigma_v = 0.25  # Standard deviation of the measurements
 sigma_p = 0.5    # Standard deviation for prior
 
-f_casadi = tools.getCasadiFunc(model.F, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=False)
+f_casadi = tools.getCasadiFunc(f, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=False)
 h_casadi = tools.getCasadiFunc(h, [Nx], ["x"], "H")
-f_casadi_rk4 = tools.getCasadiFunc(model.F, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=True, Delta=Delta, M=5)
+f_casadi_rk4 = tools.getCasadiFunc(f, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=True, Delta=Delta, M=2)
 
 # def _calc_lin_disc_wrapper_for_mp_map(item):
 #     """ Function wrapper for map or multiprocessing.map . """
@@ -45,14 +45,15 @@ f_casadi_rk4 = tools.getCasadiFunc(model.F, [Nx, Nu, Nw], ["x", "u", "w"], "f", 
 #     [Ai[:], Bi[:], Gi[:], Ei[:]] = util.c2d(Ai, Bi, _Delta, Gi, Ei)
 #     return Ai, Bi, Gi, Ei
 
-x0 = np.zeros((Nx,))
+x0 = np.array([0.5,0.05,0.0])
+x_0 = np.array([1.0, 0.0, 4.0])
 
-wsim = 0.0*sigma_w*np.fabs(np.random.randn(Nsim, Nw))
-vsim = 0.0*sigma_v*(np.random.rand(Nsim, Nv)-0.5)
+wsim = sigma_w*(np.random.randn(Nsim, Nw))
+vsim = sigma_v*(np.random.randn(Nsim, Nv))
 
-usim = [80.0, 40.0]*np.ones((Nsim, Nu))
-usim[0:20,0] = np.linspace(0,80,20)
-usim[0:20,1] = np.linspace(0,40,20)
+usim = np.zeros((Nsim, Nu))
+# usim[0:20,0] = np.linspace(0,80,20)
+# usim[0:20,1] = np.linspace(0,40,20)
 ysim = np.zeros((Nsim, Ny))
 
 # xsim_rk4 = np.zeros((Nsim+1, Nx))
@@ -64,8 +65,8 @@ xsim_rk4[0,:] = x0
 
 for t in range(Nsim):
     # Measure.
-    # ysim[t] = model.H(xsim_rk4[t,:]) + vsim[t,:]
-    ysim[t] = np.deg2rad( np.around( np.rad2deg( model.H(xsim_rk4[t,:]) + vsim[t,:]), decimals=0))
+    ysim[t] = h(xsim_rk4[t,:]) + vsim[t,:]
+    # ysim[t] = np.deg2rad( np.around( np.rad2deg( h(xsim_rk4[t,:]) + vsim[t,:]), decimals=0))
     # Simulate with CasADi integrator.
     # xsim_int[t+1,:] = f_casadi_int(xsim_int[t,:], usim[t,:], wsim[t,:]).full().ravel() #F_integrator(x0=xsim_int[t,:],p=np.hstack((usim[t,:],wsim[t,:])))['xf'].full().ravel()
     # xsim_rk4[t+1,:] = f_casadi_rk4(xsim_rk4[t,:], usim[t,:], wsim[t,:]).full().ravel()
@@ -119,7 +120,6 @@ R = np.diag((sigma_v*np.ones((Nv,)))**2)
 Qinv = scipy.linalg.inv(Q)
 Rinv = scipy.linalg.inv(R)
 P = np.diag((sigma_p*np.ones((Nx,)))**2)
-x_0 = x0 + 0.0*sigma_p*np.random.randn(Nx)
 
 def lfunc(w, v):
     return util.mtimes(w.T, Qinv, w) + util.mtimes(v.T, Rinv, v)
@@ -147,6 +147,10 @@ curr_sol = varStruct(0)
 curr_sol["x",0] = x_0
 xhat_ltv = np.zeros((Nsim,Nx))
 xhat_ltv[0,:] = x_0
+
+lb = {'x': np.array([0.0, 0.0, 0.0])}
+ub = {'x': np.array([np.inf, np.inf, np.inf])}
+_lambda = 0.3
 # xhat_ltv.append(x_0)
 
 for t in range(Nsim):
@@ -171,7 +175,7 @@ for t in range(Nsim):
     #     print k, ltv_guess[k]
 
     sol = tools.nmhe_rk4(f_casadi_rk4, h_casadi, usim[tmin:tmax-1,:], ysim[tmin:tmax,:], l, N,
-                   lx=lx, x0bar=x_0, P0=linalg.inv(P), guess=curr_sol, returnSolver=False)
+                   lx=lx, x0bar=x_0, P0=linalg.inv(P), guess=curr_sol, returnSolver=False, lb=lb, ub=ub)
 
 
     xhat_ltv[t,:] = sol["x"][-1].full().ravel()
@@ -183,10 +187,11 @@ for t in range(Nsim):
             curr_sol[k,i] = sol[k,i]
 
     if not fullInformation and t + 1 > Nt:
-        # for k in sol.keys():
-        #    curr_sol[k,0:-1] = sol[k,1:]
-        #    curr_sol[k,-1] = sol[k,-1]
+        for k in sol.keys():
+           curr_sol[k,0:-1] = sol[k,1:]
+           curr_sol[k,-1] = sol[k,-1]
         x_0 = curr_sol["x",1]
+        P = (1-_lambda)*P + _lambda*np.outer(x_0,x_0)
         # xhat_ltv.append(np.array(curr_sol["x", 0]).flatten())
     # else:
     #     curr_sol['x',0:tmax] = sol['x',0:tmax]

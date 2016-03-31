@@ -14,8 +14,8 @@ doSimPlots = False
 doMHEPlots = True
 fullInformation = False
 
-f = model.F
-h = model.H
+f = model.f
+h = model.h
 
 Nx = model.Nx
 Nu = model.Nu
@@ -31,7 +31,7 @@ sigma_w = 0.0001   # Standard deviation for the process noise
 sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
 sigma_p = 0.5    # Standard deviation for prior
 
-f_casadi = tools.getCasadiFunc(model.F, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=False)
+f_casadi = tools.getCasadiFunc(f, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=False)
 h_casadi = tools.getCasadiFunc(h, [Nx], ["x"], "H")
 
 
@@ -65,8 +65,8 @@ xsim_ltv[0,:] = x0
 
 for t in range(Nsim):
     # Measure.
-    # ysim[t] = model.H(xsim_ltv[t,:]) + vsim[t,:]
-    ysim[t] = np.deg2rad( np.around( np.rad2deg( model.H(xsim_ltv[t,:]) + vsim[t,:]), decimals=0))
+    # ysim[t] = h(xsim_ltv[t,:]) + vsim[t,:]
+    ysim[t] = np.deg2rad( np.around( np.rad2deg( h(xsim_ltv[t,:]) + vsim[t,:]), decimals=0))
     # Simulate with CasADi integrator.
     # xsim_int[t+1,:] = f_casadi_int(xsim_int[t,:], usim[t,:], wsim[t,:]).full().ravel() #F_integrator(x0=xsim_int[t,:],p=np.hstack((usim[t,:],wsim[t,:])))['xf'].full().ravel()
     # xsim_rk4[t+1,:] = f_casadi_rk4(xsim_rk4[t,:], usim[t,:], wsim[t,:]).full().ravel()

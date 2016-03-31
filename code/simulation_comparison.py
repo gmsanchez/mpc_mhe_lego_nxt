@@ -65,7 +65,7 @@ xsim_ltv[0,:] = _x0
 
 for t in range(Nsim):
     # Measure.
-    # ysim[t] = model.H(xsim[t,:]) + vsim[t,:]
+    # ysim[t] = h(xsim[t,:]) + vsim[t,:]
     # Simulate with CasADi integrator.
     xsim_int[t+1,:] = f_casadi_int(xsim_int[t,:], usim[t,:], wsim[t,:]).full().ravel() #F_integrator(x0=xsim_int[t,:],p=np.hstack((usim[t,:],wsim[t,:])))['xf'].full().ravel()
     xsim_rk4[t+1,:] = f_casadi_rk4(xsim_rk4[t,:], usim[t,:], wsim[t,:]).full().ravel()

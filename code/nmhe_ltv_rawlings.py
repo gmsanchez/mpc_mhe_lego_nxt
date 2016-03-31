@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 from scipy import linalg
 import time
 
+np.random.seed(927) # Seed random number generator.
+
 doSimPlots = False
 doMHEPlots = True
 fullInformation = False
@@ -151,7 +153,7 @@ xhat_ltv[0,:] = x_0
 
 lb = {'x': np.array([0.0, 0.0, 0.0])}
 ub = {'x': np.array([np.inf, np.inf, np.inf])}
-_lambda = 0.4
+_lambda = 0.30
 
 for t in range(Nsim):
     # Define sizes of everything.

@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from scipy import linalg
 import time
 
-doSimPlots = True
+doSimPlots = False
 doMHEPlots = True
 fullInformation = False
 
@@ -151,7 +151,7 @@ xhat_ltv[0,:] = x_0
 
 lb = {'x': np.array([0.0, 0.0, 0.0])}
 ub = {'x': np.array([np.inf, np.inf, np.inf])}
-_lambda = 0.3
+_lambda = 0.4
 
 for t in range(Nsim):
     # Define sizes of everything.
@@ -206,25 +206,46 @@ for t in range(Nsim):
 
 xhat_ltv = np.array(xhat_ltv)
 
+fontsize = 14
+pltDim = (Nx, 2)
 
 if doMHEPlots:
     f, axarr = plt.subplots(*pltDim)
 
     for i in range(Nx):
         thisPos = np.unravel_index(i, pltDim, order='F')
-        axarr[thisPos].plot(xsim_ltv[:-1,i], 'k--', label='ltv')
-        axarr[thisPos].plot(xhat_ltv[:,i], 'k:.', label='mhe')
+        axarr[thisPos].plot(xsim_ltv[:-1,i], 'k--', label='True')
+        axarr[thisPos].plot(xhat_ltv[:,i], 'k:.', label='NMHE_LTV')
         # axarr[thisPos].plot(xsim_rk4[:,i], 'k:o', label='rk4')
-        axarr[thisPos].set_ylabel('$x[%d]$' % i, fontsize=fontsize)
-        axarr[thisPos].legend(loc="lower right", prop={'size': 8})
+        axarr[thisPos].set_ylabel('$x_{%d}$' % i, fontsize=fontsize)
+        # axarr[thisPos].legend(loc="lower right", prop={'size': 8})
         axarr[thisPos].grid()
 
-    for i in range(Nx):
-            thisPos = np.unravel_index(Nx+i, pltDim, order='F')
-            axarr[thisPos].plot((xhat_ltv[:,i]-xsim_ltv[:-1,i]), 'k--', label='err mhe')
-            # axarr[thisPos].plot((xsim_int[:,i]-xsim_rk4[:,i]), 'k:o', label='err rk4')
-            axarr[thisPos].set_ylabel('$x[%d]$' % i, fontsize=fontsize)
-            axarr[thisPos].legend(loc="lower right", prop={'size': 8})
-            axarr[thisPos].grid()
+        pltScale = 0.1
+        (minlim,maxlim) = axarr[thisPos].get_xlim()
+        offset = .5*pltScale*(maxlim - minlim)
+        axarr[thisPos].set_xlim(minlim - offset, maxlim + offset)
+        (minlim,maxlim) = axarr[thisPos].get_ylim()
+        offset = .5*pltScale*(maxlim - minlim)
+        axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
 
-    plt.suptitle("NMHE LTV")
+
+    for i in range(Nx):
+        thisPos = np.unravel_index(Nx+i, pltDim, order='F')
+        thislabel = "$\hat{x}_{"+str(i)+"}-x_{"+str(i)+"}$"
+        axarr[thisPos].plot((xhat_ltv[:,i]-xsim_ltv[:-1,i]), 'k--', label=thislabel)
+        # axarr[thisPos].plot((xsim_int[:,i]-xsim_rk4[:,i]), 'k:o', label='err rk4')
+        axarr[thisPos].set_ylabel(thislabel, fontsize=fontsize)
+        # axarr[thisPos].legend(loc="lower right", prop={'size': 8})
+        axarr[thisPos].grid()
+
+        pltScale = 0.1
+        (minlim,maxlim) = axarr[thisPos].get_xlim()
+        offset = .5*pltScale*(maxlim - minlim)
+        axarr[thisPos].set_xlim(minlim - offset, maxlim + offset)
+        (minlim,maxlim) = axarr[thisPos].get_ylim()
+        offset = .5*pltScale*(maxlim - minlim)
+        axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
+
+
+    plt.suptitle("NMHE: LTV with adaptive covariance update.")

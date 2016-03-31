@@ -251,3 +251,46 @@ if doMHEPlots:
 
 
     plt.suptitle("NMHE: LTV with adaptive covariance update.")
+
+
+locs=["upper right", "lower right", "lower right"]
+
+for i in range(Nx):
+
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    ax.plot(xsim_ltv[:-1,i], 'k--', label='True')
+    ax.plot(xhat_ltv[:,i], 'k:o', label='NMHE_LTV')
+    ax.set_ylabel('$x_{%d}$' % i, fontsize=fontsize)
+    ax.set_xlabel('Samples', fontsize=fontsize)
+    ax.legend(loc=locs[i], prop={'size': 12})
+    ax.grid()
+
+    pltScale = 0.1
+    (minlim,maxlim) = axarr[thisPos].get_xlim()
+    offset = .5*pltScale*(maxlim - minlim)
+    axarr[thisPos].set_xlim(minlim - offset, maxlim + offset)
+    (minlim,maxlim) = axarr[thisPos].get_ylim()
+    offset = .5*pltScale*(maxlim - minlim)
+    axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
+
+    plt.savefig("nmhe_ltv_x%d.pdf" % (i),format='PDF')
+
+
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    thislabel = "$\hat{x}_{"+str(i)+"}-x_{"+str(i)+"}$"
+    ax.plot(xsim_ltv[:-1,i]-xhat_ltv[:,i], 'k--', label=thislabel)
+    ax.set_ylabel(thislabel, fontsize=fontsize)
+    ax.set_xlabel('Samples', fontsize=fontsize)
+    ax.grid()
+
+    pltScale = 0.1
+    (minlim,maxlim) = axarr[thisPos].get_xlim()
+    offset = .5*pltScale*(maxlim - minlim)
+    axarr[thisPos].set_xlim(minlim - offset, maxlim + offset)
+    (minlim,maxlim) = axarr[thisPos].get_ylim()
+    offset = .5*pltScale*(maxlim - minlim)
+    axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
+
+    plt.savefig("nmhe_ltv_x%d_err.pdf" % (i),format='PDF')

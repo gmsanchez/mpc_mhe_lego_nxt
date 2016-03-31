@@ -118,7 +118,9 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
     opts = {"ipopt.print_level": 0, "print_time": False, 'ipopt.max_iter': 100}
     nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
     if returnSolver:
-        return nlp_solver
+        # return nlp_solver
+        sol = varStruct(0)
+        return nlp_solver, sol, varVal, parVal, lbx, ubx
     else:
         sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lbx, ubx=ubx)
         return varStruct(sol["x"])

@@ -30,7 +30,7 @@ mu = 1.089      # Power Supply gain factor
 L = 1.0
 
 
-def F(x, u, w=w0):
+def f(x, u, w=w0):
     """
     Model for a differential drive mobile robot.
     x[0] -> x
@@ -65,5 +65,5 @@ def F(x, u, w=w0):
                      -(Kb/L)* x[1] - (Rm/L)* x[2] + ((Gu*(mu*Vb-Vo))/L)*u[0] + w[2]])
 
 
-def H(x, v=v0):
+def h(x, v=v0):
     return np.array([x[0] + v[0]])

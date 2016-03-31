@@ -10,7 +10,7 @@ def nmhe(f, h, u, y, l, N, lx=None, x0bar=None, lb={}, ub={}, guess={}, g=None,
     pass
 
 
-def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_guess=None, guess=None, returnSolver=False):
+def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_guess=None, guess=None, returnSolver=False, lb={}, ub={}):
 
     N = N.copy()
     # Check specified sizes.
@@ -78,6 +78,16 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
     varVal = varStruct(0)
     parVal = parStruct(0)
 
+    lbx = varStruct(-casadi.inf)
+    for k in set(lb.keys()).intersection(lbx.keys()):
+        for t in range(len(lbx[k])):
+            lbx[k,t] = lb[k]
+
+    ubx = varStruct(casadi.inf)
+    for k in set(ub.keys()).intersection(ubx.keys()):
+        for t in range(len(ubx[k])):
+            ubx[k,t] = ub[k]
+
     if guess is not None:
         for k in set(guess.keys()).intersection(varVal.keys()):
             for i in range(len(varVal[k])):
@@ -110,11 +120,11 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
     if returnSolver:
         return nlp_solver
     else:
-        sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0)
+        sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lbx, ubx=ubx)
         return varStruct(sol["x"])
 
 
-def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnSolver=False):
+def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnSolver=False, lb={}, ub={}):
 
     N = N.copy()
     # Check specified sizes.
@@ -189,6 +199,16 @@ def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnS
     varVal = varStruct(0)
     parVal = parStruct(0)
 
+    lbx = varStruct(-casadi.inf)
+    for k in set(lb.keys()).intersection(lbx.keys()):
+        for t in range(len(lbx[k])):
+            lbx[k,t] = lb[k]
+
+    ubx = varStruct(casadi.inf)
+    for k in set(ub.keys()).intersection(ubx.keys()):
+        for t in range(len(ubx[k])):
+            ubx[k,t] = ub[k]
+
     if guess is not None:
         for k in set(guess.keys()).intersection(varVal.keys()):
             for i in range(len(varVal[k])):
@@ -222,7 +242,7 @@ def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnS
     if returnSolver:
         return nlp_solver
     else:
-        sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0)
+        sol = nlp_solver(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lbx, ubx=ubx)
         return varStruct(sol["x"])
 
 

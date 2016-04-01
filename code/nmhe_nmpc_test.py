@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from scipy import linalg
 import time
 from collections import deque
+import multiprocessing as mp
 
 doSimPlots = False
 doMHEPlots = False
@@ -109,7 +110,7 @@ ub_mpc = {'u': np.array([100.0, 100.0])}
 
 x0_mpc = np.zeros((Nx,))
 x0_mpc[0] = -1.5
-x0_mpc[1] = 0.5
+x0_mpc[1] = 1.0
 
 N_mpc = {"t": Nt, "x": Nx, "u": Nu}
 
@@ -142,6 +143,8 @@ _xk = x0_mpc
 _xk_mhe = _xk.copy()
 _uk = np.zeros((Nu,))
 x0_mhe = x0_mpc.copy()
+
+# pool = mp.Pool()
 
 for t in range(Nsim):
     starttime = time.time()
@@ -201,14 +204,20 @@ for t in range(Nsim):
     xsim.append(_xk)
     usim.append(_uk)
 
+# pool.close()
+# pool.join()
+
 xsim_mpc = np.array(xsim)
 usim_mpc = np.array(usim)
+xhat_ltv = np.array(xhat)
+xsim_ltv = np.array(xsim)
 
-doPlots = True
+doMPCPlots = True
+doMHEPlots = True
 fontsize = 12
 pltDim = (4,3)
 
-if doPlots:
+if doMPCPlots:
     f, axarr = plt.subplots(*pltDim)
 
     for i in range(Nx):
@@ -257,3 +266,28 @@ if doPlots:
     (minlim,maxlim) = axarr[thisPos].get_ylim()
     offset = .5*pltScale*(maxlim - minlim)
     axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
+    plt.suptitle("NMPC LTV")
+    
+pltDim=(Nx,2)
+fontsize=12
+if doMHEPlots:
+    f, axarr = plt.subplots(*pltDim)
+
+    for i in range(Nx):
+        thisPos = np.unravel_index(i, pltDim, order='F')
+        axarr[thisPos].plot(xsim_ltv[:,i], 'k--', label='ltv')
+        axarr[thisPos].plot(xhat_ltv[:,i], 'k:.', label='mhe')
+        # axarr[thisPos].plot(xsim_rk4[:,i], 'k:o', label='rk4')
+        axarr[thisPos].set_ylabel('$x[%d]$' % i, fontsize=fontsize)
+        axarr[thisPos].legend(loc="lower right", prop={'size': 8})
+        axarr[thisPos].grid()
+
+    for i in range(Nx):
+            thisPos = np.unravel_index(Nx+i, pltDim, order='F')
+            axarr[thisPos].plot((xhat_ltv[:,i]-xsim_ltv[:,i]), 'k--', label='err mhe')
+            # axarr[thisPos].plot((xsim_int[:,i]-xsim_rk4[:,i]), 'k:o', label='err rk4')
+            axarr[thisPos].set_ylabel('$x[%d]$' % i, fontsize=fontsize)
+            axarr[thisPos].legend(loc="lower right", prop={'size': 8})
+            axarr[thisPos].grid()
+
+    plt.suptitle("NMHE LTV")

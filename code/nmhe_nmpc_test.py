@@ -130,6 +130,7 @@ http://stackoverflow.com/questions/15969708/how-do-you-rotate-the-numbers-in-an-
 https://scimusing.wordpress.com/2013/10/25/ring-buffers-in-pythonnumpy/
 http://blog.explainmydata.com/2012/07/expensive-lessons-in-python-performance.html
 http://comments.gmane.org/gmane.comp.python.numeric.general/54130
+http://www.rigtorp.se/2011/01/01/rolling-statistics-numpy.html
 So, for now we create deque containers.
 '''
 _y = deque(y_0, maxlen=Nt+1)

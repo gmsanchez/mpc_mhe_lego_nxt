@@ -248,7 +248,7 @@ def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnS
         return varStruct(sol["x"])
 
 
-def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_guess=None, guess=None, returnSolver=False):
+def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_guess=None, guess=None, ref={}, returnSolver=False):
 
     N = N.copy()
     # Check specified sizes.
@@ -268,6 +268,7 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
     # Structure that will be fixed parameters for the optimizer
     parStruct = ctools.struct_symSX([ctools.entry("x0", shape=(N["x"], 1)),
                                      ctools.entry("Qn", shape=(N["x"], N["x"])),
+                                     ctools.entry("xr", repeat=N["t"], shape=(N["x"], 1)),
                                      ctools.entry("Ad", repeat=N["t"]-1, shape=(N["x"], N["x"])),
                                      ctools.entry("Bd", repeat=N["t"]-1, shape=(N["x"], N["u"])),
                                      ctools.entry("fd", repeat=N["t"]-1, shape=(N["x"], 1))])
@@ -277,7 +278,7 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
     # First, the cost-to-go. The matrix Qn might be time varying.
     obj += lx(varStruct["x",-1],parStruct["Qn"])
     for i in range(N["t"]-1):
-        obj += l(varStruct["x",i],varStruct["u",i])
+        obj += l(varStruct["x",i]-parStruct["xr",i],varStruct["u",i])
 
     # Build the constraints
     # State evolution f.
@@ -311,9 +312,14 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
     if guess is not None:
         for k in set(guess.keys()).intersection(varVal.keys()):
             for i in range(len(varVal[k])):
-                varVal[k][i] = guess[k][i]
+                varVal[k,i] = guess[k,i]
                 # print guess[k][i]
                 # raw_input()
+
+    if ref is not None:
+        for k in set(ref.keys()).intersection(parVal.keys()):
+            for i in range(len(parVal[k])):
+                parVal[k,i] = ref[k][i]
 
     parVal["Qn"] = Qn
     parVal["x0"] = x0

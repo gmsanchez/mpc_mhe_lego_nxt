@@ -79,25 +79,30 @@ ub = {'u': np.array([100.0, 100.0])}
 #     "x" : np.tile(xub,(Nt+1,1)),
 # }
 
+xr = np.zeros((Nx,), dtype=np.float64)
+xr[0] = 1.5
+xr[1] = -1.5
+
+ref = {'xr': np.tile(xr, (Nt, 1))}
+
 x0 = np.zeros((Nx,))
-x0[0] = -1.5
-x0[1] = 1.5
+
 
 N = {"t": Nt, "x": Nx, "u": Nu}
 
 # Solve one time go obtain the structure holders for variables and parameters
 # sol,varVal,parVal = tools.nmpc_ltv(f_casadi, l, N, x0=_xk, lx=lx, Qn=Qn, lb=lb, ub=ub)
-controller, sol, varVal, parVal, lb, ub = tools.nmpc_ltv(f_casadi, l, N, x0=x0, lx=lx, Qn=Qn, lb=lb, ub=ub, returnSolver=True)
+controller, sol, varVal, parVal, lb, ub = tools.nmpc_ltv(f_casadi, l, N, x0=x0, lx=lx, Qn=Qn, lb=lb, ub=ub, ref=ref, returnSolver=True)
 sol0 = controller(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lb, ubx=ub)
 sol = sol(sol0['x'])
 
 # Simulate to generate the matrices for the LTV system
 for k in varVal.keys():
     varVal[k] = 0
-for k in parVal.keys():
+for k in set(parVal.keys()).intersection(set(['x0', 'Qn', 'Ad', 'Bd', 'fd'])):
     parVal[k] = 0
 
-varVal["x"] = x0
+# varVal["x"] = x0
 
 # for t in range(N["t"]-1):
 #     parVal["Ad",t], parVal["Bd",t], _, parVal["fd",t] = \

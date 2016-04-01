@@ -22,7 +22,7 @@ Ny = model.Ny
 Nv = model.Nv
 
 Delta = 0.1
-Nt = 10         # Horizon size
+Nt = 5         # Horizon size
 Nsim = 80
 
 sigma_w = 0.0001   # Standard deviation for the process noise
@@ -52,7 +52,7 @@ R_mhe = np.diag((sigma_v * np.ones((Nv,))) ** 2)
 Qinv_mhe = scipy.linalg.inv(Q_mhe)
 Rinv_mhe = scipy.linalg.inv(R_mhe)
 P_mhe = np.diag((sigma_p * np.ones((Nx,))) ** 2)
-x0bar = np.zeros((Nx,)) + 0.0*sigma_p*np.random.randn(Nx)
+x0_mhe = np.zeros((Nx,)) + 0.0 * sigma_p * np.random.randn(Nx)
 
 def lfunc_mhe(w, v):
     return util.mtimes(w.T, Qinv_mhe, w) + util.mtimes(v.T, Rinv_mhe, v)
@@ -70,7 +70,7 @@ y_0 = np.zeros((Nt+1, Ny), order='F', dtype=np.float64)
 
 estimator, sol_mhe, varVal_mhe, parVal_mhe, lbx_mhe, ubx_mhe =\
     tools.nmhe_ltv(f_casadi, h_casadi, u_0, y_0, l_mhe, N_mhe, lx=lx_mhe,
-                   x0bar=x0bar, P0=linalg.inv(P_mhe), Delta=Delta,
+                   x0bar=x0_mhe, P0=linalg.inv(P_mhe), Delta=Delta,
                    ltv_guess=None, guess=None, returnSolver=True)
 
 # Solve before iterating
@@ -83,13 +83,42 @@ parVal_mhe["Ad",:], parVal_mhe["Bd",:], parVal_mhe["Gd",:], parVal_mhe["fd",:] =
     zip(*map(_calc_lin_disc_wrapper_for_mp_map, zip(varVal_mhe['x',:-1],parVal_mhe['u',:],
                                                     varVal_mhe['w',:], [Delta for _k in xrange(Nt)])))
 
-parVal_mhe["x0bar"] = x0bar
+parVal_mhe["x0bar"] = x0_mhe
 parVal_mhe["P0"] = linalg.inv(P_mhe)
 
 res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=ubx_mhe)
 sol_mhe = sol_mhe(res_mhe["x"])
 
 # Initialize controller.
+Q_mpc = np.diag([1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+R_mpc = 1e-6 * np.eye(Nu)
+Qn_mpc = Q_mpc
+
+
+def lfunc_mpc(w, v):
+    return util.mtimes(w.T, Q_mpc, w) + util.mtimes(v.T, R_mpc, v)
+l_mpc = tools.getCasadiFunc(lfunc_mpc, [Nw, Nv], ["w", "v"], "l")
+
+
+def lxfunc_mpc(x, P):
+    return util.mtimes(x.T, P, x)
+lx_mpc = tools.getCasadiFunc(lxfunc_mpc, [Nx, (Nx, Nx)], ["x", "P"], "lx")
+
+lb_mpc = {'u': np.array([-100.0, -100.0])}
+ub_mpc = {'u': np.array([100.0, 100.0])}
+
+x0_mpc = np.zeros((Nx,))
+x0_mpc[0] = -1.5
+x0_mpc[1] = 0.5
+
+N_mpc = {"t": Nt, "x": Nx, "u": Nu}
+
+# Solve one time go obtain the structure holders for variables and parameters
+# sol,varVal,parVal = tools.nmpc_ltv(f_casadi, l, N, x0=_xk, lx=lx, Qn=Qn, lb=lb, ub=ub)
+controller, sol_mpc, varVal_mpc, parVal_mpc, lb_mpc, ub_mpc =\
+    tools.nmpc_ltv(f_casadi, l_mpc, N_mpc, x0=x0_mpc, lx=lx_mpc, Qn=Qn_mpc, lb=lb_mpc, ub=ub_mpc, returnSolver=True)
+res_mpc = controller(x0=varVal_mpc, p=parVal_mpc, lbg=0, ubg=0, lbx=lb_mpc, ubx=ub_mpc)
+sol_mpc = sol_mpc(res_mpc['x'])
 
 # Get Nt measurements before we start the main loop.
 
@@ -107,3 +136,124 @@ _u = deque(u_0, maxlen=Nt)
 
 xhat = deque()
 xsim = deque()
+usim = deque()
+
+_xk = x0_mpc
+_xk_mhe = _xk.copy()
+_uk = np.zeros((Nu,))
+x0_mhe = x0_mpc.copy()
+
+for t in range(Nsim):
+    starttime = time.time()
+    # Get the measurement
+    # _yk = h_casadi(_xk)
+    _yk = np.deg2rad(np.around(np.rad2deg(h_casadi(_xk).full().ravel()), decimals=0))
+    _y.append(_yk)
+
+    # Estimate current state
+    parVal_mhe["u", 0:-1] = parVal_mhe["u", 1:]
+    parVal_mhe["u", -1] = _uk
+    parVal_mhe["y", 0:-1] = parVal_mhe["y", 1:]
+    parVal_mhe["y", -1] = _yk
+    parVal_mhe["x0bar"] = x0_mhe
+
+    for k in varVal_mhe.keys():
+        varVal_mhe[k, :] = sol_mhe[k, :]
+
+    parVal_mhe["Ad", :], parVal_mhe["Bd", :], parVal_mhe["Gd", :], parVal_mhe["fd", :] = \
+        zip(*map(_calc_lin_disc_wrapper_for_mp_map,zip(varVal_mhe['x', :-1], parVal_mhe['u', :],
+                                                       varVal_mhe['w', :], [Delta for _k in xrange(Nt)])))
+
+    res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=ubx_mhe)
+    sol_mhe = sol_mhe(res_mhe["x"])
+
+    # Now get the state estimate. Note that we are only interested in the last node of the horizon
+    _xk_mhe = sol_mhe["x", -1].full().ravel()
+
+    xhat.append(_xk_mhe)
+    x0_mhe = sol_mhe["x", 1]
+
+    # Obtain current inputs _uk
+
+    parVal_mpc["x0"] = _xk_mhe
+    varVal_mpc["x",:-1] = sol_mpc["x",1:]
+    varVal_mpc["x",-1] = sol_mpc["x",-1]
+    varVal_mpc["u",:-1] = sol_mpc["u",1:]
+    varVal_mpc["u",-1] = sol_mpc["u",-1]
+
+
+
+    parVal_mpc["Ad",:], parVal_mpc["Bd",:], _, parVal_mpc["fd",:] = zip(*map(_calc_lin_disc_wrapper_for_mp_map, zip(varVal_mpc['x',:-1],varVal_mpc['u'], [np.zeros((Nx,)) for _k in xrange(Nt)], [Delta for _k in xrange(Nt)])))
+
+    res_mpc = controller(x0=varVal_mpc, p=parVal_mpc, lbg=0, ubg=0, lbx=lb_mpc, ubx=ub_mpc)
+    sol_mpc = sol_mpc(res_mpc['x'])
+
+    _uk = np.around(sol_mpc["u"][0].full().ravel() , decimals=0)
+    # _uk = sol["u"][0].full().ravel()
+    # print _uk
+    # _xk = sol_mpc["x"][0].full().ravel()
+    # print _xk
+    # raw_input()
+    # print "%3d (%10.5g s): %s" % (t, time.time()-starttime, nlp_solver.stats()["return_status"])
+    print "%3d (%10.5g s)" % (t, time.time()-starttime)
+
+    _xk = simulator(_xk, _uk).full().ravel()
+    xsim.append(_xk)
+    usim.append(_uk)
+
+xsim_mpc = np.array(xsim)
+usim_mpc = np.array(usim)
+
+doPlots = True
+fontsize = 12
+pltDim = (4,3)
+
+if doPlots:
+    f, axarr = plt.subplots(*pltDim)
+
+    for i in range(Nx):
+        thisPos = np.unravel_index(i,pltDim,order='F')
+        axarr[thisPos].plot(xsim_mpc[:,i], 'k--', label='I_NMPC')
+        #axarr[thisPos].plot(xsim_int[:,i], 'k:', label='cvodes')
+        axarr[thisPos].set_ylabel('$x[%d]$'% i, fontsize=fontsize)
+        # axarr[thisPos].legend(loc="lower right", prop={'size': 8})
+        axarr[thisPos].grid()
+
+        pltScale = 0.1
+        (minlim,maxlim) = axarr[thisPos].get_xlim()
+        offset = .5*pltScale*(maxlim - minlim)
+        axarr[thisPos].set_xlim(minlim - offset, maxlim + offset)
+        (minlim,maxlim) = axarr[thisPos].get_ylim()
+        offset = .5*pltScale*(maxlim - minlim)
+        axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
+
+    for i in range(Nx,Nx+Nu):
+        thisPos = np.unravel_index(i,pltDim,order='F')
+        axarr[thisPos].step(np.arange(usim_mpc.shape[0]), usim_mpc[:,i-Nx], '.k', where='post')
+        axarr[thisPos].set_ylabel('$u[%d]$'% (i-Nx))
+        axarr[thisPos].grid()
+
+        pltScale = 0.1
+        (minlim,maxlim) = axarr[thisPos].get_xlim()
+        offset = .5*pltScale*(maxlim - minlim)
+        axarr[thisPos].set_xlim(minlim - offset, maxlim + offset)
+        (minlim,maxlim) = axarr[thisPos].get_ylim()
+        offset = .5*pltScale*(maxlim - minlim)
+        axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
+
+    thisPos = np.unravel_index(Nx+Nu,pltDim,order='F')
+    axarr[thisPos].plot(xsim_mpc[:,0],xsim_mpc[:,1], 'ko-', label='I_NMPC')
+    #axarr[thisPos].plot(xsim_int[:,0],xsim_int[:,1], 'k:', label='cvodes')
+    #axarr[thisPos].legend(loc="upper left", prop={'size': 8})
+
+    axarr[thisPos].set_xlabel('$x[0]=x$')
+    axarr[thisPos].set_ylabel('$x[1]=y$')
+    axarr[thisPos].grid()
+
+    pltScale = 0.1
+    (minlim,maxlim) = axarr[thisPos].get_xlim()
+    offset = .5*pltScale*(maxlim - minlim)
+    axarr[thisPos].set_xlim(minlim - offset, maxlim + offset)
+    (minlim,maxlim) = axarr[thisPos].get_ylim()
+    offset = .5*pltScale*(maxlim - minlim)
+    axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)

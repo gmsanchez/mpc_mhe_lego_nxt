@@ -61,8 +61,11 @@ def lxfunc(x, P):
     return util.mtimes(x.T, P, x)
 lx = tools.getCasadiFunc(lxfunc, [Nx, (Nx, Nx)], ["x", "P"], "lx")
 
-lb = {'u': np.array([-100.0, -100.0])}
-ub = {'u': np.array([100.0, 100.0])}
+lb = {'u': np.array([-100, -100]), 'Du': np.array([-50, -50])}
+ub = {'u': np.array([100, 100]), 'Du': np.array([50, 50])}
+# lb = {'u': np.array([-100, -100])}
+# ub = {'u': np.array([100, 100])}
+
 
 # xlb = np.array([-np.inf,-np.inf,-np.inf,-np.inf,-np.pi,-np.inf,-np.inf,-np.inf,-np.pi])
 # xub = np.array([np.inf,np.inf,np.inf,np.inf,np.inf,np.inf,np.inf,np.inf,np.inf])
@@ -86,13 +89,14 @@ xr[1] = -1.5
 ref = {'xr': np.tile(xr, (Nt, 1))}
 
 x0 = np.zeros((Nx,))
-
+u0 = np.zeros((Nu,))
 
 N = {"t": Nt, "x": Nx, "u": Nu}
 
 # Solve one time go obtain the structure holders for variables and parameters
 # sol,varVal,parVal = tools.nmpc_ltv(f_casadi, l, N, x0=_xk, lx=lx, Qn=Qn, lb=lb, ub=ub)
-controller, sol, varVal, parVal, lb, ub = tools.nmpc_ltv(f_casadi, l, N, x0=x0, lx=lx, Qn=Qn, lb=lb, ub=ub, ref=ref, returnSolver=True)
+# controller, sol, varVal, parVal, lb, ub = tools.nmpc_ltv(f_casadi, l, N, x0=x0, lx=lx, Qn=Qn, lb=lb, ub=ub, ref=ref, uprev=None, returnSolver=True)
+controller, sol, varVal, parVal, lb, ub = tools.nmpc_ltv(f_casadi, l, N, x0=x0, lx=lx, Qn=Qn, lb=lb, ub=ub, ref=ref, uprev=u0, returnSolver=True)
 sol0 = controller(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lb, ubx=ub)
 sol = sol(sol0['x'])
 
@@ -118,6 +122,7 @@ usim_mpc = np.zeros((Nsim, Nu))
 
 for t in range(Nsim):
     parVal["x0"] = _xk
+    parVal["uprev"] = _uk
     varVal["x",:-1] = sol["x",1:]
     varVal["x",-1] = sol["x",-1]
     varVal["u",:-1] = sol["u",1:]

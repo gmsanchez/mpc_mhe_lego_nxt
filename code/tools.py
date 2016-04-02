@@ -248,7 +248,7 @@ def nmhe_rk4(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, guess=None, returnS
         return varStruct(sol["x"])
 
 
-def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_guess=None, guess=None, ref={}, returnSolver=False):
+def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_guess=None, guess=None, ref={}, uprev=None, returnSolver=False):
 
     N = N.copy()
     # Check specified sizes.
@@ -263,12 +263,14 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
 
     # Structure that will be degrees of freedom for the optimizer
     varStruct = ctools.struct_symSX([ctools.entry("x", repeat=N["t"],   shape=(N["x"], 1)),
+                                     ctools.entry("Du", repeat=N["t"] - 1, shape=(N["u"], 1)),
                                      ctools.entry("u", repeat=N["t"]-1, shape=(N["u"], 1))])
 
     # Structure that will be fixed parameters for the optimizer
     parStruct = ctools.struct_symSX([ctools.entry("x0", shape=(N["x"], 1)),
                                      ctools.entry("Qn", shape=(N["x"], N["x"])),
                                      ctools.entry("xr", repeat=N["t"], shape=(N["x"], 1)),
+                                     ctools.entry("uprev", shape=(N["u"], 1)),
                                      ctools.entry("Ad", repeat=N["t"]-1, shape=(N["x"], N["x"])),
                                      ctools.entry("Bd", repeat=N["t"]-1, shape=(N["x"], N["u"])),
                                      ctools.entry("fd", repeat=N["t"]-1, shape=(N["x"], 1))])
@@ -293,7 +295,13 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
                                  # casadi.mtimes(parStruct["Gd", t], varStruct["w", t]) -
                                  parStruct["fd", t])
 
-    con = state_constraints
+    delta_constraints = []
+    if uprev is not None:
+        delta_constraints.append(varStruct["Du",0] - varStruct["u", 0] + parStruct["uprev"])
+        for t in range(1, N["t"]-1):
+            delta_constraints.append(varStruct["Du",t] - varStruct["u", t] + varStruct["u", t-1])
+
+    con = state_constraints + delta_constraints
     con = casadi.vertcat(*con)
 ###
     varVal = varStruct(0)

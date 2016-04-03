@@ -129,10 +129,10 @@ controller, sol_mpc, varVal_mpc, parVal_mpc, lb_mpc, ub_mpc =\
 res_mpc = controller(x0=varVal_mpc, p=parVal_mpc, lbg=0, ubg=0, lbx=lb_mpc, ubx=ub_mpc)
 sol_mpc = sol_mpc(res_mpc['x'])
 
-for k in varVal.keys():
-    varVal[k] = 0
-for k in set(parVal.keys()).intersection(set(['x0', 'uprev', 'Qn', 'Ad', 'Bd', 'fd'])):
-    parVal[k] = 0
+for k in varVal_mpc.keys():
+    varVal_mpc[k] = 0
+for k in set(parVal_mpc.keys()).intersection(set(['x0', 'uprev', 'Qn', 'Ad', 'Bd', 'fd'])):
+    parVal_mpc[k] = 0
 
 # Get Nt measurements before we start the main loop.
 

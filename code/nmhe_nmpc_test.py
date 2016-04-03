@@ -23,8 +23,8 @@ Ny = model.Ny
 Nv = model.Nv
 
 Delta = 0.1
-Nt = 5         # Horizon size
-Nsim = 80
+Nt = 10         # Horizon size
+Nsim = 100
 
 sigma_w = 0.0001   # Standard deviation for the process noise
 sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
@@ -91,9 +91,9 @@ res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=
 sol_mhe = sol_mhe(res_mhe["x"])
 
 # Initialize controller.
-Q_mpc = np.diag([1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-R_mpc = 1e-6 * np.eye(Nu)
-Qn_mpc = Q_mpc
+Q_mpc = np.diag([10, 10, 0, 0, 0, 0, 0, 0, 0])
+R_mpc = 50e-6 * np.eye(Nu)
+Qn_mpc = 0.1*Q_mpc
 
 
 def lfunc_mpc(w, v):
@@ -105,21 +105,34 @@ def lxfunc_mpc(x, P):
     return util.mtimes(x.T, P, x)
 lx_mpc = tools.getCasadiFunc(lxfunc_mpc, [Nx, (Nx, Nx)], ["x", "P"], "lx")
 
-lb_mpc = {'u': np.array([-100.0, -100.0])}
-ub_mpc = {'u': np.array([100.0, 100.0])}
+lb_mpc = {'u': np.array([-100, -100]), 'Du': np.array([-20, -20])}
+ub_mpc = {'u': np.array([100, 100]), 'Du': np.array([20, 20])}
+
+xr = np.zeros((Nx,), dtype=np.float64)
+xr[0] = 1.0
+xr[1] = 1.0
+
+ref = {'xr': np.tile(xr, (Nt, 1))}
+
+uprev = np.zeros((Nu,))
 
 x0_mpc = np.zeros((Nx,))
-x0_mpc[0] = -1.5
-x0_mpc[1] = 1.0
+# x0_mpc[0] = -1.5
+# x0_mpc[1] = 1.0
 
 N_mpc = {"t": Nt, "x": Nx, "u": Nu}
 
 # Solve one time go obtain the structure holders for variables and parameters
 # sol,varVal,parVal = tools.nmpc_ltv(f_casadi, l, N, x0=_xk, lx=lx, Qn=Qn, lb=lb, ub=ub)
 controller, sol_mpc, varVal_mpc, parVal_mpc, lb_mpc, ub_mpc =\
-    tools.nmpc_ltv(f_casadi, l_mpc, N_mpc, x0=x0_mpc, lx=lx_mpc, Qn=Qn_mpc, lb=lb_mpc, ub=ub_mpc, returnSolver=True)
+    tools.nmpc_ltv(f_casadi, l_mpc, N_mpc, x0=x0_mpc, lx=lx_mpc, Qn=Qn_mpc, lb=lb_mpc, ub=ub_mpc, uprev=uprev, ref=ref, returnSolver=True)
 res_mpc = controller(x0=varVal_mpc, p=parVal_mpc, lbg=0, ubg=0, lbx=lb_mpc, ubx=ub_mpc)
 sol_mpc = sol_mpc(res_mpc['x'])
+
+for k in varVal.keys():
+    varVal[k] = 0
+for k in set(parVal.keys()).intersection(set(['x0', 'uprev', 'Qn', 'Ad', 'Bd', 'fd'])):
+    parVal[k] = 0
 
 # Get Nt measurements before we start the main loop.
 
@@ -142,8 +155,10 @@ usim = deque()
 
 _xk = x0_mpc
 _xk_mhe = _xk.copy()
-_uk = np.zeros((Nu,))
+_uk = uprev #np.zeros((Nu,))
 x0_mhe = x0_mpc.copy()
+
+# xsim.append(_xk)
 
 # pool = mp.Pool()
 
@@ -174,12 +189,12 @@ for t in range(Nsim):
     # Now get the state estimate. Note that we are only interested in the last node of the horizon
     _xk_mhe = sol_mhe["x", -1].full().ravel()
 
-    xhat.append(_xk_mhe)
     x0_mhe = sol_mhe["x", 1]
 
     # Obtain current inputs _uk
 
     parVal_mpc["x0"] = _xk_mhe
+    parVal_mpc["uprev"] = _uk
     varVal_mpc["x",:-1] = sol_mpc["x",1:]
     varVal_mpc["x",-1] = sol_mpc["x",-1]
     varVal_mpc["u",:-1] = sol_mpc["u",1:]
@@ -201,9 +216,12 @@ for t in range(Nsim):
     # print "%3d (%10.5g s): %s" % (t, time.time()-starttime, nlp_solver.stats()["return_status"])
     print "%3d (%10.5g s)" % (t, time.time()-starttime)
 
-    _xk = simulator(_xk, _uk).full().ravel()
+
+    xhat.append(_xk_mhe)
     xsim.append(_xk)
     usim.append(_uk)
+
+    _xk = simulator(_xk, _uk).full().ravel()
 
 # pool.close()
 # pool.join()

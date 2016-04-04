@@ -6,6 +6,7 @@ Ny = 2
 Nu = 2
 Nw = Nx
 Nv = Ny
+Np = 1
 
 w0 = np.zeros(Nx)
 v0 = np.zeros(Ny)
@@ -17,7 +18,7 @@ v0 = np.zeros(Ny)
 # http://ctms.engin.umich.edu/CTMS/index.php?example=MotorPosition&section=SystemModeling
 
 wR = (43.2*0.5)/1000.0   # Wheel radius [mm]
-wB = (82.0)/1000.0       # Distance between wheels [mm]
+wB = 105.0/1000.0       # Distance between wheels [mm]
 fm = 0.0022     # motor viscous friction constant
 Jm = 1e-5       # DC motor inertia moment [kgm^2]
 Rm = 6.69       # DC motor resistance []
@@ -30,7 +31,7 @@ mu = 1.089      # Power Supply gain factor
 L = 1.0
 
 
-def f(x, u, w=w0):
+def f(x, u, w=w0, Vb=Vb):
     """
     Model for a differential drive mobile robot.
     x[0] -> x

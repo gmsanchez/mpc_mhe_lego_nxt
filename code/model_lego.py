@@ -27,7 +27,11 @@ Kt = 0.317      # DC motor torque constant [Nm/A]
 Gu = 1E-2       # PWM gain factor
 Vb = 8.00       # V Power Supply voltage
 Vo = 0.625      # V Power Supply offset
-mu = 1.089      # Power Supply gain factor
+mu = 1.089      # Power Supply gain factor =
+Vo_l = 0.78
+Vo_r = 0.98
+mu_l = 1.089
+mu_r = 1.089
 L = 1.0
 
 
@@ -66,10 +70,10 @@ def f(x, u, w=w0, Vb=Vb):
                      (wR/wB)*(x[4]-x[7]),
                      x[4],
                      -(fm/Jm)*x[4] + (Kt/Jm)*x[5],
-                     -(Kb/L)* x[4] - (Rm/L)* x[5] + ((Gu*(mu*Vb-Vo))/L)*u[0],
+                     -(Kb/L)* x[4] - (Rm/L)* x[5] + ((Gu*(mu_l*Vb-Vo_l))/L)*u[0],
                      x[7],
                      -(fm/Jm)*x[7] + (Kt/Jm)*x[8],
-                     -(Kb/L)* x[7] - (Rm/L)* x[8] + ((Gu*(mu*Vb-Vo))/L)*u[1]])
+                     -(Kb/L)* x[7] - (Rm/L)* x[8] + ((Gu*(mu_r*Vb-Vo_r))/L)*u[1]])
 
 
 def h(x, v=v0):

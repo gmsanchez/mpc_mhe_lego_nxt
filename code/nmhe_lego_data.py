@@ -26,7 +26,7 @@ Ny = model.Ny
 Nv = model.Nv
 Np = model.Np
 
-motor_load = "/home/gsanchez/fun/thesis/code/datalogs/datalog_20150910_121456.csv"
+motor_load = "/home/gsanchez/fun/thesis/code/datalog_20160404_175941.csv"
 _log_data = np.loadtxt(open(motor_load,"rb"), delimiter=",", skiprows=1, dtype=np.float64)
 # _log_data = _log_data[0:300,:]
 
@@ -35,8 +35,8 @@ Delta = np.int(_log_data[1,data_idx['t']] - _log_data[0,data_idx['t']])*(1E-3)
 Nt = 5         # Horizon size
 Nsim = _log_data.shape[0]
 
-sigma_w = 0.1   # Standard deviation for the process noise
-sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
+sigma_w = 0.01   # Standard deviation for the process noise
+sigma_v = 0.00001 #np.deg2rad(0.5)  # Standard deviation of the measurements
 sigma_p = 0.5    # Standard deviation for prior
 
 f_casadi = tools.getCasadiFunc(f, [Nx, Nu, Nw, Np], ["x", "u", "w", "Vb"], "f", rk4=False)
@@ -73,10 +73,14 @@ y_0 = np.zeros((Nt+1, Ny), order='F', dtype=np.float64)
 xsim_ltv = np.zeros((Nsim+1, Nx))
 xsim_ltv[0,:] = x0
 
-Q = np.diag((sigma_w*np.ones((Nw,)))**2)
-# Q = np.diag([10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0])
-R = np.diag((sigma_v*np.ones((Nv,)))**2)
+# Q = np.diag((sigma_w*np.ones((Nw,)))**2)
+# Q = np.diag([1.0E6, 1.0E6, 0.5, 1E-3, 1E-6, 0.10, 1E-3, 1E-6, 0.10])
+Q = np.diag(np.ones((Nx,)))
+Q[3,3] = 1E-1
+Q[6,6] = 1E-1
+# R = np.diag((sigma_v*np.ones((Nv,)))**2)
 # Q = np.diag([0.001, 0.001, np.deg2rad(0.5), 1.0, 0.01, 0.01, 1.0, 0.01, 0.01])
+R = np.diag(np.ones((Ny,)))*1E0
 Qinv = scipy.linalg.inv(Q)
 Rinv = scipy.linalg.inv(R)
 P = np.diag((sigma_p*np.ones((Nx,)))**2)

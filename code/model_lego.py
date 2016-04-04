@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
+import casadi
 
 Nx = 9
 Ny = 2
@@ -17,8 +18,8 @@ v0 = np.zeros(Ny)
 # DC motor state space system model
 # http://ctms.engin.umich.edu/CTMS/index.php?example=MotorPosition&section=SystemModeling
 
-wR = (43.2*0.5)/1000.0   # Wheel radius [mm]
-wB = 105.0/1000.0       # Distance between wheels [mm]
+wR = 0.0216 # (43.2*0.5)/1000.0   # Wheel radius [mm]
+wB = 0.085  #0.105 # 105.0/1000.0       # Distance between wheels [mm]
 fm = 0.0022     # motor viscous friction constant
 Jm = 1e-5       # DC motor inertia moment [kgm^2]
 Rm = 6.69       # DC motor resistance []
@@ -28,10 +29,10 @@ Gu = 1E-2       # PWM gain factor
 Vb = 8.00       # V Power Supply voltage
 Vo = 0.625      # V Power Supply offset
 mu = 1.089      # Power Supply gain factor =
-Vo_l = 0.78
-Vo_r = 0.98
-mu_l = 1.089
-mu_r = 1.089
+Vo_l = 0.68
+Vo_r = 0.68
+mu_l = 0.999 #1.089
+mu_r = 0.999 # 1.089
 L = 1.0
 
 
@@ -65,9 +66,9 @@ def f(x, u, w=w0, Vb=Vb):
     #if len(u.shape)>1:
     #    u = u.ravel()
     
-    return np.array([0.5*wR*(x[4]+x[7])*np.cos(x[2]),
-                     0.5*wR*(x[4]+x[7])*np.sin(x[2]),
-                     (wR/wB)*(x[4]-x[7]),
+    return np.array([0.5*wR*(x[4]+x[7])*casadi.cos(x[2]),
+                     0.5*wR*(x[4]+x[7])*casadi.sin(x[2]),
+                     (wR/wB)*(x[7]-x[4]),
                      x[4],
                      -(fm/Jm)*x[4] + (Kt/Jm)*x[5],
                      -(Kb/L)* x[4] - (Rm/L)* x[5] + ((Gu*(mu_l*Vb-Vo_l))/L)*u[0],

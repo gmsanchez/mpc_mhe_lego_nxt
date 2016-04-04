@@ -27,13 +27,13 @@ Ny = model.Ny
 Nv = model.Nv
 Np = model.Np
 
-_Vbk = 4.9
+_Vbk = 6.0
 
-Delta = 0.25
+Delta = 0.15
 Nt = 10         # Horizon size
-Nsim = 40
+Nsim = 60
 
-sigma_w = 0.010   # Standard deviation for the process noise
+sigma_w = 0.001   # Standard deviation for the process noise
 sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
 sigma_p = 0.5    # Standard deviation for prior
 
@@ -55,8 +55,10 @@ def _calc_lin_disc_wrapper_for_mp_map(item):
 
 
 # Initialize estimator.
-Q_mhe = np.diag((sigma_w * np.ones((Nw,))) ** 2)
-R_mhe = np.diag((sigma_v * np.ones((Nv,))) ** 2)
+# Q_mhe = np.diag((sigma_w * np.ones((Nw,))) ** 2)
+Q_mhe = np.diag(np.ones((Nx,)))
+# R_mhe = np.diag((sigma_v * np.ones((Nv,))) ** 2)
+R_mhe = np.diag(np.ones((Ny,)))
 Qinv_mhe = scipy.linalg.inv(Q_mhe)
 Rinv_mhe = scipy.linalg.inv(R_mhe)
 # Qinv_mhe = np.diag([1, 1, 1, 1, 1, 1, 1, 1, 1])
@@ -83,6 +85,8 @@ estimator, sol_mhe, varVal_mhe, parVal_mhe, lbx_mhe, ubx_mhe =\
                    x0bar=x0_mhe, P0=linalg.inv(P_mhe), Delta=Delta,
                    ltv_guess=None, guess=None, returnSolver=True)
 
+for k in varVal_mhe.keys():
+    varVal_mhe[k] = 0.0
 # Solve before iterating
 for t in range(Nt):
     parVal_mhe["u",t] = u_0[t,:]
@@ -97,12 +101,13 @@ parVal_mhe["x0bar"] = x0_mhe
 parVal_mhe["P0"] = linalg.inv(P_mhe)
 
 res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=ubx_mhe)
-sol_mhe = sol_mhe(res_mhe["x"])
+# sol_mhe = sol_mhe(res_mhe["x"])
+sol_mhe = sol_mhe(0)
 
 # Initialize controller.
-Q_mpc = np.diag([1, 1, 0, 0, 0, 0, 0, 0, 0])
-R_mpc = 5e-5 * np.eye(Nu)
-Qn_mpc = 10*Q_mpc
+Q_mpc = np.diag([10, 10, 0.0, 0, 0, 0, 0, 0, 0])
+R_mpc = 1e-4 * np.eye(Nu)
+Qn_mpc = 2*Q_mpc
 
 
 def lfunc_mpc(w, v):
@@ -114,12 +119,13 @@ def lxfunc_mpc(x, P):
     return util.mtimes(x.T, P, x)
 lx_mpc = tools.getCasadiFunc(lxfunc_mpc, [Nx, (Nx, Nx)], ["x", "P"], "lx")
 
-lb_mpc = {'u': np.array([-100, -100]), 'Du': np.array([-30, -30])}
-ub_mpc = {'u': np.array([100, 100]), 'Du': np.array([30, 30])}
+lb_mpc = {'u': np.array([-60, -60]), 'Du': np.array([-10, -10])}
+ub_mpc = {'u': np.array([60, 60]), 'Du': np.array([10, 10])}
 
 xr = np.zeros((Nx,), dtype=np.float64)
 xr[0] = 0.6
-xr[1] = 0.0
+xr[1] = 0.3
+
 
 ref = {'xr': np.tile(xr, (Nt, 1))}
 
@@ -228,11 +234,12 @@ if nxt.sock.connected:
             res_mpc = controller(x0=varVal_mpc, p=parVal_mpc, lbg=0, ubg=0, lbx=lb_mpc, ubx=ub_mpc)
             sol_mpc = sol_mpc(res_mpc['x'])
 
-            if first_run:
-                _uk = np.array([0, 0])
-                first_run = not first_run
-            else:
-                _uk = np.array([30, 30])
+            # if first_run:
+            #     _uk = np.array([0, 0])
+            #     first_run = not first_run
+            # else:
+            _uk = np.around(sol_mpc["u"][0].full().ravel() , decimals=0)
+                # _uk = np.array([30, 30])
 
             # _uk = np.around(sol_mpc["u"][0].full().ravel() , decimals=0)
             # _uk = sol_mpc["u"][0].full().ravel()
@@ -244,9 +251,12 @@ if nxt.sock.connected:
             print "%3d (%10.5g s)" % (t, time.time()-starttime)
 
 
+
             xhat.append(_xk_mhe)
-            # xsim.append(_xk)
+            xsim.append(_xk)
             usim.append(_uk)
+
+            # _xk = simulator(_xk, _uk, np.zeros((Nw,)), _Vbk).full().ravel()
 
             nxt.send_motor_power(_uk[0], _uk[1])
 
@@ -439,3 +449,7 @@ plt.plot(np.diff(ymeas_arr[:,1])/Delta, label="omega meas")
 plt.plot(xhat_ltv[:,7], label="est")
 plt.legend()
 plt.grid()
+
+xsim = np.array(xsim)
+plt.figure()
+plt.plot(xsim[:,0])

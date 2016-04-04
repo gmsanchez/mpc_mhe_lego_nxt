@@ -33,24 +33,24 @@ def get_velocities_01(_t):
     if _t<2.0:
         _vl = 0.0
         _vr = 0.0
-    if _t>=2.0 and _t<12.0:
-        _vl = 100.0
-        _vr = 100.0
-    if _t>=12.0 and _t<16.0:
+    if _t>=2.0 and _t<6.0:
+        _vl = 30.0
+        _vr = 30.0
+    if _t>=6.0 and _t<8.0:
         _vl = 0.0
         _vr = 0.0
-    if _t>=16.0 and _t<26.0:
-        _vl = -100.0
-        _vr = -100.0
-    if _t>=26.0:
+    if _t>=8.0 and _t<12.0:
+        _vl = -30.0
+        _vr = -30.0
+    if _t>=12.0:
         _vl = 0.0
         _vr = 0.0
     return (_vl, _vr)
 
 
 
-Ts = 20E-3 # en segundos
-logging_time = 28 # segundos
+Ts = 250E-3 # en segundos
+logging_time = 14 # segundos
 NUM_SAMPLES = logging_time/Ts
 DATA_SIZE = len(data_idx)
 
@@ -62,7 +62,7 @@ for j,k in enumerate(t):
     (vl[j], vr[j]) = get_velocities(k)
 
 d03 = DataLogger(NUM_SAMPLES, DATA_SIZE)
-nxt03 = nxt_list["04"]
+nxt03 = nxt_list["03"]
 b03 = brick.Brick(nxt03["name"], nxt03["mac"], nxt03["port"])
 b03.connect()
 

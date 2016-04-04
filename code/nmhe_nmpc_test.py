@@ -21,28 +21,30 @@ Nu = model.Nu
 Nw = model.Nw
 Ny = model.Ny
 Nv = model.Nv
+Np = model.Np
 
 Delta = 0.1
 Nt = 10         # Horizon size
 Nsim = 100
 
+Vb = 8.0
 sigma_w = 0.0001   # Standard deviation for the process noise
 sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
 sigma_p = 0.5    # Standard deviation for prior
 
-f_casadi = tools.getCasadiFunc(f, [Nx, Nu, Nw], ["x", "u", "w"], "f", rk4=False)
+f_casadi = tools.getCasadiFunc(f, [Nx, Nu, Nw, Np], ["x", "u", "w", "Vb"], "f", rk4=False)
 h_casadi = tools.getCasadiFunc(h, [Nx], ["x"], "H")
 
-simulator = tools.getCasadiIntegrator(f,Delta,[Nx,Nu],["x","u"],"int_f")
+simulator = tools.getCasadiIntegrator(f,Delta,[Nx,Nu,Nw,Np],["x","u","w","Vb"],"int_f")
 
 
 def _calc_lin_disc_wrapper_for_mp_map(item):
     """ Function wrapper for map or multiprocessing.map . """
-    _xi, _ui, _wi, _Delta = item
-    Ai = f_casadi.jacobian(0, 0)(_xi, _ui, _wi)[0].full()
-    Bi = f_casadi.jacobian(1, 0)(_xi, _ui, _wi)[0].full()
-    Gi = f_casadi.jacobian(2, 0)(_xi, _ui, _wi)[0].full()
-    Ei = f_casadi(_xi, _ui, _wi).full().ravel() - Ai.dot(_xi).ravel() - Bi.dot(_ui).ravel() - Gi.dot(_wi).ravel()
+    _xi, _ui, _wi, _Vbi, _Delta = item
+    Ai = f_casadi.jacobian(0, 0)(_xi, _ui, _wi, _Vbi)[0].full()
+    Bi = f_casadi.jacobian(1, 0)(_xi, _ui, _wi, _Vbi)[0].full()
+    Gi = f_casadi.jacobian(2, 0)(_xi, _ui, _wi, _Vbi)[0].full()
+    Ei = f_casadi(_xi, _ui, _wi, _Vbi).full().ravel() - Ai.dot(_xi).ravel() - Bi.dot(_ui).ravel() - Gi.dot(_wi).ravel()
     [Ai[:], Bi[:], Gi[:], Ei[:]] = util.c2d(Ai, Bi, _Delta, Gi, Ei)
     return Ai, Bi, Gi, Ei
 
@@ -82,7 +84,7 @@ parVal_mhe["y",Nt] = y_0[Nt,:]
 
 parVal_mhe["Ad",:], parVal_mhe["Bd",:], parVal_mhe["Gd",:], parVal_mhe["fd",:] = \
     zip(*map(_calc_lin_disc_wrapper_for_mp_map, zip(varVal_mhe['x',:-1],parVal_mhe['u',:],
-                                                    varVal_mhe['w',:], [Delta for _k in xrange(Nt)])))
+                                                    varVal_mhe['w',:], [Vb for _k in xrange(Nt)], [Delta for _k in xrange(Nt)])))
 
 parVal_mhe["x0bar"] = x0_mhe
 parVal_mhe["P0"] = linalg.inv(P_mhe)
@@ -181,7 +183,7 @@ for t in range(Nsim):
 
     parVal_mhe["Ad", :], parVal_mhe["Bd", :], parVal_mhe["Gd", :], parVal_mhe["fd", :] = \
         zip(*map(_calc_lin_disc_wrapper_for_mp_map,zip(varVal_mhe['x', :-1], parVal_mhe['u', :],
-                                                       varVal_mhe['w', :], [Delta for _k in xrange(Nt)])))
+                                                       varVal_mhe['w', :], [Vb for _k in xrange(Nt)], [Delta for _k in xrange(Nt)])))
 
     res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=ubx_mhe)
     sol_mhe = sol_mhe(res_mhe["x"])
@@ -202,7 +204,7 @@ for t in range(Nsim):
 
 
 
-    parVal_mpc["Ad",:], parVal_mpc["Bd",:], _, parVal_mpc["fd",:] = zip(*map(_calc_lin_disc_wrapper_for_mp_map, zip(varVal_mpc['x',:-1],varVal_mpc['u'], [np.zeros((Nx,)) for _k in xrange(Nt)], [Delta for _k in xrange(Nt)])))
+    parVal_mpc["Ad",:], parVal_mpc["Bd",:], _, parVal_mpc["fd",:] = zip(*map(_calc_lin_disc_wrapper_for_mp_map, zip(varVal_mpc['x',:-1],varVal_mpc['u'], [np.zeros((Nx,)) for _k in xrange(Nt)], [Vb for _k in xrange(Nt)], [Delta for _k in xrange(Nt)])))
 
     res_mpc = controller(x0=varVal_mpc, p=parVal_mpc, lbg=0, ubg=0, lbx=lb_mpc, ubx=ub_mpc)
     sol_mpc = sol_mpc(res_mpc['x'])
@@ -221,7 +223,7 @@ for t in range(Nsim):
     xsim.append(_xk)
     usim.append(_uk)
 
-    _xk = simulator(_xk, _uk).full().ravel()
+    _xk = simulator(_xk, _uk, np.zeros((Nw,)), Vb).full().ravel()
 
 # pool.close()
 # pool.join()

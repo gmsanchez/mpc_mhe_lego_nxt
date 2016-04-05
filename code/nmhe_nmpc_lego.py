@@ -58,13 +58,15 @@ def _calc_lin_disc_wrapper_for_mp_map(item):
 # Q_mhe = np.diag((sigma_w * np.ones((Nw,))) ** 2)
 Q_mhe = np.diag(np.ones((Nx,)))
 # R_mhe = np.diag((sigma_v * np.ones((Nv,))) ** 2)
-R_mhe = np.diag(np.ones((Ny,)))
+R_mhe = np.diag(np.ones((Ny,)))*1E-1
 Qinv_mhe = scipy.linalg.inv(Q_mhe)
 Rinv_mhe = scipy.linalg.inv(R_mhe)
 # Qinv_mhe = np.diag([1, 1, 1, 1, 1, 1, 1, 1, 1])
 # Rinv_mhe = np.diag([100, 100])
 P_mhe = np.diag((sigma_p * np.ones((Nx,))) ** 2)
 x0_mhe = np.zeros((Nx,)) + 0.0 * sigma_p * np.random.randn(Nx)
+x0_mhe[9] = 1.089
+x0_mhe[10] = 1.089
 
 def lfunc_mhe(w, v):
     return util.mtimes(w.T, Qinv_mhe, w) + util.mtimes(v.T, Rinv_mhe, v)
@@ -105,7 +107,7 @@ res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=
 sol_mhe = sol_mhe(0)
 
 # Initialize controller.
-Q_mpc = np.diag([10, 10, 0.0, 0, 0, 0, 0, 0, 0])
+Q_mpc = np.diag([10, 10, 0.0, 0, 0, 0, 0, 0, 0, 0, 0])
 R_mpc = 1e-4 * np.eye(Nu)
 Qn_mpc = 2*Q_mpc
 
@@ -123,8 +125,8 @@ lb_mpc = {'u': np.array([-60, -60]), 'Du': np.array([-10, -10])}
 ub_mpc = {'u': np.array([60, 60]), 'Du': np.array([10, 10])}
 
 xr = np.zeros((Nx,), dtype=np.float64)
-xr[0] = 0.6
-xr[1] = 0.3
+xr[0] = 1.2
+# xr[1] = 0.6
 
 
 ref = {'xr': np.tile(xr, (Nt, 1))}

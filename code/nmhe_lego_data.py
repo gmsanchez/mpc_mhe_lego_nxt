@@ -26,7 +26,7 @@ Ny = model.Ny
 Nv = model.Nv
 Np = model.Np
 
-motor_load = "/home/gsanchez/fun/thesis/code/datalog_20160404_175941.csv"
+motor_load = "/home/gsanchez/fun/thesis/code/datalogs/datalog_20150910_121456.csv"
 _log_data = np.loadtxt(open(motor_load,"rb"), delimiter=",", skiprows=1, dtype=np.float64)
 # _log_data = _log_data[0:300,:]
 
@@ -75,17 +75,21 @@ xsim_ltv[0,:] = x0
 
 # Q = np.diag((sigma_w*np.ones((Nw,)))**2)
 # Q = np.diag([1.0E6, 1.0E6, 0.5, 1E-3, 1E-6, 0.10, 1E-3, 1E-6, 0.10])
-Q = np.diag(np.ones((Nx,)))
-Q[3,3] = 1E-1
-Q[6,6] = 1E-1
+Q = np.diag(np.ones((Nx,)))*1E0
+# Q[3,3] = 1E-1
+# Q[6,6] = 1E-1
 # R = np.diag((sigma_v*np.ones((Nv,)))**2)
 # Q = np.diag([0.001, 0.001, np.deg2rad(0.5), 1.0, 0.01, 0.01, 1.0, 0.01, 0.01])
-R = np.diag(np.ones((Ny,)))*1E0
+R = np.diag(np.ones((Ny,)))*1E-3
 Qinv = scipy.linalg.inv(Q)
 Rinv = scipy.linalg.inv(R)
 P = np.diag((sigma_p*np.ones((Nx,)))**2)
 x_0 = x0 + 0.0*sigma_p*np.random.randn(Nx)
 
+# x_0[10] = 1.089
+# x_0[9] = 1.089
+
+# lb = {"x" : np.array([])}
 
 def lfunc(w, v):
     return util.mtimes(w.T, Qinv, w) + util.mtimes(v.T, Rinv, v)
@@ -195,14 +199,14 @@ if doMHEPlots:
     plt.suptitle("NMHE LTV")
 
 plt.figure()
-plt.plot(xhat_ltv[:,3], label="mhe")
+plt.plot(xhat_ltv[:,3], label="mhe", marker='+')
 plt.plot(np.deg2rad(ysim[:,0]), label="meas")
 plt.legend()
 plt.title(r'$\theta_l$')
 plt.grid()
 
 plt.figure()
-plt.plot(xhat_ltv[:,6], label="mhe")
+plt.plot(xhat_ltv[:,6], label="mhe", marker='+')
 plt.plot(np.deg2rad(ysim[:,1]), label="meas")
 plt.legend()
 plt.title(r'$\theta_r$')
@@ -210,14 +214,14 @@ plt.grid()
 
 
 plt.figure()
-plt.plot(xhat_ltv[:,4], label="mhe")
+plt.plot(xhat_ltv[:,4], label="mhe", marker='+')
 plt.plot(np.diff(np.deg2rad(ysim[:,0]))/Delta, label="meas")
 plt.legend()
 plt.title(r'$\omega_l$')
 plt.grid()
 
 plt.figure()
-plt.plot(xhat_ltv[:,7], label="mhe")
+plt.plot(xhat_ltv[:,7], label="mhe", marker='+')
 plt.plot(np.diff(np.deg2rad(ysim[:,1]))/Delta, label="meas")
 plt.legend()
 plt.title(r'$\omega_r$')

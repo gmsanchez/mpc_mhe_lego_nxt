@@ -2,7 +2,7 @@
 import numpy as np
 import casadi
 
-Nx = 9
+Nx = 11
 Ny = 2
 Nu = 2
 Nw = Nx
@@ -71,10 +71,12 @@ def f(x, u, w=w0, Vb=Vb):
                      (wR/wB)*(x[7]-x[4]),
                      x[4],
                      -(fm/Jm)*x[4] + (Kt/Jm)*x[5],
-                     -(Kb/L)* x[4] - (Rm/L)* x[5] + ((Gu*(mu_l*Vb-Vo_l))/L)*u[0],
+                     -(Kb/L)* x[4] - (Rm/L)* x[5] + ((Gu*(x[9]*Vb-Vo_l))/L)*u[0],
                      x[7],
                      -(fm/Jm)*x[7] + (Kt/Jm)*x[8],
-                     -(Kb/L)* x[7] - (Rm/L)* x[8] + ((Gu*(mu_r*Vb-Vo_r))/L)*u[1]])
+                     -(Kb/L)* x[7] - (Rm/L)* x[8] + ((Gu*(x[10]*Vb-Vo_r))/L)*u[1],
+                     0,
+                     0])
 
 
 def h(x, v=v0):

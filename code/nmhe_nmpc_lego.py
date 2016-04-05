@@ -89,6 +89,10 @@ estimator, sol_mhe, varVal_mhe, parVal_mhe, lbx_mhe, ubx_mhe =\
 
 for k in varVal_mhe.keys():
     varVal_mhe[k] = 0.0
+
+varVal_mhe["x",:,9] = 1.089
+varVal_mhe["x",:,10] = 1.089
+
 # Solve before iterating
 for t in range(Nt):
     parVal_mhe["u",t] = u_0[t,:]

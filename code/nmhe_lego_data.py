@@ -86,8 +86,8 @@ Rinv = scipy.linalg.inv(R)
 P = np.diag((sigma_p*np.ones((Nx,)))**2)
 x_0 = x0 + 0.0*sigma_p*np.random.randn(Nx)
 
-# x_0[10] = 1.089
-# x_0[9] = 1.089
+x_0[10] = 1.089
+x_0[9] = 1.089
 
 # lb = {"x" : np.array([])}
 
@@ -123,6 +123,8 @@ parVal["P0"] = linalg.inv(P)
 res = estimator(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lbx, ubx=ubx)
 # sol = sol(res["x"])
 sol = sol(0)
+for t in range(len(sol["x"])):
+    sol["x",t] = x_0
 
 _y = deque(y_0, maxlen=Nt+1)
 _u = deque(u_0, maxlen=Nt)

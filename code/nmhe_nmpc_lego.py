@@ -29,9 +29,9 @@ Np = model.Np
 
 _Vbk = 6.0
 
-Delta = 0.15
+Delta = 0.10
 Nt = 10         # Horizon size
-Nsim = 60
+Nsim = 120
 
 sigma_w = 0.001   # Standard deviation for the process noise
 sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
@@ -65,6 +65,7 @@ Rinv_mhe = scipy.linalg.inv(R_mhe)
 # Rinv_mhe = np.diag([100, 100])
 P_mhe = np.diag((sigma_p * np.ones((Nx,))) ** 2)
 x0_mhe = np.zeros((Nx,)) + 0.0 * sigma_p * np.random.randn(Nx)
+x0_mhe[2] = np.deg2rad(45)
 x0_mhe[9] = 1.089
 x0_mhe[10] = 1.089
 
@@ -90,8 +91,7 @@ estimator, sol_mhe, varVal_mhe, parVal_mhe, lbx_mhe, ubx_mhe =\
 for k in varVal_mhe.keys():
     varVal_mhe[k] = 0.0
 
-varVal_mhe["x",:,9] = 1.089
-varVal_mhe["x",:,10] = 1.089
+varVal_mhe["x",:] = x0_mhe
 
 # Solve before iterating
 for t in range(Nt):
@@ -109,10 +109,11 @@ parVal_mhe["P0"] = linalg.inv(P_mhe)
 res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=ubx_mhe)
 # sol_mhe = sol_mhe(res_mhe["x"])
 sol_mhe = sol_mhe(0)
+sol_mhe["x",:] = x0_mhe
 
 # Initialize controller.
-Q_mpc = np.diag([10, 10, 0.0, 0, 0, 0, 0, 0, 0, 0, 0])
-R_mpc = 1e-4 * np.eye(Nu)
+Q_mpc = np.diag([20, 20, 0.0, 0, 0, 0, 0, 0, 0, 0, 0])
+R_mpc = 5e-5 * np.eye(Nu)
 Qn_mpc = 2*Q_mpc
 
 
@@ -125,19 +126,19 @@ def lxfunc_mpc(x, P):
     return util.mtimes(x.T, P, x)
 lx_mpc = tools.getCasadiFunc(lxfunc_mpc, [Nx, (Nx, Nx)], ["x", "P"], "lx")
 
-lb_mpc = {'u': np.array([-60, -60]), 'Du': np.array([-10, -10])}
-ub_mpc = {'u': np.array([60, 60]), 'Du': np.array([10, 10])}
+lb_mpc = {'u': np.array([-80, -80]), 'Du': np.array([-10, -10])}
+ub_mpc = {'u': np.array([80, 80]), 'Du': np.array([10, 10])}
 
 xr = np.zeros((Nx,), dtype=np.float64)
-xr[0] = 1.2
-# xr[1] = 0.6
+xr[0] = 0.3
+xr[1] = 1.5
 
 
 ref = {'xr': np.tile(xr, (Nt, 1))}
 
 uprev = np.zeros((Nu,))
 
-x0_mpc = np.zeros((Nx,))
+x0_mpc = x0_mhe# np.zeros((Nx,))
 # x0_mpc[0] = -1.5
 # x0_mpc[1] = 1.0
 
@@ -154,6 +155,7 @@ for k in varVal_mpc.keys():
     varVal_mpc[k] = 0
 for k in set(parVal_mpc.keys()).intersection(set(['x0', 'uprev', 'Qn', 'Ad', 'Bd', 'fd'])):
     parVal_mpc[k] = 0
+varVal_mpc["x",:] = x0_mpc
 
 # Get Nt measurements before we start the main loop.
 

@@ -3,7 +3,7 @@ import casadi.tools as ctools
 import numpy as np
 import scipy.linalg
 # import model_dcmotor as model
-import model_lego as model
+import model_lego_powgain_gyro as model
 import tools
 import util
 import matplotlib.pyplot as plt
@@ -26,7 +26,6 @@ Ny = model.Ny
 Nv = model.Nv
 Np = model.Np
 
-# motor_load = "/home/guiss/fun/thesis/code/datalogs/datalog_20150910_121456.csv"
 motor_load = "/home/guiss/fun/thesis/code/datalogs/datalog_20150210_153746.csv"
 _log_data = np.loadtxt(open(motor_load,"rb"), delimiter=",", skiprows=1, dtype=np.float64)
 # _log_data = _log_data[0:300,:]
@@ -67,6 +66,7 @@ usim[:, 1] = _log_data[:, data_idx['ur']]
 ysim = np.zeros((Nsim, Ny))
 ysim[:, 0] = _log_data[:, data_idx['mot_l']]
 ysim[:, 1] = _log_data[:, data_idx['mot_r']]
+ysim[:, 2] = _log_data[:, data_idx['gyro']]
 
 _Vbk = _log_data[0, data_idx['battery']]/1000.0
 
@@ -79,11 +79,14 @@ xsim_ltv[0,:] = x0
 # Q = np.diag((sigma_w*np.ones((Nw,)))**2)
 # Q = np.diag([1.0E6, 1.0E6, 0.5, 1E-3, 1E-6, 0.10, 1E-3, 1E-6, 0.10])
 Q = np.diag(np.ones((Nx,)))*1E0
-# Q[3,3] = 1E-1
-# Q[6,6] = 1E-1
+#Q[4,4] = 1E2
+#Q[7,7] = 1E2
+#Q[3,3] = 1E2
+#Q[6,6] = 1E2
 # R = np.diag((sigma_v*np.ones((Nv,)))**2)
 # Q = np.diag([0.001, 0.001, np.deg2rad(0.5), 1.0, 0.01, 0.01, 1.0, 0.01, 0.01])
-R = np.diag(np.ones((Ny,)))*1E-1
+#R = np.diag(np.ones((Ny,)))*1E-3
+R = np.diag([1E-1, 1E-1, 1E0])
 Qinv = scipy.linalg.inv(Q)
 Rinv = scipy.linalg.inv(R)
 P = np.diag((sigma_p*np.ones((Nx,)))**2)
@@ -91,9 +94,14 @@ x_0 = x0 + 0.0*sigma_p*np.random.randn(Nx)
 
 x_0[10] = 1.089
 x_0[9] = 1.089
+x_0[11] = 0.95
 
-# lb = {"x" : np.array([])}
+#lb = {"x" : np.array([-np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf,
+#                      -np.inf, -np.inf, -np.inf, 0.0, 0.0, 9.5])}
 
+#ub = {"x" : np.array([np.inf, np.inf, np.inf, np.inf, np.inf, np.inf,
+#                      np.inf, np.inf, np.inf, 2.0, 2.0, 11.0])}
+                      
 def lfunc(w, v):
     return util.mtimes(w.T, Qinv, w) + util.mtimes(v.T, Rinv, v)
 l = tools.getCasadiFunc(lfunc, [Nw, Nv], ["w", "v"], "l")
@@ -220,7 +228,7 @@ offset_y = .5*pltScale*(y2 - y1)
 plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
 plt.tight_layout()
 plt.grid()
-plt.savefig('mhe_theta_l_n_%d.pdf' % (Nt),format='PDF')
+plt.savefig('mhe_gyro_theta_l_n_%d.pdf' % (Nt),format='PDF')
 
 plt.figure()
 plt.plot(tplot,xhat_ltv[:,6], label=r"$MHE$", marker='+', markevery=5)
@@ -235,7 +243,7 @@ offset_y = .5*pltScale*(y2 - y1)
 plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
 plt.tight_layout()
 plt.grid()
-plt.savefig('mhe_theta_r_n_%d.pdf' % (Nt),format='PDF')
+plt.savefig('mhe_gyro_theta_r_n_%d.pdf' % (Nt),format='PDF')
 
 plt.figure()
 plt.plot(tplot[1:],xhat_ltv[1:,4], label=r"$MHE$", marker='+', markevery=5)
@@ -250,7 +258,7 @@ offset_y = .5*pltScale*(y2 - y1)
 plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
 plt.tight_layout()
 plt.grid()
-plt.savefig('mhe_omega_l_n_%d.pdf' % (Nt),format='PDF')
+plt.savefig('mhe_gyro_omega_l_n_%d.pdf' % (Nt),format='PDF')
 
 plt.figure()
 plt.plot(tplot[1:],xhat_ltv[1:,7], label=r"$MHE$", marker='+', markevery=5)
@@ -265,7 +273,7 @@ offset_y = .5*pltScale*(y2 - y1)
 plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
 plt.tight_layout()
 plt.grid()
-plt.savefig('mhe_omega_r_n_%d.pdf' % (Nt),format='PDF')
+plt.savefig('mhe_gyro_omega_r_n_%d.pdf' % (Nt),format='PDF')
 
 plt.figure()
 plt.plot(tplot,usim[:,0], marker='+', markevery=5, label=r"$u_l$")
@@ -280,7 +288,7 @@ offset_y = .5*pltScale*(y2 - y1)
 plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
 plt.tight_layout()
 plt.grid()
-plt.savefig('mhe_u_lr_n_%d.pdf' % (Nt),format='PDF')
+plt.savefig('mhe_gyro_u_lr_n_%d.pdf' % (Nt),format='PDF')
 
 plt.figure()
 plt.plot(xhat_ltv[:,0], xhat_ltv[:,1], marker='o', markevery=5)
@@ -288,5 +296,11 @@ plt.plot(xhat_ltv[:,0], xhat_ltv[:,1], marker='o', markevery=5)
 plt.ylabel(r'$y \; \mathrm{[m]}$', fontsize=fontsize_axislabel)
 plt.xlabel(r'$x \; \mathrm{[m]}$', fontsize=fontsize_axislabel)
 # plt.gca().invert_yaxis()
+pltScale = 0.1
+x1,x2,y1,y2 = plt.axis()
+offset_x = .5*pltScale*(x2 - x1)
+offset_y = .5*pltScale*(y2 - y1)
+plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+plt.tight_layout()
 plt.grid()
-plt.savefig('mhe_xy_n_%d.pdf' % (Nt),format='PDF')
+plt.savefig('mhe_gyro_xy_n_%d.pdf' % (Nt),format='PDF')

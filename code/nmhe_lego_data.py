@@ -3,7 +3,7 @@ import casadi.tools as ctools
 import numpy as np
 import scipy.linalg
 # import model_dcmotor as model
-import model_lego as model
+import model_lego_muparam as model
 import tools
 import util
 import matplotlib.pyplot as plt
@@ -26,11 +26,14 @@ Ny = model.Ny
 Nv = model.Nv
 Np = model.Np
 
-motor_load = "/home/gsanchez/fun/thesis/code/datalogs/datalog_20150910_121456.csv"
+# motor_load = "/home/guiss/fun/thesis/code/datalogs/datalog_20150910_121456.csv"
+motor_load = "/home/guiss/fun/thesis/code/datalogs/datalog_20150210_153746.csv"
 _log_data = np.loadtxt(open(motor_load,"rb"), delimiter=",", skiprows=1, dtype=np.float64)
 # _log_data = _log_data[0:300,:]
 
 Delta = np.int(_log_data[1,data_idx['t']] - _log_data[0,data_idx['t']])*(1E-3)
+NumSamples = _log_data.shape[0]
+tplot = np.arange(NumSamples)*Delta
 # Delta = 0.1
 Nt = 5         # Horizon size
 Nsim = _log_data.shape[0]
@@ -80,7 +83,7 @@ Q = np.diag(np.ones((Nx,)))*1E0
 # Q[6,6] = 1E-1
 # R = np.diag((sigma_v*np.ones((Nv,)))**2)
 # Q = np.diag([0.001, 0.001, np.deg2rad(0.5), 1.0, 0.01, 0.01, 1.0, 0.01, 0.01])
-R = np.diag(np.ones((Ny,)))*1E-3
+R = np.diag(np.ones((Ny,)))*1E-1
 Qinv = scipy.linalg.inv(Q)
 Rinv = scipy.linalg.inv(R)
 P = np.diag((sigma_p*np.ones((Nx,)))**2)
@@ -199,45 +202,91 @@ if doMHEPlots:
             # axarr[thisPos].grid()
 
     plt.suptitle("NMHE LTV")
+    
+fontsize_legend=16
+fontsize_axislabel=18
 
 plt.figure()
-plt.plot(xhat_ltv[:,3], label="mhe", marker='+')
-plt.plot(np.deg2rad(ysim[:,0]), label="meas")
-plt.legend()
-plt.title(r'$\theta_l$')
+plt.plot(tplot,xhat_ltv[:,3], label=r"$MHE$", marker='+', markevery=5)
+plt.plot(tplot,np.deg2rad(ysim[:,0]), marker='', markevery=5, label=r"$Medici\acute{o}n$")
+plt.legend(fontsize=fontsize_legend)
+plt.ylabel(r'$\theta_l \; \mathrm{[rad]}$', fontsize=fontsize_axislabel)
+plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+#plt.title(r'$\theta_l$')
+pltScale = 0.1
+x1,x2,y1,y2 = plt.axis()
+offset_x = .5*pltScale*(x2 - x1)
+offset_y = .5*pltScale*(y2 - y1)
+plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+plt.tight_layout()
 plt.grid()
+plt.savefig('mhe_theta_l_n_%d.pdf' % (Nt),format='PDF')
 
 plt.figure()
-plt.plot(xhat_ltv[:,6], label="mhe", marker='+')
-plt.plot(np.deg2rad(ysim[:,1]), label="meas")
-plt.legend()
-plt.title(r'$\theta_r$')
+plt.plot(tplot,xhat_ltv[:,6], label=r"$MHE$", marker='+', markevery=5)
+plt.plot(tplot,np.deg2rad(ysim[:,1]), label=r"$Medici\acute{o}n$")
+plt.legend(fontsize=fontsize_legend)
+plt.ylabel(r'$\theta_r \; \mathrm{[rad]}$', fontsize=fontsize_axislabel)
+plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+pltScale = 0.1
+x1,x2,y1,y2 = plt.axis()
+offset_x = .5*pltScale*(x2 - x1)
+offset_y = .5*pltScale*(y2 - y1)
+plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+plt.tight_layout()
 plt.grid()
-
-
-plt.figure()
-plt.plot(xhat_ltv[:,4], label="mhe", marker='+')
-plt.plot(np.diff(np.deg2rad(ysim[:,0]))/Delta, label="meas")
-plt.legend()
-plt.title(r'$\omega_l$')
-plt.grid()
-
-plt.figure()
-plt.plot(xhat_ltv[:,7], label="mhe", marker='+')
-plt.plot(np.diff(np.deg2rad(ysim[:,1]))/Delta, label="meas")
-plt.legend()
-plt.title(r'$\omega_r$')
-plt.grid()
+plt.savefig('mhe_theta_r_n_%d.pdf' % (Nt),format='PDF')
 
 plt.figure()
-plt.plot(usim[:,0], label="u0")
-plt.plot(usim[:,1], label="u1")
-plt.legend()
-plt.title("Controles")
+plt.plot(tplot[1:],xhat_ltv[1:,4], label=r"$MHE$", marker='+', markevery=5)
+plt.plot(tplot[1:],np.diff(np.deg2rad(ysim[:,0]))/Delta, label=r"$\Delta \theta_l / \Delta t$")
+plt.legend(fontsize=fontsize_legend)
+plt.ylabel(r'$\omega_l \; \mathrm{[rad/s]}$', fontsize=fontsize_axislabel)
+plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+pltScale = 0.1
+x1,x2,y1,y2 = plt.axis()
+offset_x = .5*pltScale*(x2 - x1)
+offset_y = .5*pltScale*(y2 - y1)
+plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+plt.tight_layout()
 plt.grid()
+plt.savefig('mhe_omega_l_n_%d.pdf' % (Nt),format='PDF')
 
 plt.figure()
-plt.plot(xhat_ltv[:,0], xhat_ltv[:,1])
-plt.title("x vs y")
-plt.gca().invert_yaxis()
+plt.plot(tplot[1:],xhat_ltv[1:,7], label=r"$MHE$", marker='+', markevery=5)
+plt.plot(tplot[1:],np.diff(np.deg2rad(ysim[:,1]))/Delta, label=r"$\Delta \theta_r / \Delta t$")
+plt.legend(fontsize=fontsize_legend)
+plt.ylabel(r'$\omega_r \; \mathrm{[rad/s]}$', fontsize=fontsize_axislabel)
+plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+pltScale = 0.1
+x1,x2,y1,y2 = plt.axis()
+offset_x = .5*pltScale*(x2 - x1)
+offset_y = .5*pltScale*(y2 - y1)
+plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+plt.tight_layout()
 plt.grid()
+plt.savefig('mhe_omega_r_n_%d.pdf' % (Nt),format='PDF')
+
+plt.figure()
+plt.plot(tplot,usim[:,0], marker='+', markevery=5, label=r"$u_l$")
+plt.plot(tplot,usim[:,1], label=r"$u_r$")
+plt.legend(fontsize=fontsize_legend)
+plt.ylabel(r'$u_{l,r}$', fontsize=fontsize_axislabel)
+plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+pltScale = 0.1
+x1,x2,y1,y2 = plt.axis()
+offset_x = .5*pltScale*(x2 - x1)
+offset_y = .5*pltScale*(y2 - y1)
+plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+plt.tight_layout()
+plt.grid()
+plt.savefig('mhe_u_lr_n_%d.pdf' % (Nt),format='PDF')
+
+plt.figure()
+plt.plot(xhat_ltv[:,0], xhat_ltv[:,1], marker='o', markevery=5)
+#plt.title("x vs y")
+plt.ylabel(r'$y \; \mathrm{[m]}$', fontsize=fontsize_axislabel)
+plt.xlabel(r'$x \; \mathrm{[m]}$', fontsize=fontsize_axislabel)
+# plt.gca().invert_yaxis()
+plt.grid()
+plt.savefig('mhe_xy_n_%d.pdf' % (Nt),format='PDF')

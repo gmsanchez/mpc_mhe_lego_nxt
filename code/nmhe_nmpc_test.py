@@ -24,9 +24,10 @@ Nv = model.Nv
 Np = model.Np
 
 Delta = 0.1
-Nt = 10         # Horizon size
+Nt = 5         # Horizon size
 Nsim = 100
 
+tplot = np.arange(Nsim)*Delta
 Vb = 8.0
 sigma_w = 0.0001   # Standard deviation for the process noise
 sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
@@ -93,9 +94,9 @@ res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=
 sol_mhe = sol_mhe(res_mhe["x"])
 
 # Initialize controller.
-Q_mpc = np.diag([10, 10, 0, 0, 0, 0, 0, 0, 0])
-R_mpc = 50e-6 * np.eye(Nu)
-Qn_mpc = 0.1*Q_mpc
+Q_mpc = np.diag([15, 15, 0, 0, 0, 0, 0, 0, 0])
+R_mpc = 1e-6* np.eye(Nu)
+Qn_mpc = Q_mpc
 
 
 def lfunc_mpc(w, v):
@@ -112,7 +113,7 @@ ub_mpc = {'u': np.array([100, 100]), 'Du': np.array([20, 20])}
 
 xr = np.zeros((Nx,), dtype=np.float64)
 xr[0] = 1.0
-xr[1] = 1.0
+xr[1] = 2.0
 
 ref = {'xr': np.tile(xr, (Nt, 1))}
 
@@ -236,7 +237,7 @@ xsim_ltv = np.array(xsim)
 doMPCPlots = True
 doMHEPlots = True
 fontsize = 12
-pltDim = (4,3)
+pltDim = (4,4)
 
 if doMPCPlots:
     f, axarr = plt.subplots(*pltDim)
@@ -312,3 +313,89 @@ if doMHEPlots:
             axarr[thisPos].grid()
 
     plt.suptitle("NMHE LTV")
+
+
+x_plots = [0,1,2,3,4,6,7]
+x_label = [r'${x} \; \mathrm{[m]}$',r'${y} \; \mathrm{[m]}$',r'${\phi} \; \mathrm{[rad]}$',
+           r'${\theta_l} \; \mathrm{[rad]}$',r'${\omega_l} \; \mathrm{[rad/s]}$',
+           r'${\theta_r} \; \mathrm{[rad]}$',r'${\omega_r} \; \mathrm{[rad/s]}$']
+xname = ['x', 'y', 'phi','theta_l', 'omega_l', 'theta_r','omega_r']
+uname = ['u_l', 'u_r']
+u_label = [r'$u_l$', r'$u_r$']
+xlegend = [r'$x$',r'$y$',r'$\phi$',r'$\theta_l$',r'$\omega_l$',r'$\theta_r$',r'$\omega_r$']
+xhatlegend = [r'$\hat{x}$',r'$\hat{y}$',r'$\hat{\phi}$',r'$\hat{\theta}_l$',r'$\hat{\omega}_l$',r'$\hat{\theta}_r$',r'$\hat{\omega}_r$']
+xerr_label = [r'$\hat{x} - {x}$',r'$\hat{y}-{y}$',r'${\hat{\phi}-\phi}$',
+              r'$\hat{\theta}_l-\theta_l$',r'$\hat{\omega}_l-\omega_l$',
+              r'$\hat{\theta}_r-\theta_r$',r'$\hat{\omega}_r-\omega_r$']
+
+fontsize_axislabel=18
+doPrintPlots = True
+if doPrintPlots:
+    for i in range(len(x_plots)):
+        plt.figure()
+        plt.plot(tplot,xsim_ltv[:,x_plots[i]], marker='+', label=xlegend[i])
+        plt.plot(tplot,xhat_ltv[:,x_plots[i]], marker='+', label=xhatlegend[i])        
+        plt.ylabel(x_label[i], fontsize=fontsize_axislabel)
+        plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+        
+        plt.legend(fontsize=16)
+        plt.grid()
+        pltScale = 0.1
+        x1,x2,y1,y2 = plt.axis()
+        offset_x = .5*pltScale*(x2 - x1)
+        offset_y = .5*pltScale*(y2 - y1)
+        plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+        plt.tight_layout()
+        plt.savefig('mhe_mpc_'+xname[i]+'_n_%d.pdf' % (Nt),format='PDF')
+        plt.close()
+        
+    for i in range(len(x_plots)):
+        plt.figure()
+        plt.plot(tplot,xhat_ltv[:,x_plots[i]]-xsim_ltv[:,x_plots[i]], marker='+')
+        plt.ylabel(xerr_label[i], fontsize=fontsize_axislabel)
+        plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+        
+        # plt.legend(fontsize=16)
+        plt.grid()
+        pltScale = 0.1
+        x1,x2,y1,y2 = plt.axis()
+        offset_x = .5*pltScale*(x2 - x1)
+        offset_y = .5*pltScale*(y2 - y1)
+        plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+        plt.tight_layout()
+        plt.savefig('mhe_mpc_'+xname[i]+'_err_n_%d.pdf' % (Nt),format='PDF')
+        plt.close()
+        
+    
+    plt.figure()
+    plt.plot(xhat_ltv[:,0],xhat_ltv[:,1], marker='o', label=r'$MHE$')
+    plt.plot(xsim_ltv[:,0],xsim_ltv[:,1], marker='+', label=r'$Simulado$')
+    plt.ylabel(x_label[1], fontsize=fontsize_axislabel)
+    plt.xlabel(x_label[0], fontsize=fontsize_axislabel)
+    plt.legend(fontsize=16)
+    plt.grid()
+    pltScale = 0.1
+    x1,x2,y1,y2 = plt.axis()
+    offset_x = .5*pltScale*(x2 - x1)
+    offset_y = .5*pltScale*(y2 - y1)
+    plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+    plt.savefig('mhe_mpc_xy_n_%d.pdf' % (Nt),format='PDF')
+    plt.close()
+    
+    for i in range(2):
+        plt.figure()
+        plt.step(tplot,usim_mpc[:,i], marker='.',where='post')
+        plt.ylabel(u_label[i], fontsize=fontsize_axislabel)
+        plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+        
+        plt.grid()
+        pltScale = 0.1
+        x1,x2,y1,y2 = plt.axis()
+        offset_x = .5*pltScale*(x2 - x1)
+        offset_y = .5*pltScale*(y2 - y1)
+        plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+        plt.savefig('mhe_mpc_'+uname[i]+'_n_%d.pdf' % (Nt),format='PDF')
+        plt.close()
+                
+
+    

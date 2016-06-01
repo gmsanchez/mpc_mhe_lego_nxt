@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.linalg
 # import model_dcmotor as model
-import model_lego as model
+import model_lego_noparams as model
 import tools
 import util
 import matplotlib.pyplot as plt

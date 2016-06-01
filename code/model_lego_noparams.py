@@ -2,7 +2,7 @@
 import numpy as np
 import casadi
 
-Nx = 11
+Nx = 9
 Ny = 2
 Nu = 2
 Nw = Nx
@@ -19,7 +19,7 @@ v0 = np.zeros(Ny)
 # http://ctms.engin.umich.edu/CTMS/index.php?example=MotorPosition&section=SystemModeling
 
 wR = 0.0216 # (43.2*0.5)/1000.0   # Wheel radius [mm]
-wB = 0.135  #0.105 # 105.0/1000.0       # Distance between wheels [mm]
+wB = 0.105  #0.105 # 105.0/1000.0       # Distance between wheels [mm]
 #wR = 0.028 # (43.2*0.5)/1000.0   # Wheel radius [mm]
 #wB = 0.120  #0.105 # 105.0/1000.0       # Distance between wheels [mm]
 fm = 0.0022     # motor viscous friction constant
@@ -33,8 +33,8 @@ Vo = 0.625      # V Power Supply offset
 mu = 1.089      # Power Supply gain factor =
 Vo_l = 0.68
 Vo_r = 0.68
-mu_l = 1.089
-mu_r = 1.089
+mu_l = 0.999 #1.089
+mu_r = 0.999 # 1.089
 L = 1.0
 
 
@@ -73,12 +73,10 @@ def f(x, u, w=w0, Vb=Vb):
                      (wR/wB)*(x[7]-x[4]),
                      x[4],
                      -(fm/Jm)*x[4] + (Kt/Jm)*x[5],
-                     -(Kb/L)* x[4] - (Rm/L)* x[5] + ((Gu*(x[9]*Vb-Vo_l))/L)*u[0],
+                     -(Kb/L)* x[4] - (Rm/L)* x[5] + ((Gu*(mu*Vb-Vo_l))/L)*u[0],
                      x[7],
                      -(fm/Jm)*x[7] + (Kt/Jm)*x[8],
-                     -(Kb/L)* x[7] - (Rm/L)* x[8] + ((Gu*(x[10]*Vb-Vo_r))/L)*u[1],
-                     0,
-                     0])
+                     -(Kb/L)* x[7] - (Rm/L)* x[8] + ((Gu*(mu*Vb-Vo_r))/L)*u[1] ])
 
 
 def h(x, v=v0):

@@ -21,6 +21,7 @@ Delta = 0.1
 Nt = 5         # Horizon size
 Nsim = 80
 
+tplot = np.arange(Nsim+1)*Delta
 # sigma_w = 0.05   # Standard deviation for the process noise
 # sigma_v = 0.25  # Standard deviation of the measurements
 # sigma_p = 0.5    # Standard deviation for prior
@@ -175,3 +176,57 @@ if doPlots:
     (minlim,maxlim) = axarr[thisPos].get_ylim()
     offset = .5*pltScale*(maxlim - minlim)
     axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
+
+
+
+x_plots = [0,1,2]
+x_label = [r'$x \; \mathrm{[m]}$',r'$y \; \mathrm{[m]}$',r'$\psi \; \mathrm{[rad]}$']
+xname = ['x', 'y', 'phi']
+uname = ['u_l', 'u_r']
+u_label = [r'$u_l$', r'$u_r$']
+fontsize_axislabel=18
+doPrintPlots = True
+if doPrintPlots:
+    for i in range(3):
+        plt.figure()
+        plt.plot(tplot,xsim_mpc[:,i], marker='+')
+        plt.ylabel(x_label[i], fontsize=fontsize_axislabel)
+        plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+        
+        plt.grid()
+        pltScale = 0.1
+        x1,x2,y1,y2 = plt.axis()
+        offset_x = .5*pltScale*(x2 - x1)
+        offset_y = .5*pltScale*(y2 - y1)
+        plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+        plt.savefig('mpc_'+xname[i]+'_n_%d.pdf' % (Nt),format='PDF')
+        
+    
+    plt.figure()
+    plt.plot(xsim_mpc[:,0],xsim_mpc[:,1], marker='o')
+    plt.ylabel(x_label[1], fontsize=fontsize_axislabel)
+    plt.xlabel(x_label[0], fontsize=fontsize_axislabel)
+    plt.grid()
+    pltScale = 0.1
+    x1,x2,y1,y2 = plt.axis()
+    offset_x = .5*pltScale*(x2 - x1)
+    offset_y = .5*pltScale*(y2 - y1)
+    plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+    plt.savefig('mpc_xy_n_%d.pdf' % (Nt),format='PDF')
+    
+    for i in range(2):
+        plt.figure()
+        plt.step(tplot[:-1],usim_mpc[:,i], marker='.',where='post')
+        plt.ylabel(u_label[i], fontsize=fontsize_axislabel)
+        plt.xlabel(r'$t \; \mathrm{[seg]}$', fontsize=fontsize_axislabel)
+        
+        plt.grid()
+        pltScale = 0.1
+        x1,x2,y1,y2 = plt.axis()
+        offset_x = .5*pltScale*(x2 - x1)
+        offset_y = .5*pltScale*(y2 - y1)
+        plt.axis([x1-offset_x, x2+offset_x, y1-offset_y, y2+offset_y])
+        plt.savefig('mpc_'+uname[i]+'_n_%d.pdf' % (Nt),format='PDF')
+                
+
+    

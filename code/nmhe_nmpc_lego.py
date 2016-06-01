@@ -31,7 +31,7 @@ _Vbk = 6.0
 
 Delta = 0.10
 Nt = 10         # Horizon size
-Nsim = 120
+Nsim = 200
 
 sigma_w = 0.001   # Standard deviation for the process noise
 sigma_v = np.deg2rad(0.5)  # Standard deviation of the measurements
@@ -56,7 +56,7 @@ def _calc_lin_disc_wrapper_for_mp_map(item):
 
 # Initialize estimator.
 # Q_mhe = np.diag((sigma_w * np.ones((Nw,))) ** 2)
-Q_mhe = np.diag(np.ones((Nx,)))
+Q_mhe = 1E0*np.diag(np.ones((Nx,)))
 # R_mhe = np.diag((sigma_v * np.ones((Nv,))) ** 2)
 R_mhe = np.diag(np.ones((Ny,)))*1E-1
 Qinv_mhe = scipy.linalg.inv(Q_mhe)
@@ -65,9 +65,9 @@ Rinv_mhe = scipy.linalg.inv(R_mhe)
 # Rinv_mhe = np.diag([100, 100])
 P_mhe = np.diag((sigma_p * np.ones((Nx,))) ** 2)
 x0_mhe = np.zeros((Nx,)) + 0.0 * sigma_p * np.random.randn(Nx)
-x0_mhe[2] = np.deg2rad(45)
-x0_mhe[9] = 1.089
-x0_mhe[10] = 1.089
+x0_mhe[2] = np.deg2rad(0.0)
+x0_mhe[9] = 0.2 #1.089
+x0_mhe[10] = 0.3 #1.089
 
 def lfunc_mhe(w, v):
     return util.mtimes(w.T, Qinv_mhe, w) + util.mtimes(v.T, Rinv_mhe, v)
@@ -80,13 +80,18 @@ lx_mhe = tools.getCasadiFunc(lxfunc_mhe, [Nx, (Nx, Nx)], ["x", "P"], "lx")
 
 N_mhe = {"x":Nx, "y":Ny, "u":Nu, "t":Nt}
 
+# lb_mhe = {'x' : np.array([-np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, -np.inf, 0, 0])}
+# ub_mhe = {'x' : np.array([np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf])}
+lb_mhe = {}
+ub_mhe = {}
+
 u_0 = np.zeros((Nt, Nu), order='F', dtype=np.float64)
 y_0 = np.zeros((Nt+1, Ny), order='F', dtype=np.float64)
 
 estimator, sol_mhe, varVal_mhe, parVal_mhe, lbx_mhe, ubx_mhe =\
     tools.nmhe_ltv(f_casadi, h_casadi, u_0, y_0, l_mhe, N_mhe, lx=lx_mhe,
                    x0bar=x0_mhe, P0=linalg.inv(P_mhe), Delta=Delta,
-                   ltv_guess=None, guess=None, returnSolver=True)
+                   ltv_guess=None, guess=None, returnSolver=True, lb=lb_mhe, ub=ub_mhe)
 
 for k in varVal_mhe.keys():
     varVal_mhe[k] = 0.0
@@ -112,9 +117,9 @@ sol_mhe = sol_mhe(0)
 sol_mhe["x",:] = x0_mhe
 
 # Initialize controller.
-Q_mpc = np.diag([20, 20, 0.0, 0, 0, 0, 0, 0, 0, 0, 0])
-R_mpc = 5e-5 * np.eye(Nu)
-Qn_mpc = 2*Q_mpc
+Q_mpc = np.diag([100, 100, 0.0, 0, 0, 0, 0, 0, 0, 0, 0])
+R_mpc = 1e-4 * np.eye(Nu)
+Qn_mpc = np.diag([50, 50, 0.0, 0, 0, 0, 0, 0, 0, 0, 0])
 
 
 def lfunc_mpc(w, v):
@@ -130,8 +135,8 @@ lb_mpc = {'u': np.array([-80, -80]), 'Du': np.array([-10, -10])}
 ub_mpc = {'u': np.array([80, 80]), 'Du': np.array([10, 10])}
 
 xr = np.zeros((Nx,), dtype=np.float64)
-xr[0] = 0.3
-xr[1] = 1.5
+xr[0] = 1.2
+xr[1] = 0.6
 
 
 ref = {'xr': np.tile(xr, (Nt, 1))}
@@ -234,6 +239,13 @@ if nxt.sock.connected:
             varVal_mpc["x",-1] = sol_mpc["x",-1]
             varVal_mpc["u",:-1] = sol_mpc["u",1:]
             varVal_mpc["u",-1] = sol_mpc["u",-1]
+
+            if t==0:
+                _xk_model = _xk_mhe
+            else:
+                _xk_model = varVal_mpc["x",1].full().ravel()
+                for k in range(len(parVal_mpc["xr"])):
+                    parVal_mpc["xr",k] = ref["xr"][k] - (_xk_mhe - _xk_model)*np.array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
 
 
 
@@ -400,13 +412,13 @@ if doMPCPlots:
     axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
     plt.suptitle("NMPC LTV")
     
-pltDim=(Nx,2)
+pltDim=(Nx,1)
 fontsize=12
 if doMHEPlots:
     f, axarr = plt.subplots(*pltDim)
 
     for i in range(Nx):
-        thisPos = np.unravel_index(i, pltDim, order='F')
+        thisPos = i # np.unravel_index(i, pltDim, order='F')
         # axarr[thisPos].plot(xsim_ltv[:,i], 'k--', label='ltv')
         axarr[thisPos].plot(xhat_ltv[:,i], 'k:.', label='mhe')
         # axarr[thisPos].plot(xsim_rk4[:,i], 'k:o', label='rk4')
@@ -422,42 +434,64 @@ if doMHEPlots:
             # axarr[thisPos].legend(loc="lower right", prop={'size': 8})
             # axarr[thisPos].grid()
 
-    thisPos = np.unravel_index(Nx+1,pltDim,order='F')
-    axarr[thisPos].plot(xhat_ltv[:,0],xhat_ltv[:,1], 'ko-', label='I_NMPC')
+#    thisPos = np.unravel_index(Nx+1,pltDim,order='F')
+#    axarr[thisPos].plot(xhat_ltv[:,0],xhat_ltv[:,1], 'ko-', label='I_NMPC')
 
 
     plt.suptitle("NMHE LTV")
+    
 
 plt.figure()
-plt.plot(ymeas_arr[:,0], label="tita meas")
-plt.plot(xhat_ltv[:,3], label="est")
-plt.legend()
+plt.plot(xhat_ltv[:,0],xhat_ltv[:,1], 'ko-', label='')
+plt.xlabel(r'$x \, [m]$')
+plt.ylabel(r'$y \, [m]$')
+plt.plot(xhat_ltv[0,0],xhat_ltv[0,1], 'ro-', label=r'$x_0$',markersize=10)
+plt.plot(xhat_ltv[-1,0],xhat_ltv[-1,1], 'go-', label=r'$x_{obj}$',markersize=10)
+plt.tight_layout()
 plt.grid()
 
 plt.figure()
-plt.plot(ymeas_arr[:,1], label="tita meas")
-plt.plot(xhat_ltv[:,6], label="est")
+plt.plot(ymeas_arr[:,0], label=r"$\theta_l$ [Meas]")
+plt.plot(xhat_ltv[:,3],  label=r"$\theta_l$ [MHE]")
 plt.legend()
+plt.tight_layout()
 plt.grid()
 
 plt.figure()
-plt.plot(usim_mpc[:,0], label="u0")
-plt.plot(usim_mpc[:,1], label="u1")
+plt.plot(ymeas_arr[:,1], label=r"$\theta_r$ [Meas]")
+plt.plot(xhat_ltv[:,6], label=r"$\theta_r$ [MHE]")
 plt.legend()
+plt.tight_layout()
 plt.grid()
 
 plt.figure()
-plt.plot(np.diff(ymeas_arr[:,0])/Delta, label="omega meas")
-plt.plot(xhat_ltv[:,4], label="est")
+plt.step(Delta*np.arange(usim_mpc.shape[0]), usim_mpc[:,0], label=r"u_l",where='post')
+plt.step(Delta*np.arange(usim_mpc.shape[0]), usim_mpc[:,1], label=r"u_r",where='post')
+pltScale = 0.1
+(minlim,maxlim) = axarr[thisPos].get_xlim()
+offset = .5*pltScale*(maxlim - minlim)
+axarr[thisPos].set_xlim(minlim - offset, maxlim + offset)
+(minlim,maxlim) = axarr[thisPos].get_ylim()
+offset = .5*pltScale*(maxlim - minlim)
+axarr[thisPos].set_ylim(minlim - offset, maxlim + offset)
 plt.legend()
+plt.tight_layout()
 plt.grid()
 
 plt.figure()
-plt.plot(np.diff(ymeas_arr[:,1])/Delta, label="omega meas")
-plt.plot(xhat_ltv[:,7], label="est")
+plt.plot(np.diff(ymeas_arr[:,0])/Delta, label=r"$\omega_l$ [Meas]")
+plt.plot(xhat_ltv[1:,4], label=r"$\omega_l$ [MHE]")
 plt.legend()
+plt.tight_layout()
 plt.grid()
 
-xsim = np.array(xsim)
 plt.figure()
-plt.plot(xsim[:,0])
+plt.plot(np.diff(ymeas_arr[:,1])/Delta, label=r"$\omega_r$ [Meas]")
+plt.plot(xhat_ltv[1:,7], label=r"$\omega_r$ [MHE]")
+plt.legend()
+plt.tight_layout()
+plt.grid()
+
+#xsim = np.array(xsim)
+#plt.figure()
+#plt.plot(xsim[:,0])

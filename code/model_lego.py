@@ -18,8 +18,8 @@ v0 = np.zeros(Ny)
 # DC motor state space system model
 # http://ctms.engin.umich.edu/CTMS/index.php?example=MotorPosition&section=SystemModeling
 
-wR = 0.0216 # (43.2*0.5)/1000.0   # Wheel radius [mm]
-wB = 0.135  #0.105 # 105.0/1000.0       # Distance between wheels [mm]
+wR = 0.028 #0.0216 # (43.2*0.5)/1000.0   # Wheel radius [mm]
+wB = 0.12  #0.105 # 105.0/1000.0       # Distance between wheels [mm]
 #wR = 0.028 # (43.2*0.5)/1000.0   # Wheel radius [mm]
 #wB = 0.120  #0.105 # 105.0/1000.0       # Distance between wheels [mm]
 fm = 0.0022     # motor viscous friction constant
@@ -33,8 +33,8 @@ Vo = 0.625      # V Power Supply offset
 mu = 1.089      # Power Supply gain factor =
 Vo_l = 0.68
 Vo_r = 0.68
-mu_l = 1.089
-mu_r = 1.089
+mu_l = 1.04
+mu_r = 0.99
 L = 1.0
 
 

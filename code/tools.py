@@ -116,6 +116,9 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
     # Formulate the NLP
     nlp = {'x': varStruct, 'p': parStruct, 'f': obj, 'g': con}
     opts = {"ipopt.print_level": 0, "print_time": False, 'ipopt.max_iter': 100}
+    opts["ipopt.hessian_constant"] = 'yes'
+    opts["ipopt.jac_c_constant"] = 'yes'
+    opts["ipopt.jac_d_constant"] = 'yes'
     nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
     if returnSolver:
         # return nlp_solver
@@ -309,13 +312,21 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
 
     lbx = varStruct(-casadi.inf)
     for k in set(lb.keys()).intersection(lbx.keys()):
-        for t in range(len(lbx[k])):
-            lbx[k,t] = lb[k]
+        if k=='x':
+            for t in range(1,len(lbx[k])):
+                lbx[k,t] = lb[k]
+        else:
+            for t in range(1,len(lbx[k])):
+                lbx[k,t] = lb[k]
 
     ubx = varStruct(casadi.inf)
     for k in set(ub.keys()).intersection(ubx.keys()):
-        for t in range(len(ubx[k])):
-            ubx[k,t] = ub[k]
+        if k=='x':
+            for t in range(1,len(ubx[k])):
+                ubx[k,t] = ub[k]
+        else:
+            for t in range(len(ubx[k])):
+                ubx[k,t] = ub[k]
 
     if guess is not None:
         for k in set(guess.keys()).intersection(varVal.keys()):
@@ -343,6 +354,9 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
     # Formulate the NLP
     nlp = {'x': varStruct, 'p': parStruct, 'f': obj, 'g': con}
     opts = {"ipopt.print_level": 0, "print_time": False, 'ipopt.max_iter': 100}
+    opts["ipopt.hessian_constant"] = 'yes'
+    opts["ipopt.jac_c_constant"] = 'yes'
+    opts["ipopt.jac_d_constant"] = 'yes'
     nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
     if returnSolver:
         sol = varStruct(0)

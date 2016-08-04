@@ -94,8 +94,8 @@ res_mhe = estimator(x0=varVal_mhe, p=parVal_mhe, lbg=0, ubg=0, lbx=lbx_mhe, ubx=
 sol_mhe = sol_mhe(res_mhe["x"])
 
 # Initialize controller.
-Q_mpc = np.diag([15, 15, 0, 0, 0, 0, 0, 0, 0])
-R_mpc = 1e-6* np.eye(Nu)
+Q_mpc = 1e2*np.diag([1., 1., 0, 0, 0, 0, 0, 0, 0])
+R_mpc = 1e-1* np.eye(Nu)
 Qn_mpc = Q_mpc
 
 
@@ -112,7 +112,7 @@ lb_mpc = {'u': np.array([-100, -100]), 'Du': np.array([-20, -20])}
 ub_mpc = {'u': np.array([100, 100]), 'Du': np.array([20, 20])}
 
 xr = np.zeros((Nx,), dtype=np.float64)
-xr[0] = 1.0
+xr[0] = 2.0
 xr[1] = 2.0
 
 ref = {'xr': np.tile(xr, (Nt, 1))}
@@ -165,6 +165,8 @@ x0_mhe = x0_mpc.copy()
 
 # pool = mp.Pool()
 
+
+
 for t in range(Nsim):
     starttime = time.time()
     # Get the measurement
@@ -198,6 +200,7 @@ for t in range(Nsim):
 
     parVal_mpc["x0"] = _xk_mhe
     parVal_mpc["uprev"] = _uk
+    parVal_mpc["Qn"] = Qn_mpc
     varVal_mpc["x",:-1] = sol_mpc["x",1:]
     varVal_mpc["x",-1] = sol_mpc["x",-1]
     varVal_mpc["u",:-1] = sol_mpc["u",1:]
@@ -210,8 +213,8 @@ for t in range(Nsim):
     res_mpc = controller(x0=varVal_mpc, p=parVal_mpc, lbg=0, ubg=0, lbx=lb_mpc, ubx=ub_mpc)
     sol_mpc = sol_mpc(res_mpc['x'])
 
-    _uk = np.around(sol_mpc["u"][0].full().ravel() , decimals=0)
-    # _uk = sol["u"][0].full().ravel()
+    # _uk = np.around(sol_mpc["u"][0].full().ravel() , decimals=0)
+    _uk = sol_mpc["u"][0].full().ravel()
     # print _uk
     # _xk = sol_mpc["x"][0].full().ravel()
     # print _xk
@@ -225,6 +228,9 @@ for t in range(Nsim):
     usim.append(_uk)
 
     _xk = simulator(_xk, _uk, np.zeros((Nw,)), Vb).full().ravel()
+    
+    Qn_mpc = scipy.linalg.solve_discrete_lyapunov(parVal_mpc["Ad",0],Q_mpc,method='bilinear')
+    
 
 # pool.close()
 # pool.join()

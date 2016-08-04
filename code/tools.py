@@ -119,6 +119,7 @@ def nmhe_ltv(f, h, u, y, l, N, lx=None, x0bar=None, P0=None, Delta=None, ltv_gue
     opts["ipopt.hessian_constant"] = 'yes'
     opts["ipopt.jac_c_constant"] = 'yes'
     opts["ipopt.jac_d_constant"] = 'yes'
+    opts["ipopt.linear_solver"] = "ma27"
     nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
     if returnSolver:
         # return nlp_solver
@@ -281,7 +282,7 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
     # Build the objective
     obj = 0
     # First, the cost-to-go. The matrix Qn might be time varying.
-    obj += lx(varStruct["x",-1],parStruct["Qn"])
+    obj += lx(varStruct["x",-1]-parStruct["xr",-1],parStruct["Qn"])
     for i in range(N["t"]-1):
         obj += l(varStruct["x",i]-parStruct["xr",i],varStruct["u",i])
 
@@ -290,6 +291,8 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
     state_constraints = []
     # Add x0 equality contraint.
     state_constraints.append(varStruct["x",0] - parStruct["x0"])
+    
+    u_step = 5
 
     for t in range(N["t"]-1):
         state_constraints.append(varStruct["x", t+1] -
@@ -297,7 +300,14 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
                                  casadi.mtimes(parStruct["Bd", t], varStruct["u", t]) -
                                  # casadi.mtimes(parStruct["Gd", t], varStruct["w", t]) -
                                  parStruct["fd", t])
-
+    
+    state_constraints.append(varStruct["u",0] - u_step*casadi.floor(varStruct["u",0]/u_step))
+    #state_constraints.append(varStruct["u",1] - u_step*casadi.floor(varStruct["u",1]/u_step))
+    #state_constraints.append(varStruct["u",2] - u_step*casadi.floor(varStruct["u",2]/u_step))
+    #state_constraints.append(varStruct["u",3] - u_step*casadi.floor(varStruct["u",3]/u_step))
+    
+    #a - b*floor(a/b))
+    
     delta_constraints = []
     if uprev is not None:
         delta_constraints.append(varStruct["Du",0] - varStruct["u", 0] + parStruct["uprev"])
@@ -357,6 +367,7 @@ def nmpc_ltv(f, l, N, x0=None, lx=None, Qn=None, lb={}, ub={}, Delta=None, ltv_g
     opts["ipopt.hessian_constant"] = 'yes'
     opts["ipopt.jac_c_constant"] = 'yes'
     opts["ipopt.jac_d_constant"] = 'yes'
+    opts["ipopt.linear_solver"] = "ma27"
     nlp_solver = casadi.nlpsol("nlpsol", "ipopt", nlp, opts)
     if returnSolver:
         sol = varStruct(0)

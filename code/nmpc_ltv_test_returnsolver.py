@@ -1,10 +1,11 @@
-import model_lego as model
+import model_lego_noparams as model
 import tools
 import util
 import casadi.tools as ctools
 import numpy as np
 import time
 import matplotlib.pyplot as plt
+import scipy.linalg
 
 doPlots = True
 
@@ -19,7 +20,7 @@ Nv = model.Nv
 
 Delta = 0.1
 Nt = 5        # Horizon size
-Nsim = 80
+Nsim = 200
 
 # sigma_w = 0.05   # Standard deviation for the process noise
 # sigma_v = 0.25  # Standard deviation of the measurements
@@ -47,9 +48,9 @@ def _calc_lin_disc_wrapper_for_mp_map(item):
 #                                  ctools.entry("fd", repeat=Nt, shape=(Nx, 1))])
 # ltv_guess = ltvStruct(0)
 
-Q = np.diag([1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]) #100.0*np.eye(Nx)
-R = 1e-6*np.eye(Nu)
-Qn = Q
+Q = 1e0*np.diag([1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]) #100.0*np.eye(Nx)
+R = 1e0*np.eye(Nu)
+Qn = 1e0*Q
 
 
 def lfunc(w, v):
@@ -83,8 +84,8 @@ ub = {'u': np.array([100, 100]), 'Du': np.array([50, 50])}
 # }
 
 xr = np.zeros((Nx,), dtype=np.float64)
-xr[0] = 1.5
-xr[1] = -1.5
+xr[0] = 2.0
+xr[1] = -2.0
 
 ref = {'xr': np.tile(xr, (Nt, 1))}
 
@@ -120,6 +121,8 @@ xsim_mpc = np.zeros((Nsim+1, Nx))
 xsim_mpc[0,:] = x0
 usim_mpc = np.zeros((Nsim, Nu))
 
+parVal["Qn"] = Qn
+
 for t in range(Nsim):
     parVal["x0"] = _xk
     parVal["uprev"] = _uk
@@ -127,6 +130,7 @@ for t in range(Nsim):
     varVal["x",-1] = sol["x",-1]
     varVal["u",:-1] = sol["u",1:]
     varVal["u",-1] = sol["u",-1]
+    # parVal["Qn"] = Q
 
     starttime = time.time()
 
@@ -134,13 +138,14 @@ for t in range(Nsim):
 
     # print parVal["Ad"]
 
+    
     # sol,_,_ = tools.nmpc_ltv(f_casadi, l, N, x0=_xk, lx=lx, Qn=Qn, lb=lb, ub=ub, ltv_guess=parVal, guess=varVal)
     sol0 = controller(x0=varVal, p=parVal, lbg=0, ubg=0, lbx=lb, ubx=ub)
     sol = sol(sol0['x'])
 
-    _uk = np.around( sol["u"][0].full().ravel() , decimals=0)
-    # _uk = sol["u"][0].full().ravel()
-    # print _uk
+    # _uk = np.around( sol["u"][0].full().ravel() , decimals=0)
+    _uk = sol["u"][0].full().ravel()
+    print _uk
     _xk = sol["x"][0].full().ravel()
     # print _xk
     # raw_input()
@@ -150,7 +155,14 @@ for t in range(Nsim):
     _xk = f_casadi_int(_xk, _uk).full().ravel()
     xsim_mpc[t+1,:] = _xk
     usim_mpc[t,:] = _uk
-
+    
+    Qn = scipy.linalg.solve_discrete_lyapunov(parVal["Ad",0],Q,method='bilinear')
+    
+    # Ac_k = parVal["Ad",0]
+    # Ac_k = f_casadi.jacobian(0, 0)(_xk, _uk, np.zeros((Nx,)))[0].full()
+    # Qn = scipy.linalg.solve_lyapunov(Ac_k,Q)
+    
+    parVal["Qn"] = Qn
 
 fontsize = 12
 pltDim = (4,3)
